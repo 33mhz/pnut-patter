@@ -3,12 +3,12 @@
 // Handlers for the menu bar
 
 /*global define: true */
-define(['jquery', 'appnet', 'js/core/roomInfo', 'js/core/editRoomModal',
+define(['jquery', 'pnut', 'js/core/roomInfo', 'js/core/editRoomModal',
         'js/core/OptionsView', 'js/core/OptionsModel',
         'js/deps/text!template/roomMenu.html',
         'js/deps/text!template/embeddedRoomMenu.html',
         'jquery-jfontsize', 'jquery-translator', 'bootstrap'],
-function ($, appnet, roomInfo, editRoomModal, OptionsView, OptionsModel,
+function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
           menuTemplate, embeddedMenuTemplate) {
   'use strict';
 
@@ -123,18 +123,18 @@ function ($, appnet, roomInfo, editRoomModal, OptionsView, OptionsModel,
   roomMenu.updateChannelView = function ()
   {
     // Setup room title
-    var name = appnet.note.findPatterName(roomInfo.channel);
+    var name = pnut.note.findPatterName(roomInfo.channel);
     if (! name)
     {
       name = 'Private Message';
     }
     var participants = 'Public Room';
-    if (! roomInfo.channel.writers.any_user)
+    if (! roomInfo.channel.acl.write.any_user)
     {
-      var count = roomInfo.channel.writers.user_ids.length + 1;
+      var count = roomInfo.channel.acl.write.user_ids.length + 1;
       participants = count + ' Participants';
-      if (roomInfo.channel.readers.any_user ||
-          roomInfo.channel.readers['public'])
+      if (roomInfo.channel.acl.read.any_user ||
+          roomInfo.channel.acl.read['public'])
       {
         participants += ' (Publicly Readable)';
       }
@@ -157,9 +157,9 @@ function ($, appnet, roomInfo, editRoomModal, OptionsView, OptionsModel,
     }
 
     // Setup archive button
-    var settings = appnet.note.findAnnotation('net.patter-app.settings',
-                                              roomInfo.channel.annotations);
-    if (roomInfo.channel.readers['public'] && settings && settings.blurb_id)
+    var settings = pnut.note.findAnnotation('net.patter-app.settings',
+                                              roomInfo.channel.raw);
+    if (roomInfo.channel.acl.read['public'] && settings)
     {
       container.find('#archive').show();
     }
@@ -183,21 +183,21 @@ function ($, appnet, roomInfo, editRoomModal, OptionsView, OptionsModel,
   {
     if (roomInfo.channel.you_muted)
     {
-      appnet.api.unmuteChannel(roomInfo.id, { include_annotations: 1 },
+      pnut.api.unmuteChannel(roomInfo.id, { include_raw: 1 },
                                $.proxy(roomInfo.completeChannelInfo,
                                        roomInfo),
                                failToggleSubscribe);
     }
     else if (roomInfo.channel.you_subscribed)
     {
-      appnet.api.deleteSubscription(roomInfo.id, { include_annotations: 1 },
+      pnut.api.deleteSubscription(roomInfo.id, { include_raw: 1 },
                                     $.proxy(roomInfo.completeChannelInfo,
                                             roomInfo),
                                     failToggleSubscribe);
     }
     else
     {
-      appnet.api.createSubscription(roomInfo.id, { include_annotations: 1 },
+      pnut.api.createSubscription(roomInfo.id, { include_raw: 1 },
                                     $.proxy(roomInfo.completeChannelInfo,
                                             roomInfo),
                                     failToggleSubscribe);

@@ -2,13 +2,12 @@ Patter
 ======
 
 Patter is a web client for participating in public and private chat
-rooms over app.net. If you wish to contribute or have any other
-problems, contact Jonathon Duerig (@duerig on [app.net](http://app.net)).
+rooms over pnut.io.
 
 Although you can run your own private instances, the main deployment
 is located at:
 
-[patter-app.net](http://patter-app.net)
+[patter.s3rv.com](http://patter.s3rv.com)
 
 ## Setting up patter
 
@@ -18,7 +17,7 @@ Your `/config.json` files should have your app client_id and should look like th
 
 ```json
 {
-    "patter_client_id": "PSeXh2zXVCABT3DqCKBSfZMFZCemvWez"
+    "patter_client_id": "sQZSnTo-Cw9EIQyaXm-RnCKijCanJwxL"
 }
 ```
 
@@ -32,6 +31,8 @@ Before getting started make sure you have created a config.json file.
 ```
 
 You should now be able to navigate to http://localhost:9001 and see your local copy of patter running.
+
+## NOTE there is an issue building, and you will have to `grunt server --force`, and then copy the /src/js/core/config.js file to the equivalent core folder with the client_id replaced.
 
 ### To Distribute Patter
 

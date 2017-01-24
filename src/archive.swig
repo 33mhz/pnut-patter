@@ -1,5 +1,5 @@
 {% extends 'base.swig' %}
-{% block title %}A chat client for App.net{% endblock %}
+{% block title %}A chat client for pnut.io{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
@@ -41,7 +41,7 @@
     <table class="table table-hover">
       <% _.each(messages, function (message) { if (! message.is_deleted) {%>
         <tr>
-          <td class="danger"><a href="http://alpha.app.net/<%- message.user.username %>" target="_blank" style="color: #888888"><b>@<%- message.user.username %></b></a></td>
+          <td class="danger"><a href="https://pnut.io/@<%- message.user.username %>" target="_blank" style="color: #888888"><b>@<%- message.user.username %></b></a></td>
           <td><%= message.html %></td>
           <td width="110px"><small class="text-muted table-date"><%- message.created_at %></small></td>
         </tr>  

@@ -3,23 +3,23 @@
 // A form used for submitting messages to a Patter chat room.
 
 /*global define:true */
-define(['jquery', 'util', 'appnet', 'js/core/attachModal',
+define(['jquery', 'util', 'pnut', 'js/core/attachModal',
         'js/deps/text!template/ChatForm.html',
         'jquery-caret'],
-function ($, util, appnet, attachModal, chatTemplate) {
+function ($, util, pnut, attachModal, chatTemplate) {
   'use strict';
 
   function ChatForm(root, channel, postCallback)
   {
     this.root = root;
     this.channelId = channel.id;
-    this.channelName = appnet.note.findPatterName(channel);
+    this.channelName = pnut.note.findPatterName(channel);
     this.postCallback = postCallback;
 
     root.find('#chat-form').submit($.proxy(clickSend, this));
     root.find('#chatSend').click($.proxy(clickSend, this));
-    if (channel.type === 'net.patter-app.room' &&
-        (channel.readers['public'] || channel.readers.any_user))
+    if (channel.type === 'io.pnut.core.chat' &&
+        (channel.acl.read['public'] || channel.acl.read.any_user))
     {
       root.find('#chatBroadcast').click($.proxy(clickBroadcast, this));
     }
@@ -33,7 +33,7 @@ function ($, util, appnet, attachModal, chatTemplate) {
     $('#chatInput').hide();
     $('.must-authorize').hide();
     $('.read-only').hide();
-    if (! appnet.isLogged())
+    if (! pnut.isLogged())
     {
       $('.must-authorize').show();
       if (window.PATTER.embedded) {
@@ -54,7 +54,7 @@ function ($, util, appnet, attachModal, chatTemplate) {
       }
 
     }
-    else if (! channel.writers.you)
+    else if (! channel.acl.write.you)
     {
       $('.read-only').show();
     }
@@ -96,11 +96,11 @@ function ($, util, appnet, attachModal, chatTemplate) {
     return false;
   };
 
-  ChatForm.prototype.postMessage = function (messageString, annotations, links)
+  ChatForm.prototype.postMessage = function (messageString, raw, links)
   {
     var post = {
       text: messageString,
-      annotations: annotations
+      raw: raw
     };
     if (links !== undefined)
     {
@@ -111,7 +111,7 @@ function ($, util, appnet, attachModal, chatTemplate) {
         parse_links: 1
       };
     }
-    appnet.api.createMessage(this.channelId, post, { include_annotations: 1 },
+    pnut.api.createMessage(this.channelId, post, { include_raw: 1 },
                              $.proxy(completePostMessage, this),
                              $.proxy(failPostMessage, this));
   };
@@ -125,43 +125,43 @@ function ($, util, appnet, attachModal, chatTemplate) {
   {
   };
 
-  ChatForm.prototype.getEntities = function (messageString, annotations)
+  ChatForm.prototype.getEntities = function (messageString, raw)
   {
     var context = {
       message: messageString,
-      annotations: annotations,
+      raw: raw,
       chat: this
     };
-    appnet.api.processText({ text: messageString }, {},
+    pnut.api.processText({ text: messageString }, {},
                            $.proxy(broadcastMessage, context),
                            failBroadcastMessage);
   };
 
   var broadcastMessage = function (response)
   {
-    var postAnnotations = this.annotations.slice(0);
-    var url = 'http://patter-app.net/room.html?channel=' + this.chat.channelId;
+    var postAnnotations = this.raw.slice(0);
+    var url = 'http://patter.s3rv.com/room.html?channel=' + this.chat.channelId;
     postAnnotations.push({
-      type: 'net.app.core.crosspost',
+      type: 'io.pnut.core.crosspost',
       value: {
         canonical_url: url
       }
     });
     postAnnotations.push({
-      type: 'net.app.core.channel.invite',
+      type: 'io.pnut.core.channel.invite',
       value: {
         channel_id: this.chat.channelId
       }
     });
     var post = {
       text: this.message,
-      annotations: postAnnotations
+      raw: postAnnotations
     };
     var text = this.message;
     var promo = ' \n\n' + this.chat.channelName + ' <=>';
     if (text.length + promo.length <= 256)
     {
-      var links = response.data.entities.links;
+      var links = response.data.content.entities.links;
       if (! links)
       {
         links = [];
@@ -179,10 +179,10 @@ function ($, util, appnet, attachModal, chatTemplate) {
     }
     var context = {
       message: this.message,
-      annotations: this.annotations,
+      raw: this.raw,
       chat: this.chat
     };
-    appnet.api.createPost(post, { include_annotations: 1 },
+    pnut.api.createPost(post, { include_raw: 1 },
                           $.proxy(completeBroadcastMessage, context),
                           $.proxy(failBroadcastMessage, context));
   };
@@ -191,8 +191,8 @@ function ($, util, appnet, attachModal, chatTemplate) {
   {
     if (response.data)
     {
-      var messageAnn = this.annotations.slice(0);
-      var broadcast = appnet.note.broadcastNote(response.data.id,
+      var messageAnn = this.raw.slice(0);
+      var broadcast = pnut.note.broadcastNote(response.data.id,
                                                 response.data.canonical_url);
       messageAnn.push(broadcast);
       this.chat.postMessage(this.message, messageAnn);
@@ -216,7 +216,7 @@ function ($, util, appnet, attachModal, chatTemplate) {
   ChatForm.prototype.insertUserIntoText = function (event)
   {
     event.preventDefault();
-    if (appnet.isLogged())
+    if (pnut.isLogged())
     {
       var user = event.target.id;
       insertText(user, this.getInput());
@@ -245,7 +245,7 @@ function ($, util, appnet, attachModal, chatTemplate) {
       if (url.indexOf('.jpg') === foundIndex ||
           url.indexOf('.png') === foundIndex ||
           url.indexOf('.gif') === foundIndex) {
-        result.push(appnet.note.embedImageNote(url, 200, 200));
+        result.push(pnut.note.embedImageNote(url, 200, 200));
       }
     }
     return result;

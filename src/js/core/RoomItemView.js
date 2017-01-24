@@ -6,7 +6,7 @@
 define(['jquery', 'underscore', 'backbone', 'util', 'js/options',
         'js/core/allUsers',
         'js/deps/text!template/RoomItemView.html',
-        'jquery-appnet'],
+        'jquery-pnut'],
 function ($, _, Backbone, util, options, allUsers, roomTemplateString)
 {
   'use strict';
@@ -44,10 +44,10 @@ function ($, _, Backbone, util, options, allUsers, roomTemplateString)
           (! channel.you_muted || this.options.showWhenMuted) &&
           (channel.has_unread || ! this.options.hideWhenRead))
       {
-        var settings = $.appnet.note.find('net.patter-app.settings',
-                                          channel.annotations);
+        var settings = $.pnut.note.find('io.pnut.core.chat-settings',
+                                          channel.raw);
         var members = findChannelMembers(channel);
-        var isRoom =  channel.type === 'net.patter-app.room';
+        var isRoom =  channel.type === 'io.pnut.core.chat';
         var data = {
           id: this.model.get('channel').id,
           isRoom: isRoom,
@@ -135,24 +135,24 @@ function ($, _, Backbone, util, options, allUsers, roomTemplateString)
 
   function findChannelMembers(channel)
   {
-    var isPatter = (channel.type === 'net.patter-app.room');
+    var isPatter = (channel.type === 'io.pnut.core.chat');
     var members = [];
     if (channel.owner)/* &&
         (channel.owner.id !== currentUser.id || isPatter))*/
     {
       members.push({ user: channel.owner.username,
-                     avatar: channel.owner.avatar_image.url });
+                     avatar: channel.owner.content.avatar_image.link });
     }
     var i = 0;
-    for (i = 0; i < channel.writers.user_ids.length; i += 1)
+    for (i = 0; i < channel.acl.write.user_ids.length; i += 1)
     {
-      var id = channel.writers.user_ids[i];
+      var id = channel.acl.write.user_ids[i];
       var user = allUsers.lookup(id);
       if (user)/* &&
           (id !== currentUser.id || isPatter))*/
       {
         members.push({user: user.username,
-                      avatar: user.avatar_image.url});
+                      avatar: user.content.avatar_image.link});
       }
     }
     members.sort(function (left, right) {
@@ -173,9 +173,9 @@ function ($, _, Backbone, util, options, allUsers, roomTemplateString)
   function getBlurb(settings)
   {
     var result = '';
-    if (settings && settings.blurb)
+    if (settings && settings.description)
     {
-      result = settings.blurb;
+      result = settings.description;
     }
     return result;
   }

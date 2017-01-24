@@ -3,13 +3,13 @@
 // Overall task for managing a list of subscribed channels
 
 /*global require: true */
-require(['jquery', 'appnet', 'util', 'js/options', 'js/core/editRoomModal',
+require(['jquery', 'pnut', 'util', 'js/options', 'js/core/editRoomModal',
          'js/core/OptionsModel', 'js/core/OptionsView',
          'js/core/RoomList', 'js/core/RoomListView',
          'js/core/allChannels', 'js/core/allUsers',
          'js/deps/text!template/public-tab.html',
-         'bootstrap', 'jquery-cloud', 'jquery-appnet'],
-function ($, appnet, util, options, editRoomModal,
+         'bootstrap', 'jquery-cloud', 'jquery-pnut'],
+function ($, pnut, util, options, editRoomModal,
           OptionsModel, OptionsView,
           RoomList, RoomListView,
           allChannels, allUsers, publicTabString) {
@@ -38,8 +38,8 @@ function ($, appnet, util, options, editRoomModal,
     options.initialize();
     if (options.token)
     {
-      appnet.api.accessToken = options.token;
-      $.appnet.authorize(options.token);
+      pnut.api.accessToken = options.token;
+      $.pnut.authorize(options.token);
       initLobby();
       $('#retry-button').on('click', function (event) {
         event.preventDefault();
@@ -63,7 +63,7 @@ function ($, appnet, util, options, editRoomModal,
 
   function initLobby()
   {
-    var promise = $.appnet.user.get('me');
+    var promise = $.pnut.user.get('me');
     promise.then(function (response) {
       currentUser = response.data;
       $('#username').html(util.htmlEncode('@' + currentUser.username));
@@ -80,7 +80,7 @@ function ($, appnet, util, options, editRoomModal,
     editRoomModal.init();
     $('#compose-room').on('click', function (event) {
       event.preventDefault();
-      editRoomModal.update(null, 'net.patter-app.room');
+      editRoomModal.update(null, 'io.pnut.core.chat');
       editRoomModal.show();
     });
     $('#compose-pm').on('click', clickPm);
@@ -94,7 +94,7 @@ function ($, appnet, util, options, editRoomModal,
 
   function clickPm(event) {
     event.preventDefault();
-    editRoomModal.update(null, 'net.app.core.pm');
+    editRoomModal.update(null, 'io.pnut.core.pm');
     editRoomModal.show();
   }
 
@@ -139,7 +139,7 @@ function ($, appnet, util, options, editRoomModal,
       noneText: 'No subscribed rooms'
     });
     rooms.reset(rooms.subscriptionMethod,
-                { channel_types: 'net.patter-app.room' }, '');
+                { channel_types: 'io.pnut.core.chat' }, '');
 
     var pmView = new RoomListView({
       model: pms,
@@ -150,7 +150,7 @@ function ($, appnet, util, options, editRoomModal,
       noneText: 'No private messages'
     });
     pms.reset(rooms.subscriptionMethod,
-              { channel_types: 'net.app.core.pm' }, '');
+              { channel_types: 'io.pnut.core.pm' }, '');
 
     var searchView = new RoomListView({
       model: searches,
@@ -346,9 +346,9 @@ function ($, appnet, util, options, editRoomModal,
   {
     util.formatTimestamp($('.timestamp'));
     var params = {
-      include_annotations: 1,
+      include_raw: 1,
       include_recent_message: 1,
-      channel_types: 'net.app.core.pm,net.patter-app.room'
+      channel_types: 'io.pnut.core.pm,io.pnut.core.chat'
     };
     if (updateSince)
     {
@@ -356,7 +356,7 @@ function ($, appnet, util, options, editRoomModal,
       params.count = -20;
     }
 
-    var promise = $.appnet.channel.getUserSubscribed(params);
+    var promise = $.pnut.channel.getUserSubscribed(params);
     promise.then(function (response) {
       if (response.meta.max_id)
       {
@@ -370,8 +370,8 @@ function ($, appnet, util, options, editRoomModal,
       var channels = [];
       pms.getUnreadIdList(channels, used);
       rooms.getUnreadIdList(channels, used);
-      return $.appnet.all.getChannelList(channels,
-                                         { include_annotations: 1,
+      return $.pnut.all.getChannelList(channels,
+                                         { include_raw: 1,
                                            include_recent_message: 1 });
     }).then(function (response) {
       return allUsers.fetchNewUsers(response.data).then(function () {
@@ -403,11 +403,11 @@ function ($, appnet, util, options, editRoomModal,
     {
       var channel = updates[i];
       var room = allChannels.add(channel);
-      if (channel.type === 'net.app.core.pm')
+      if (channel.type === 'io.pnut.core.pm')
       {
         pmUpdates.push(room);
       }
-      else if (channel.type === 'net.patter-app.room')
+      else if (channel.type === 'io.pnut.core.chat')
       {
         roomUpdates.push(room);
       }

@@ -1,4 +1,4 @@
 window.PATTER = window.PATTER || {};
-PATTER.config = {
+window.PATTER.config = {
     'client_id': '{{patter_client_id}}'
-};
+  };

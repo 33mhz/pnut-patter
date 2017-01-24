@@ -3,7 +3,7 @@
 // Information about the current room the user is chatting in.
 
 /*global define:true */
-define(['jquery', 'util', 'appnet'], function ($, util, appnet) {
+define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
   'use strict';
 
   var roomInfo = {
@@ -16,7 +16,7 @@ define(['jquery', 'util', 'appnet'], function ($, util, appnet) {
   roomInfo.updateChannel = function ()
   {
 //    $('#loading-message').html("Fetching Channel Information");
-    appnet.api.getChannel(this.id, {include_annotations: 1},
+    pnut.api.getChannel(this.id, {include_raw: 1},
                           $.proxy(this.completeChannelInfo, this),
                           $.proxy(failChannelInfo, this));
   };
@@ -27,7 +27,7 @@ define(['jquery', 'util', 'appnet'], function ($, util, appnet) {
     var keyList = Object.keys(this.members);
     var i = 0;
     this.channel = response.data;
-    var name = appnet.note.findPatterName(this.channel);
+    var name = pnut.note.findPatterName(this.channel);
     if (name)
     {
       $('title').html(util.htmlEncode(name) + ' (Patter)');
@@ -44,7 +44,7 @@ define(['jquery', 'util', 'appnet'], function ($, util, appnet) {
     {
       this.members[owner.username] = owner;
     }
-    if (appnet.isLogged() && roomInfo.channel.writers.user_ids.length > 0)
+    if (pnut.isLogged() && roomInfo.channel.acl.write.user_ids.length > 0)
     {
       getWriterInfo();
     }
@@ -64,10 +64,10 @@ define(['jquery', 'util', 'appnet'], function ($, util, appnet) {
 
   function getWriterInfo()
   {
-    var ids = roomInfo.channel.writers.user_ids;
+    var ids = roomInfo.channel.acl.write.user_ids;
     if (ids)
     {
-      appnet.api.getUserList(ids, null, completeWriterInfo, failWriterInfo);
+      pnut.api.getUserList(ids, null, completeWriterInfo, failWriterInfo);
     }
     else if (roomInfo.changecallback)
     {

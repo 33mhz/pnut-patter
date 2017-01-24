@@ -1,5 +1,5 @@
 {% extends 'base.swig' %}
-{% block title %}A chat client for App.net{% endblock %}
+{% block title %}A chat client for pnut.io{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">

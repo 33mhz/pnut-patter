@@ -3,7 +3,7 @@
 // Handler for a category of room in the lobby
 
 /*global define: true */
-define(['jquery', 'appnet'], function ($, appnet) {
+define(['jquery', 'pnut'], function ($, pnut) {
   'use strict';
 
   function Category(id, title)
@@ -17,7 +17,7 @@ define(['jquery', 'appnet'], function ($, appnet) {
   Category.prototype.match = function (channel)
   {
     var found = false;
-    var settings = appnet.note.findPatterSettings(channel);
+    var settings = pnut.note.findPatterSettings(channel);
     var i = 0;
     if (settings.categories && settings.categories.length)
     {

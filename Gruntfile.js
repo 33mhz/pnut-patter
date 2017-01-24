@@ -2,8 +2,10 @@
 module.exports = function (grunt) {
   'use strict';
 
+  grunt.option('stack', true);
+  
   var user_conf = {
-    patter_client_id: 'PSeXh2zXVCABT3DqCKBSfZMFZCemvWez',
+    patter_client_id: 'sQZSnTo-Cw9EIQyaXm-RnCKijCanJwxL',
     dev: {
       using_server: false
     },
@@ -100,11 +102,11 @@ module.exports = function (grunt) {
             'bootstrap': 'js/deps/bootstrap.min',
             'moment': 'js/deps/moment.min',
             'util': 'js/core/util',
-            'appnet': 'js/core/appnet',
-            'appnet-api': 'js/core/appnet-api',
-            'appnet-note': 'js/core/appnet-note',
+            'pnut': 'js/core/pnut',
+            'pnut-api': 'js/core/pnut-api',
+            'pnut-note': 'js/core/pnut-note',
             'backbone': 'js/deps/backbone-min',
-            'jquery-appnet': 'js/deps/appnet',
+            'jquery-pnut': 'js/deps/pnut',
             'jquery-cloud': 'js/deps/jqcloud-1.0.4.min'
           },
 

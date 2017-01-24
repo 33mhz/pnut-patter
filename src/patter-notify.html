@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Patter Notify</title>
-  <script type="text/javascript" src='//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>
+  <script type="text/javascript" src='//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
   <link rel="stylesheet" style="text/css"
         href="/css/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" style="text/css"
         href="/css/bootstrap/bootstrap-responsive.min.css">
   <script src="/js/deps/bootstrap.min.js"></script>
   <script>
-var clientId = "da8D9wY4ranbNP8vsqK8CXUkE2CUeHSB";
+var clientId = "sQZSnTo-Cw9EIQyaXm-RnCKijCanJwxL";
 
 function getHashParams() {
   var hashParams = {};
@@ -27,7 +27,7 @@ function getHashParams() {
 }
 
     function initialize() {
-      $('#authorize-button').attr('href',"https://alpha.app.net/oauth/authenticate?client_id="+clientId+"&response_type=token&redirect_uri="+window.location.href+"&scope=messages");
+      $('#authorize-button').attr('href',"https://pnut.io/oauth/authenticate?client_id="+clientId+"&response_type=token&redirect_uri="+window.location.href+"&scope=messages");
 
       var hashParams = getHashParams();
       var accessToken = hashParams['access_token'];
@@ -46,12 +46,12 @@ function getHashParams() {
     <div id="main" class="hero-unit">
       <h1>Patter Notify</h1>
       <hr>
-      <p>Patter Notify is a Chrome extension that allows you to see when people have sent you Private Messages or <a href="http://patter-app.net" target="_blank">Patter</a> chats on <a href="http://app.net" target="_blank">app.net</a>.</p>
+      <p>Patter Notify is a Chrome extension that allows you to see when people have sent you Private Messages or <a href="http://patter.s3rv.com" target="_blank">Patter</a> chats on <a href="https://pnut.io" target="_blank">pnut.io</a>.</p>
       <p>To start, you just need to follow these three simple steps:</p>
       <ul>
-        <li>Step 1: <a class="btn btn-success" href="https://chrome.google.com/webstore/detail/patter-notify/mgnienamhhknholbcmjegigakmlaaljc">Install</a> the Patter Notify Chrome extension</li>
-        <li>Step 2: After installation, <a class="btn btn-success" id="authorize-button">Authorize</a> Patter Notify on app.net.</li>
-        <li>Step 3: Using <a href="http://patter-app.net">Patter</a>, subscribe to the rooms you want to receive notifications in.</li>
+        <li>Step 1: <a class="btn btn-success" href="https://chrome.google.com/">Install</a> the Patter Notify Chrome extension</li>
+        <li>Step 2: After installation, <a class="btn btn-success" id="authorize-button">Authorize</a> Patter Notify on pnut.io.</li>
+        <li>Step 3: Using <a href="http://patter.s3rv.com">Patter</a>, subscribe to the rooms you want to receive notifications in.</li>
       </ul>
 
       <p>After following these steps, you will receive notifications whenever new messages pop up in rooms you don't have open. Since chat rooms can get quite busy, Patter Notify uses the following rules to pop up a notification.</p>
@@ -61,16 +61,15 @@ function getHashParams() {
         <li>After dismissing a notification, you will not receive a new one unless more happens after the notification.</li>
       </ul>
 
-      <p>For troubleshooting, contact <a href="http://alpha.app.net/duerig">@duerig</a>.</p>
-      <p>Our privacy policy is <a href="http://www.privacychoice.org/policy/mobile?policy=7e57611e9551c6105db81e5c27f3a415">here</a>.</p>
-      <p>Patter Notify interacts with <a href="http://app.net">app.net</a> on your behalf and so any interaction is also subject to their policies.</p>
+      <p>For troubleshooting, contact <a href="https://pnut.io/@33MHz">@33MHz</a>.</p>
+      <p>Patter Notify interacts with <a href="https://pnut.io">pnut.io</a> on your behalf and so any interaction is also subject to their policies.</p>
     </div>
     <div id="auth" class="hero-unit">
       <h1>Patter Notify Authorization</h1>
       <hr>
       <p>You should receive a notification indicating that your authorization is complete. Close this window when you see it.</p>
       <p><a href="patter-notify.html" class="btn">Back</a></p>
-      <p>For troubleshooting, contact <a href="http://alpha.app.net/duerig">@duerig</a>.</p>
+      <p>For troubleshooting, contact <a href="https://pnut.io/@33MHz">@33MHz</a>.</p>
     </div>
   </div>
 </body>

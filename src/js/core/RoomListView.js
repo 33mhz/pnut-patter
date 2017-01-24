@@ -6,7 +6,7 @@
 define(['jquery', 'underscore', 'backbone', 'util',
         'js/core/RoomItemView',
         'js/deps/text!template/RoomListView.html',
-        'jquery-appnet'],
+        'jquery-pnut'],
 function ($, _, Backbone, util, RoomItemView, listTemplateString,
           pmTemplateString, roomTemplateString)
 {
@@ -166,7 +166,7 @@ function ($, _, Backbone, util, RoomItemView, listTemplateString,
     },
 
     pruneViews: function () {
-      for (var key in this.optionsviewMap)
+      for (var key in this.options.viewMap)
       {
         if (this.options.viewMap.hasOwnProperty(key))
         {

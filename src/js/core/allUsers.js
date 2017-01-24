@@ -24,7 +24,7 @@ function ($, _, Backbone)
       var newUsers = findNewUserList(channels);
       if (newUsers.length > 0)
       {
-        return $.appnet.user.getList(newUsers).then(function (response) {
+        return $.pnut.user.getList(newUsers).then(function (response) {
           updateUserList(response.data);
         });
       }
@@ -48,9 +48,9 @@ function ($, _, Backbone)
         allUsers.add(channel.owner);
       }
       var j = 0;
-      for (j = 0; j < channel.writers.user_ids.length; j += 1)
+      for (j = 0; j < channel.acl.write.user_ids.length; j += 1)
       {
-        var id = channel.writers.user_ids[j];
+        var id = channel.acl.write.user_ids[j];
         if (! users[id])
         {
           result.push(id);

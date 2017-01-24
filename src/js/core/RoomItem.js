@@ -3,7 +3,7 @@
 // Model for a single room in a list
 
 /*global define:true */
-define(['jquery', 'underscore', 'backbone', 'jquery-appnet'],
+define(['jquery', 'underscore', 'backbone', 'jquery-pnut'],
 function ($, _, Backbone)
 {
   'use strict';
@@ -21,22 +21,22 @@ function ($, _, Backbone)
     toggleSubscribe: function () {
       if (this.get('channel').you_subscribed)
       {
-        this.performAction($.appnet.channel.unsubscribe, 'unsubscribe');
+        this.performAction($.pnut.channel.unsubscribe, 'unsubscribe');
       }
       else
       {
-        this.performAction($.appnet.channel.subscribe, 'subscribe');
+        this.performAction($.pnut.channel.subscribe, 'subscribe');
       }
     },
 
     toggleMute: function () {
       if (this.get('channel').you_muted)
       {
-        this.performAction($.appnet.channel.unmute, 'unmute');
+        this.performAction($.pnut.channel.unmute, 'unmute');
       }
       else
       {
-        this.performAction($.appnet.channel.mute, 'mute');
+        this.performAction($.pnut.channel.mute, 'mute');
       }
     },
 
@@ -44,7 +44,7 @@ function ($, _, Backbone)
       this.trigger('actionBegin');
       var id = this.get('channel').id;
       var options = {
-        include_annotations: 1,
+        include_raw: 1,
         include_recent_message: 1
       };
       var that = this;

@@ -6,7 +6,7 @@
  */
 
 var config = require('./config');
-var appnet = require(config.appnetPath);
+var pnut = require(config.pnutPath);
 
 var cached = {};
 var staleTime = 1000 * 60;
@@ -26,13 +26,13 @@ function execute(request, response)
   }
   else
   {
-    appnet.authorize(config.patter_token, null);
+    pnut.authorize(config.patter_token, null);
     var params = {
-      include_annotations: 1,
+      include_raw: 1,
       include_recent_message: 1,
       before_id: id
     };
-    var promise = appnet.channel.getUserSubscribed(params);
+    var promise = pnut.channel.getUserSubscribed(params);
     promise.then(function (buffer) {
       cached[id] = {
         text: buffer.toString(),

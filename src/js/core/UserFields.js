@@ -3,8 +3,8 @@
 // Expandable list of input fields which are validated against app.net
 
 /*global define:true */
-define(['jquery', 'util', 'appnet'],
-function ($, util, appnet) {
+define(['jquery', 'util', 'pnut'],
+function ($, util, pnut) {
   'use strict';
   function UserFields(prefix)
   {
@@ -34,7 +34,7 @@ function ($, util, appnet) {
                    '" class="input" type="text" placeholder="@user">');
     newItem.append('<button tabindex="-1" id="' + this.prefix + '-remove-' +
                    this.fieldCount +
-                   '" class="btn btn-danger"><i class="icon-remove"></i></button>');
+                   '" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>');
     fieldset.append(newItem);
     this.moreDiv.before(fieldset);
     if (val) {
@@ -80,7 +80,7 @@ function ($, util, appnet) {
       var newName = $('#' + this.prefix + '-input-' + i).val();
       if (newName.substr(0, 1) !== '@')
       {
-        newName = '@' + newName;
+        newName = '@' + newName.toLowerCase();
       }
       if (newName !== '' && newName !== '@')
       {
@@ -90,8 +90,8 @@ function ($, util, appnet) {
     }
     if (foundName)
     {
-      appnet.api.getUserList(Object.keys(this.memberNames),
-                             { include_annotations: 1 },
+      pnut.api.getUserList(Object.keys(this.memberNames),
+                             { include_raw: 1 },
                              $.proxy(this.processNames, this),
                              $.proxy(this.failNames, this));
     }
@@ -104,7 +104,7 @@ function ($, util, appnet) {
   UserFields.prototype.failNames = function (response)
   {
     util.flagError(this.prefix + '-error-div',
-                   'Could not connect to app.net');
+                   'Could not connect to pnut.io');
     if (this.callback)
     {
       this.callback(null);
@@ -117,7 +117,7 @@ function ($, util, appnet) {
     var i = 0;
     for (i = 0; i < response.data.length; i += 1)
     {
-      validNames['@' + response.data[i].username] = 1;
+      validNames['@' + response.data[i].username.toLowerCase()] = 1;
     }
     var keys = Object.keys(this.memberNames);
     var allOk = true;

@@ -4,8 +4,8 @@
 // PatterEmbed to display them.
 
 /*global define:true */
-define(['jquery', 'util', 'appnet', 'js/core/PatterEmbed'],
-function ($, util, appnet, PatterEmbed) {
+define(['jquery', 'util', 'pnut', 'js/core/PatterEmbed'],
+function ($, util, pnut, PatterEmbed) {
   'use strict';
 
   function RoomFeed(channel, members, formRoot, userRoot, historyRoot)
@@ -22,173 +22,37 @@ function ($, util, appnet, PatterEmbed) {
     this.shownFeed = false;
     this.more = true;
     this.markerName = null;
-
-    this.connectionId = null;
-    this.webSocketActive = false;
-    this.dontUseWebSocket = false;
-    this.webSocket = null;
-    this.subscriptionId = null;
-    this.webSocketTries = 0;
   }
-
-  function generateUUID(){
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = ((d + Math.random()*16)%16 | 0);
-      d = Math.floor(d/16);
-      return (c==='x' ? r : (r&0x7|0x8)).toString(16);
-    });
-    return uuid;
-  }
-
-  RoomFeed.prototype.getConnectionId = function (callback)
-  {
-    var roomFeed, streamUrl;
-
-    if (!this.usingWebSocket()) {
-      return false;
-    }
-
-    if (!this.subscriptionId) {
-      this.subscriptionId = generateUUID();
-    }
-
-    streamUrl = 'wss://stream-channel.app.net/stream/user?include_annotations=1&include_html=1&include_marker=1&include_recent_message=1&include_html=1&auto_delete=1&access_token=' + appnet.api.accessToken;
-
-    if (this.connectionId !== null) {
-      if (this.webSocketActive) {
-        return callback(this.connectionId);
-      } else {
-        streamUrl += '&connection_id=' + this.connectionId;
-      }
-    }
-
-    this.webSocket = new WebSocket(streamUrl);
-
-    roomFeed = this;
-
-    this.webSocket.onopen = function (e) {
-      roomFeed.webSocketActive = true;
-      roomFeed.webSocketTries = 0;
-
-      if ($('#room_header .room_title .ws_active_indicator').length === 0) {
-        $('<span class="ws_active_indicator"></span>').appendTo('#room_header .room_title');
-      }
-    };
-
-    this.webSocket.onmessage = function (e) {
-      var payload = JSON.parse(e.data);
-
-      if (payload.meta.connection_id) {
-        roomFeed.connectionId = payload.meta.connection_id;
-
-        callback(roomFeed.connectionId);
-      }
-
-      if (payload.data !== void 0 && payload.data.length >= 1) {
-        roomFeed.update(payload.data, payload.meta.marker, payload.meta.max_id);
-      }
-    };
-
-    this.webSocket.onclose = function (e) {
-      // CLOSE_ABNORMAL
-      if (e.code === 1006 && roomFeed.webSocketTries < 3) {
-        // Try again.
-        roomFeed.webSocketActive = false;
-        roomFeed.connectionId = null;
-
-        roomFeed.webSocketTries += 1;
-        roomFeed.checkFeed();
-      } else {
-        roomFeed.dontUseWebSocket = true;
-        roomFeed.webSocketActive = false;
-        roomFeed.connectionId = null;
-
-        // Fall back to polling.
-        roomFeed.checkFeed();
-
-        // Remove the indicator.
-        $('#room_header .room_title .ws_active_indicator').remove();
-      }
-    };
-
-    this.webSocket.onerror = function (e) {
-      roomFeed.dontUseWebSocket = true;
-      roomFeed.webSocketActive = false;
-      roomFeed.connectionId = null;
-
-      // Fall back to polling.
-      roomFeed.checkFeed();
-
-      // Remove the indicator.
-      $('#room_header .room_title .ws_active_indicator').remove();
-    };
-  };
 
   RoomFeed.prototype.checkFeed = function ()
   {
-    var scroll, height, options, requiresPoll, roomFeed;
-    var that = this;
-
-    roomFeed = this;
-
-    requiresPoll = false;
+    clearTimeout(this.timer);
+    //    $('#loading-message').html("Fetching Messages From Channel");
 
     // Should the feed load older messages or newer ones.
-    scroll = this.embed.history.root.scrollTop();
-    height = this.embed.history.root.prop('scrollHeight');
+    var scroll = this.embed.history.root.scrollTop();
+    var height = this.embed.history.root.prop('scrollHeight');
     this.goBack = this.shownFeed && this.more && (scroll <= height / 3);
-    //    this.goBack = false;
+//    this.goBack = false;
 
-    options = {
-      include_annotations: 1,
+    var options = {
+      include_raw: 1,
       count: 200
     };
 
     if (! this.shownFeed) {
       options.count = 40;
-      requiresPoll = true;
     }
-
     if (this.goBack && this.earliest !== null) {
       options.before_id = this.earliest;
-      requiresPoll = true;
     }
-
     if (!this.goBack && this.latest !== null) {
       options.since_id = this.latest;
     }
-
-    if (this.usingWebSocket()) {
-      if (this.webSocketActive) { return; }
-
-      this.getConnectionId(function(connectionId) {
-        if (! that.shownFeed)
-        {
-          options = {
-            connection_id: connectionId,
-            include_annotations: 1,
-            count: 40,
-            subscription_id: roomFeed.subscriptionId
-          };
-
-          appnet.api.getMessages(roomFeed.channel.id, options,
-                                 $.proxy(completeFeed, roomFeed),
-                                 $.proxy(failFeed, roomFeed));
-        }
-      });
-
-    } else {
-      clearTimeout(this.timer);
-
-      // $('#loading-message').html("Fetching Messages From Channel");
-
-      appnet.api.getMessages(this.channel.id, options,
-                             $.proxy(completeFeed, this),
-                             $.proxy(failFeed, this));
-
-      this.timer = setTimeout($.proxy(this.checkFeed, this), 20000);
-    }
+    pnut.api.getMessages(this.channel.id, options,
+                           $.proxy(completeFeed, this),
+                           $.proxy(failFeed, this));
+    this.timer = setTimeout($.proxy(this.checkFeed, this), 20000);
   };
 
   var completeFeed = function (response)
@@ -255,21 +119,16 @@ function ($, util, appnet, PatterEmbed) {
   {
     if (markerName !== null && id !== null)
     {
-      var marker = {
+      var marker = [{
         id: id,
         name: markerName
-      };
-      appnet.api.updateMarker(marker, null, null, null);
+      }];
+      pnut.api.updateMarker(marker, null, null, null);
     }
   }
 
   RoomFeed.prototype.mute = function (userId)
   {
-  };
-
-  RoomFeed.prototype.usingWebSocket = function ()
-  {
-    return (('WebSocket' in window) && !this.dontUseWebSocket) ? true : false;
   };
 /*
   RoomFeed.prototype.deleteMessage = function (messageId, complete, failure)
@@ -279,7 +138,7 @@ function ($, util, appnet, PatterEmbed) {
       complete: complete,
       failure: failure
     };
-    appnet.api.deleteMessage(this.channel.id, messageId,
+    pnut.api.deleteMessage(this.channel.id, messageId,
                              $.proxy(completeDelete, context),
                             $.proxy(failDelete, context));
   };

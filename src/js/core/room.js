@@ -3,9 +3,9 @@
 // Overall task for managing a room
 
 /*global require: true */
-require(['jquery', 'util', 'appnet', 'js/options', 'js/core/roomInfo',
+require(['jquery', 'util', 'pnut', 'js/options', 'js/core/roomInfo',
          'js/core/roomMenu', 'js/core/RoomFeed'],
-function ($, util, appnet, options, roomInfo, roomMenu, RoomFeed) {
+function ($, util, pnut, options, roomInfo, roomMenu, RoomFeed) {
   'use strict';
 
   var feed = null;
@@ -47,7 +47,7 @@ function ($, util, appnet, options, roomInfo, roomMenu, RoomFeed) {
 
   function failInit(message)
   {
-    if (appnet.isLogged())
+    if (pnut.isLogged())
     {
       $('#fail-modal #fail-body').html(message);
       $('#fail-modal').modal();
@@ -62,7 +62,7 @@ function ($, util, appnet, options, roomInfo, roomMenu, RoomFeed) {
   {
     options.initialize();
     if (options.token) {
-      appnet.api.accessToken = options.token;
+      pnut.api.accessToken = options.token;
     }
     if (! options.channel)
     {
@@ -72,9 +72,9 @@ function ($, util, appnet, options, roomInfo, roomMenu, RoomFeed) {
     {
       roomInfo.id = options.channel;
       roomInfo.changeCallback = completeChannel;
-      if (appnet.isLogged())
+      if (pnut.isLogged())
       {
-        appnet.updateUser($.proxy(roomInfo.updateChannel, roomInfo), failUser);
+        pnut.updateUser($.proxy(roomInfo.updateChannel, roomInfo), failUser);
       }
       else
       {

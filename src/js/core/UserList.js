@@ -3,9 +3,9 @@
 // A pane showing a scrollable list of recent users and members
 
 /*global define:true */
-define(['jquery', 'underscore', 'util', 'appnet',
+define(['jquery', 'underscore', 'util', 'pnut',
         'js/deps/text!template/user.html'],
-function ($, _, util, appnet, userString) {
+function ($, _, util, pnut, userString) {
   'use strict';
 
   var userTemplate = _.template(userString);
@@ -43,9 +43,9 @@ function ($, _, util, appnet, userString) {
     {
       this.addMemberInfo(members[i]);
     }
-    if (appnet.user !== null)
+    if (pnut.user !== null)
     {
-      this.addMemberInfo(appnet.user);
+      this.addMemberInfo(pnut.user);
     }
     this.renderUserList();
   };
@@ -60,7 +60,7 @@ function ($, _, util, appnet, userString) {
           this.postTimes[data.user.username] < created)
       {
         this.postTimes[data.user.username] = created;
-        this.avatars[data.user.username] = data.user.avatar_image.url;
+        this.avatars[data.user.username] = data.user.content.avatar_image.link;
       }
     }
   };
@@ -71,7 +71,7 @@ function ($, _, util, appnet, userString) {
     {
       this.postTimes[user.username] = null;
     }
-    this.avatars[user.username] = user.avatar_image.url;
+    this.avatars[user.username] = user.content.avatar_image.link;
   };
 
   UserList.prototype.renderUserList = function ()
@@ -113,7 +113,7 @@ function ($, _, util, appnet, userString) {
   {
     var result = ' inactive';
     var idleTime = new Date().getTime() - 1000 * 60 * timeout.idle;
-    if (appnet.user !== null && name === appnet.user.username)
+    if (pnut.user !== null && name === pnut.user.username)
     {
       result = ' me';
     }

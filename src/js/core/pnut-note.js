@@ -1,6 +1,6 @@
-// appnet-note.js
+// pnut-note.js
 //
-// Functions to create and process app.net annotations
+// Functions to create and process pnut.io raw
 
 /*global define: true */
 define(['util'], function (util) {
@@ -31,8 +31,8 @@ define(['util'], function (util) {
     var result = null;
     if (channel)
     {
-      result = note.findAnnotation('net.patter-app.settings',
-                                   channel.annotations);
+      result = note.findAnnotation('io.pnut.core.chat-settings',
+                                   channel.raw);
     }
     if (result === null)
     {
@@ -44,8 +44,8 @@ define(['util'], function (util) {
   note.findPatterName = function (channel)
   {
     var name = null;
-    var settings = note.findAnnotation('net.patter-app.settings',
-                                       channel.annotations);
+    var settings = note.findAnnotation('io.pnut.core.chat-settings',
+                                       channel.raw);
     if (settings !== null && settings.name !== undefined)
     {
       name = settings.name;
@@ -57,7 +57,7 @@ define(['util'], function (util) {
   {
     var name = null;
     var settings = note.findAnnotation('net.blog-app.settings',
-                                       channel.annotations);
+                                       channel.raw);
     if (settings !== null && settings.name !== undefined)
     {
       name = settings.name;
@@ -68,19 +68,19 @@ define(['util'], function (util) {
   note.findBlogStatus = function (message)
   {
     return note.findAnnotation('net.blog-app.status',
-                               message.annotations);
+                               message.raw);
   };
 
   note.findBlogPost = function (message)
   {
     return note.findAnnotation('net.jazzychad.adnblog.post',
-                               message.annotations);
+                               message.raw);
   };
 
   note.findBlogPhotoset = function (message)
   {
     return note.findAnnotation('net.blog-app.photoset',
-                               message.annotations);
+                               message.raw);
   };
 
   note.findChannelRefId = function (message)
@@ -89,7 +89,7 @@ define(['util'], function (util) {
     if (message)
     {
       var ref = note.findAnnotation('net.view-app.channel-ref',
-                                    message.annotations);
+                                    message.raw);
       if (ref && ref.id)
       {
         id = ref.id;
@@ -122,7 +122,7 @@ define(['util'], function (util) {
       height = 300;
     }
     return {
-      type: 'net.app.core.oembed',
+      type: 'io.pnut.core.oembed',
       value: {
         version: '1.0',
         type: 'photo',

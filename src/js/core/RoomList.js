@@ -4,7 +4,7 @@
 
 /*global define:true */
 define(['jquery', 'underscore', 'backbone',
-        'js/core/allChannels', 'js/core/allUsers', 'jquery-appnet'],
+        'js/core/allChannels', 'js/core/allUsers', 'jquery-pnut'],
 function ($, _, Backbone, allChannels, allUsers)
 {
   'use strict';
@@ -106,25 +106,25 @@ function ($, _, Backbone, allChannels, allUsers)
     },
 
     searchChannelMethod: function () {
-      this.get('params').include_annotations = 1;
+      this.get('params').include_raw = 1;
       this.get('params').include_recent_message = 1;
       this.get('params').type = 'net.patter-app.room';
-      var promise = $.appnet.channel.search(this.get('params'));
+      var promise = $.pnut.channel.search(this.get('params'));
       return promise.then(updateMeta(this));
     },
 
     subscriptionMethod: function () {
-      this.get('params').include_annotations = 1;
+      this.get('params').include_raw = 1;
       this.get('params').include_recent_message = 1;
-      var promise = $.appnet.channel.getUserSubscribed(this.get('params'));
+      var promise = $.pnut.channel.getUserSubscribed(this.get('params'));
       return promise.then(updateMeta(this));
     },
 
     activeMethod: function () {
       var that = this;
-      this.get('params').include_annotations = 1;
+      this.get('params').include_raw = 1;
       this.get('params').include_recent_message = 1;
-      var promise = $.appnet.core.call('/recent',
+      var promise = $.pnut.core.call('/recent',
                                        'GET', this.get('params'));
       return promise.then(updateMeta(this)).then(function (response) {
         var ids = [];
@@ -134,15 +134,15 @@ function ($, _, Backbone, allChannels, allUsers)
           ids.push(response.data[i].id);
         }
 
-        return $.appnet.channel.getList(ids, { include_annotations: 1,
+        return $.pnut.channel.getList(ids, { include_raw: 1,
                                                include_recent_message: 1 });
       });
     },
 
     searchMethod: function () {
-      this.get('params').include_annotations = 1;
+      this.get('params').include_raw = 1;
       this.get('params').creator_id = '137703';
-      var promise = $.appnet.post.search(this.get('params'));
+      var promise = $.pnut.post.search(this.get('params'));
       return promise.then(updateMeta(this)).then(function (response) {
         return messagesToChannels(response);
       });
@@ -150,8 +150,8 @@ function ($, _, Backbone, allChannels, allUsers)
 
     recentlyCreatedMethod: function () {
       this.get('params').include_deleted = 0;
-      this.get('params').include_annotations = 1;
-      var promise = $.appnet.post.getUser('@patter_rooms', this.get('params'));
+      this.get('params').include_raw = 1;
+      var promise = $.pnut.post.getUser('@patter_rooms', this.get('params'));
       return promise.then(updateMeta(this)).then(function (response) {
         return messagesToChannels(response);
       });
@@ -194,25 +194,25 @@ function ($, _, Backbone, allChannels, allUsers)
       }
     }
     var params = {
-      include_annotations: 1,
+      include_raw: 1,
       include_recent_message: 1
     };
-    return $.appnet.channel.getList(channelList, params);
+    return $.pnut.channel.getList(channelList, params);
   }
 
   function findChannelId(channel)
   {
     var result = null;
-    var note = $.appnet.note.find('net.view-app.channel-ref',
-                                  channel.annotations);
+    var note = $.pnut.note.find('net.view-app.channel-ref',
+                                  channel.raw);
     if (note)
     {
       result = note.id;
     }
     if (! result)
     {
-      note = $.appnet.note.find('net.app.core.channel.invite',
-                                channel.annotations);
+      note = $.pnut.note.find('io.pnut.core.channel.invite',
+                                channel.raw);
       if (note)
       {
         result = note.channel_id;

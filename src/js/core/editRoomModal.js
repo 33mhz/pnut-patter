@@ -4,10 +4,10 @@
 // room. This may also be used as a dialog for creating a new room.
 
 /*global define:true */
-define(['jquery', 'util', 'appnet', 'js/core/roomInfo',
+define(['jquery', 'util', 'pnut', 'js/core/roomInfo',
         'js/core/UserFields',
         'js/deps/text!template/editRoomModal.html', 'bootstrap'],
-function ($, util, appnet, roomInfo, UserFields, editTemplate) {
+function ($, util, pnut, roomInfo, UserFields, editTemplate) {
   'use strict';
 
   var categories = ['fun', 'lifestyle', 'profession', 'language',
@@ -49,10 +49,10 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   };
 
   editRoomModal.canEditChannel = function (channel) {
-    return channel.you_can_edit &&
-      (channel.type === 'net.patter-app.room' ||
-       ! channel.writers.immutable ||
-       ! channel.readers.immutable);
+    return channel.acl.full.you &&
+      (channel.type === 'io.pnut.core.chat' ||
+       ! channel.acl.write.immutable ||
+       ! channel.acl.read.immutable);
   };
 
   editRoomModal.update = function (newChannel, newType)
@@ -66,7 +66,7 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
       canEdit = this.canEditChannel(editRoomChannel);
       editRoomType = editRoomChannel.type;
     }
-    var settings = appnet.note.findPatterSettings(editRoomChannel);
+    var settings = pnut.note.findPatterSettings(editRoomChannel);
 
     // Modal Title
     var roomType = 'Create ';
@@ -75,9 +75,9 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
     } else if (editRoomChannel !== null) {
       roomType = 'View ';
     }
-    if (editRoomType === 'net.patter-app.room') {
+    if (editRoomType === 'io.pnut.core.chat') {
       roomType += 'Patter Room';
-    } else if (editRoomType === 'net.app.core.pm') {
+    } else if (editRoomType === 'io.pnut.core.pm') {
       roomType += 'PM Channel';
     }
     $('#edit-room-type').html(roomType);
@@ -92,40 +92,40 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
 
     $('#edit-room-body').hide();
     if (editRoomChannel === null) {
-      if (editRoomType === 'net.patter-app.room') {
+      if (editRoomType === 'io.pnut.core.chat') {
         $('#edit-room-body').html('Patter rooms may be public or private and the owner can modify permissions after they are created.');
         $('#edit-room-body').show();
-      } else if (editRoomType === 'net.app.core.pm') {
+      } else if (editRoomType === 'io.pnut.core.pm') {
         $('#edit-room-body').html('Private message channels are always private, and you cannot change their permissions.');
         $('#edit-room-body').show();
       }
     }
 
     // Set name field
-    if (editRoomType === 'net.patter-app.room') {
+    if (editRoomType === 'io.pnut.core.chat') {
       $('#edit-room-name').show();
     } else {
       $('#edit-room-name').hide();
     }
 
     $('#edit-room-text').val('');
-    if (editRoomChannel === null && editRoomType === 'net.app.core.pm') {
+    if (editRoomChannel === null && editRoomType === 'io.pnut.core.pm') {
       $('#edit-room-text').show();
     } else {
       $('#edit-room-text').hide();
     }
 
     $('#edit-room-perm').removeAttr('disabled');
-    if (editRoomType === 'net.app.core.pm') {
+    if (editRoomType === 'io.pnut.core.pm') {
       $('#edit-room-perm').attr('disabled', true);
       $('#edit-room-perm').val('private');
     } else if (editRoomChannel !== null &&
-               (editRoomChannel.writers['public'] ||
-                editRoomChannel.writers.any_user)) {
+               (editRoomChannel.acl.write['public'] ||
+                editRoomChannel.acl.write.any_user)) {
       $('#edit-room-perm').val('public');
     } else if (editRoomChannel !== null &&
-               (editRoomChannel.readers['public'] ||
-                editRoomChannel.readers.any_user)) {
+               (editRoomChannel.acl.read['public'] ||
+                editRoomChannel.acl.read.any_user)) {
       $('#edit-room-perm').val('public-read');
     } else {
       $('#edit-room-perm').val('private');
@@ -140,9 +140,9 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
       $('#edit-room-name').val('');
     }
 
-    if (settings.blurb && settings.blurb_id)
+    if (settings.description)
     {
-      $('#edit-room-promo-text').val(settings.blurb);
+      $('#edit-room-promo-text').val(settings.description);
       $('#edit-room-promote').attr('checked', 'checked');
     }
     else
@@ -184,13 +184,13 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
     if (canEdit) {
       $('#edit-room-save').show();
       $('#edit-room-cancel').html('Cancel');
-      if (editRoomChannel !== null && editRoomChannel.writers.immutable) {
+      if (editRoomChannel !== null && editRoomChannel.acl.write.immutable) {
         $('#edit-room-perm').attr('disabled', true);
         editRoomFields.disable();
       } else {
         editRoomFields.enable();
       }
-      if (editRoomChannel !== null && editRoomChannel.readers.immutable) {
+      if (editRoomChannel !== null && editRoomChannel.acl.read.immutable) {
         $('#edit-room-perm').attr('disabled', true);
       }
     } else {
@@ -213,21 +213,19 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   };
 
   function completeEditRoom(names) {
-    var settings = appnet.note.findPatterSettings(editRoomChannel);
+    var settings = pnut.note.findPatterSettings(editRoomChannel);
     if (names && names.length === 0 &&
-        editRoomType === 'net.app.core.pm') {
+        editRoomType === 'io.pnut.core.pm') {
       util.flagError('pm-create-fields-error-div', 'You need at least one recipient');
     } else if (names) {
-      if (editRoomType === 'net.app.core.pm') {
+      if (editRoomType === 'io.pnut.core.pm') {
         createPmChannel(names);
       } else {
         if (editRoomChannel === null) {
           createPatterChannel(names);
         } else {
-          if (getPromo() === '' || settings.blurb_id) {
+          if (getPromo() === '') {
             changePatterChannel(editRoomChannel, names);
-          } else {
-            createBlurb(editRoomChannel, names);
           }
         }
       }
@@ -259,7 +257,7 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   function getPatterAccess(perm, members, oldChannel)
   {
     var channel = { auto_subscribe: true };
-    if (! oldChannel || ! oldChannel.writers.immutable) {
+    if (! oldChannel || ! oldChannel.acl.write.immutable) {
       var canWrite = (perm === 'public');
       var writers = {
         immutable: false,
@@ -269,53 +267,39 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
       {
         writers.user_ids = members;
       }
-      channel.writers = writers;
+      channel.acl.write = writers;
     }
-    if (! oldChannel || ! oldChannel.readers.immutable) {
+    if (! oldChannel || ! oldChannel.acl.read.immutable) {
       var canRead = (perm === 'public' || perm === 'public-read');
       var readers = {
         immutable: false,
         'public': canRead
       };
-      channel.readers = readers;
+      channel.acl.read = readers;
     }
 
     return channel;
   }
 
-  function getPatterNotes(channel, name, promo, blurbId)
+  function getPatterNotes(channel, name, promo)
   {
     var annotations = [];
-    var settings = appnet.note.findPatterSettings(channel);
+    var settings = pnut.note.findPatterSettings(channel);
     var cats = [];
     var i = 0;
     var settingsNote = {
-      type: 'net.patter-app.settings',
+      type: 'io.pnut.core.chat-settings',
       value: { name: name }
     };
-    if (promo === '' && settings.blurb_id) {
-      appnet.api.deleteMessage('1614', settings.blurb_id,
+    if (promo === '') {
+      pnut.api.deleteMessage('1614',
                                null, null, null);
-    } else if (promo !== '' && ! blurbId && settings.blurb_id) {
-      blurbId = settings.blurb_id;
-    }
-    if (blurbId) {
-      settingsNote.value.blurb_id = blurbId;
-      settingsNote.value.blurb = promo;
-      for (i = 0; i < categories.length; i += 1)
-      {
-        if ($('#edit-' + categories[i]).attr('checked'))
-        {
-          cats.push(categories[i]);
-        }
-      }
-      settingsNote.value.categories = cats;
     }
     annotations.push(settingsNote);
     var fallback = {
-      type: 'net.app.core.fallback_url',
+      type: 'io.pnut.core.fallback_url',
       value: {
-        url: 'http://patter-app.net/room.html?channel=' + channel.id
+        url: 'http://patter.s3rv.com/room.html?channel=' + channel.id
       }
     };
     annotations.push(fallback);
@@ -368,7 +352,7 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
     return promo;
   }
 
-  function changePatterChannel(oldChannel, names, blurbId, callback) {
+  function changePatterChannel(oldChannel, names, callback) {
     if (names)
     {
       var success = $.proxy(roomInfo.completeChannelInfo, roomInfo);
@@ -380,8 +364,8 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
                                     names, oldChannel);
       channel.annotations = getPatterNotes(oldChannel,
                                            $('#edit-room-name').val(),
-                                           getPromo(), blurbId);
-      appnet.api.updateChannel(oldChannel.id, channel, {include_annotations: 1},
+                                           getPromo());
+      pnut.api.updateChannel(oldChannel.id, channel, {include_annotations: 1},
                                success, null);
       $('#edit-room-modal').modal('hide');
     }
@@ -393,7 +377,7 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
     var text = $('#edit-room-text').val();
     var message = { text: text,
                     destinations: names };
-    appnet.api.createMessage('pm', message, { include_annotations: 1 },
+    pnut.api.createMessage('pm', message, { include_raw: 1 },
                              completeCreatePm, failCreatePm);
   }
 
@@ -405,28 +389,6 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   function failCreatePm(meta)
   {
     util.flagError('edit-room-error-div', 'Create PM Request Failed');
-  }
-
-  function createBlurb(channel, names, callback)
-  {
-    var name = $('#edit-room-name').val();
-    var context = {
-      channel: channel,
-      names: names,
-      callback: callback
-    };
-    var message = {
-      text: getPromo(),
-      annotations: [{
-        type: 'net.app.core.channel.invite',
-        value: {
-          'channel_id': channel.id
-        }
-      }]
-    };
-    appnet.api.createMessage('1614', message, null,
-                             $.proxy(completeBlurb, context),
-                             failCreatePatter);
   }
 
   var completeBlurb = function (response)
@@ -441,9 +403,9 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
       names: names
     };
     var channel = {
-      type: 'net.patter-app.room'
+      type: 'io.pnut.core.chat'
     };
-    appnet.api.createChannel(channel, { include_annotations: 1 },
+    pnut.api.createChannel(channel, { include_raw: 1 },
                              $.proxy(completeCreatePatter, context),
                              $.proxy(failCreatePatter, context));
   }
@@ -452,17 +414,11 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   {
     if (getPromo() === '') {
       changePatterChannel(response.data, this.names, null, redirectToChannel);
-    } else {
-      createBlurb(response.data, this.names, redirectToChannel);
     }
   };
 
   var failCreatePatter = function (meta)
   {
-    if (this.blurbId)
-    {
-      appnet.api.deleteMessage('1614', this.blurbId, null, null, null);
-    }
     util.flagError('edit-room-error-div', 'Create Patter Room Request Failed');
   };
 
@@ -474,10 +430,10 @@ function ($, util, appnet, roomInfo, UserFields, editTemplate) {
   function clickSave(event) {
     event.preventDefault();
     if ($('#edit-room-name').val() === '' &&
-        editRoomType === 'net.patter-app.room') {
+        editRoomType === 'io.pnut.core.chat') {
       util.flagError('edit-room-error-div', 'You must specify a name');
     } else if ($('#edit-room-text').val() === '' &&
-               editRoomType === 'net.app.core.pm') {
+               editRoomType === 'io.pnut.core.pm') {
       util.flagError('edit-room-error-div', 'You must compose a message');
     } else {
       disableEditRoom();

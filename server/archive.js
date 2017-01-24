@@ -8,7 +8,7 @@
 var config = require('./config');
 
 var fs = require('q-io/fs');
-var appnet = require(config.appnetPath);
+var pnut = require(config.pnutPath);
 var _ = require('underscore');
 
 var pageSize = 50;
@@ -44,16 +44,16 @@ function fetchArchive(response, archiveTemplate, channelId, afterId, beforeId)
   var isBefore = (! afterId);
   var channel;
   var settings;
-  appnet.authorize(null, config.token);
-  var promise = appnet.channel.get(channelId,
-                                   { include_annotations: 1,
+  pnut.authorize(null, config.token);
+  var promise = pnut.channel.get(channelId,
+                                   { include_raw: 1,
                                      include_recent_message: 1 });
   promise.then(function (buffer) {
     try {
     buffer = JSON.parse(buffer.toString());
     channel = buffer.data;
-    settings = appnet.note.find('net.patter-app.settings',
-                                buffer.data.annotations);
+    settings = pnut.note.find('io.pnut.core.chat-settings',
+                                buffer.data.raw);
     return processChannel(response, archiveTemplate, buffer, settings,
                           afterId, beforeId);
     } catch (e) { console.log(e); return null; }
@@ -76,7 +76,7 @@ function processChannel(response, archiveTemplate, buffer, settings,
                         afterId, beforeId)
 {
   var result;
-  if (buffer.data.readers['public'] && settings && settings.blurb_id)
+  if (buffer.data.acl.read['public'] && settings)
   {
     var options = {
       count: '' + pageSize,
@@ -92,8 +92,8 @@ function processChannel(response, archiveTemplate, buffer, settings,
       options.count = '' + pageSize;
       options.before_id = beforeId;
     }
-    appnet.authorize(null, config.token);
-    result = appnet.message.getChannel(buffer.data.id, options);
+    pnut.authorize(null, config.token);
+    result = pnut.message.getChannel(buffer.data.id, options);
   }
   else
   {
@@ -108,7 +108,7 @@ function constructData(recent, isBefore, channel, settings, messages, more)
   var result = {};
   result.channelId = channel.id;
   result.name = settings.name;
-  result.blurb = settings.blurb;
+  result.blurb = settings.description;
   result.hasOlder = (! isBefore) || (isBefore && more);
   result.hasNewer = ! recent && (isBefore || more);
   if (recent)

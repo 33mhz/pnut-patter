@@ -1,7 +1,7 @@
 var ARGV = require('optimist').argv;
 var fs = require('fs');
 var config = require('../config.js');
-var appnet = require('../' + config.appnetPath);
+var pnut = require('../' + config.pnutPath);
 
 function execute()
 {
@@ -9,15 +9,15 @@ function execute()
 
   initBlacklist();
 
-  appnet.authorize(config.patter_token);
+  pnut.authorize(config.patter_token);
 
-  var promise = appnet.all.getUserPosts('me', { include_deleted: 0, include_annotations: 1 });
+  var promise = pnut.all.getUserPosts('me', { include_deleted: 0, include_raw: 1 });
   promise.then(function (buffer) {
     processUser(buffer);
-    return appnet.all.getMessages('1614', { include_deleted: 0, include_annotations: 1 });
+    return pnut.all.getMessages('1614', { include_deleted: 0, include_raw: 1 });
   }).then(function (buffer) {
     var channels = getChannels(buffer);
-    return appnet.all.getChannelList(channels, { include_annotations: 1 });
+    return pnut.all.getChannelList(channels, { include_raw: 1 });
   }).then(function (buffer) {
     processChannels(buffer);
     checkPosts();
@@ -64,7 +64,7 @@ function processUser(response)
   for (i = 0; i < response.data.length; i += 1)
   {
     var post = response.data[i];
-    var invite = findNote('net.app.core.channel.invite', post);
+    var invite = findNote('io.pnut.core.channel.invite', post);
     if (invite)
     {
       channelToPost[invite.channel_id] = {
@@ -95,7 +95,7 @@ function getChannels(response)
   for (i = 0; i < response.data.length; i += 1)
   {
     var message = response.data[i];
-    var invite = findNote('net.app.core.channel.invite', message);
+    var invite = findNote('io.pnut.core.channel.invite', message);
     if (invite)
     {
       channels.push(invite.channel_id);
@@ -119,9 +119,9 @@ function processChannels(response)
   for (i = 0; i < response.data.length; i += 1)
   {
     var channel = response.data[i];
-    var settings = findNote('net.patter-app.settings', channel);
-    if (settings && settings.blurb &&
-        channel.readers['public'] && ! blacklist[channel.id])
+    var settings = findNote('io.pnut.core.chat-settings', channel);
+    if (settings && settings.description &&
+        channel.acl.read['public'] && ! blacklist[channel.id])
     {
       if (! channel.you_subscribed)
       {
@@ -131,7 +131,7 @@ function processChannels(response)
         }
         else
         {
-          console.log("Not subscribing [" + channel.id + "]: " + settings.blurb);
+          console.log("Not subscribing [" + channel.id + "]: " + settings.description);
         }
       }
       var fullText = settings.name + ': ';
@@ -140,9 +140,9 @@ function processChannels(response)
         fullText += '(' + settings.categories.join(' ') + ') ';
         addTags(settings.categories);
       }
-      if (settings.blurb)
+      if (settings.description)
       {
-        fullText += settings.blurb;
+        fullText += settings.description;
       }
       var text = fullText.substr(0, 256);
       var post = channelToPost[channel.id];
@@ -198,7 +198,7 @@ function updatePosts()
   {
     var dead = deadPosts.pop();
     console.log('Deleting post ' + dead);
-    promise = appnet.post.destroy(dead);
+    promise = pnut.post.destroy(dead);
     promise.then(updatePosts);
   }
   else if (newPosts.length > 0)
@@ -207,19 +207,19 @@ function updatePosts()
     var post = {
       text: arg.text,
       annotations: [{
-        type: 'net.app.core.channel.invite',
+        type: 'io.pnut.core.channel.invite',
         value: {
           'channel_id': arg.channel
         },
       },{
-        type: 'net.app.core.crosspost',
+        type: 'io.pnut.core.crosspost',
         value: {
-          'canonical_url': 'http://patter-app.net/room.html?channel=' + arg.channel
+          'canonical_url': 'http://patter.s3rv.com/room.html?channel=' + arg.channel
         }
       }]
     };
     console.log('Creating post: ' + arg.text);
-    promise = appnet.post.create(post);
+    promise = pnut.post.create(post);
     promise.then(function (response) {
       console.log('Success');
     }, function (response) {
@@ -234,13 +234,13 @@ function updatePosts()
   else if (newChannels.length > 0)
   {
     console.log('subscribing to channel ' + newChannels[newChannels.length - 1]);
-    promise = appnet.channel.subscribe(newChannels.pop());
+    promise = pnut.channel.subscribe(newChannels.pop());
     promise.then(updatePosts);
   }
   else if (deadChannels.length > 0)
   {
     console.log('unsubscribing from channel ' + deadChannels[deadChannels.length - 1]);
-    promise = appnet.channel.unsubscribe(deadChannels.pop());
+    promise = pnut.channel.unsubscribe(deadChannels.pop());
     promise.then(updatePosts);
   }
   else
@@ -294,11 +294,11 @@ function findNote(name, message)
 {
   var result = null;
   var i = 0;
-  for (i = 0; i < message.annotations.length; i += 1)
+  for (i = 0; i < message.raw.length; i += 1)
   {
-    if (message.annotations[i].type === name)
+    if (message.raw[i].type === name)
     {
-      result = message.annotations[i].value;
+      result = message.raw[i].value;
       break;
     }
   }

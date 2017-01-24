@@ -82,7 +82,7 @@ function ($, moment)
   util.makeAuthorizeUrl = function (state) {
     var params = util.urlParams(state);
 
-    return 'https://alpha.app.net/oauth/authenticate?' + $.param(params);
+    return 'https://pnut.io/oauth/authenticate?' + $.param(params);
   };
 
   util.initAuthBody = function (options) {

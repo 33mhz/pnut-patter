@@ -3,16 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="apple-itunes-app" content="app-id=600033550, affiliate-data=myAffiliateData, app-argument=myURL">
-    <title>Patter - A chat client for app.net</title>
+    <title>Patter - A chat client for pnut.io</title>
 
     <link rel="shortcut icon" href="favicon.ico"/>
     {% block css %}
     {% endblock %}
     <link rel="stylesheet" style="text/css"
           href="/css/bootstrap/readable.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="/js/core/config.js"></script>
-    <script src="//d2zh9g63fcvyrq.cloudfront.net/adn.js"></script>
+    <!--<script src="//d2zh9g63fcvyrq.cloudfront.net/adn.js"></script>-->
     {% block javascript %}
     {% endblock %}
   </head>
@@ -64,10 +64,10 @@
           <img src="images/lock-fig.png" alt="You are in control with Patter" width="280" height="347">
         </div>
         <div class="panel-body text-center">
-          <p>Patter is built on <a href="http://app.net">app.net</a>: the social network <b>for users</b> and not advertisers.</p>
-          <p>Your Patter messages are stored only on app.net: <b>you decide</b> who can read them.</p>
+          <p>Patter is built on <a href="https://pnut.io">pnut.io</a>: the social network <b>for users</b> and not advertisers.</p>
+          <p>Your Patter messages are stored only on pnut.io: <b>you decide</b> who can read them.</p>
           <p>Your messages are kept for as long as you want them</p>
-          <p><b>Download</b> your entire archive at any time from app.net</p>
+          <p><b>Download</b> your entire archive at any time from pnut.io</p>
           <p>If you delete your account, your messages are deleted as well</p>
         </div>
       </div>

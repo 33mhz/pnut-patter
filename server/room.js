@@ -8,7 +8,7 @@
 var config = require('./config');
 
 var fs = require('q-io/fs');
-var appnet = require(config.appnetPath);
+var pnut = require(config.pnutPath);
 var _ = require('underscore');
 
 function execute(request, response)
@@ -30,34 +30,34 @@ function fetchRoom(request, response, roomTemplate)
   }
   else
   {
-    appnet.authorize(null, config.token);
-    var promise = appnet.channel.get(channelId, {include_annotations: 1});
+    pnut.authorize(null, config.token);
+    var promise = pnut.channel.get(channelId, {include_raw: 1});
     promise.then(function (buffer) {
       try {
-      buffer = JSON.parse(buffer.toString());
-      var settings = appnet.note.find('net.patter-app.settings',
-                                      buffer.data.annotations);
-      if (buffer.data.readers['public'] && settings && settings.blurb_id)
-      {
-        var blurb = '';
-        if (settings.blurb)
+        buffer = JSON.parse(buffer.toString());
+        var settings = pnut.note.find('io.pnut.core.chat-settings',
+                                      buffer.data.raw);
+        if (buffer.data.acl.read['public'] && settings)
         {
-          blurb = settings.blurb;
+          var blurb = '';
+          if (settings.description)
+          {
+            blurb = settings.description;
+          }
+          var data = {
+            name: settings.name,
+            blurb: blurb,
+            channelId: channelId
+          };
+          var body = roomTemplate(data);
+          response.setHeader('Content-Length', body.length);
+          response.end(body);
         }
-        var data = {
-          name: settings.name,
-          blurb: blurb,
-          channelId: channelId
-        };
-        var body = roomTemplate(data);
-        response.setHeader('Content-Length', body.length);
-        response.end(body);
-      }
-      else
-      {
-        skipServer(request, response, roomTemplate)();
-      }
-    } catch (e) { console.log(e); }
+        else
+        {
+          skipServer(request, response, roomTemplate)();
+        }
+      } catch (e) { console.log(e); }
     }, skipServer(request, response, roomTemplate));
   }
 }

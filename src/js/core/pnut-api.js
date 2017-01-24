@@ -1,6 +1,6 @@
-// appnet-api.js
+// pnut-api.js
 //
-// API calls on the app.net web service
+// API calls on the pnut.io web service
 
 /*global define: true */
 define(['jquery', 'util', 'jquery-cookie'],
@@ -60,7 +60,7 @@ function ($, util) {
     {
       if (this.failure)
       {
-        console.log('AppNet null response');
+        console.log('pnut null response');
         console.dir(response);
         this.failure(response.meta);
       }
@@ -69,7 +69,7 @@ function ($, util) {
 
   var callFailure = function (request, status, thrown)
   {
-    console.log('AppNet call failed: ' + status + ', thrown: ' + thrown);
+    console.log('pnut call failed: ' + status + ', thrown: ' + thrown);
     console.dir(request.responseText);
     var meta = null;
     if (request.responseText) {
@@ -248,24 +248,24 @@ function ($, util) {
 
   // getUser(userId, args, success, failure);
   addOne('getUser', 'GET',
-         'https://alpha-api.app.net/stream/0/users/');
+         'https://api.pnut.io/v0/users/');
 
   // getUserList([userId1, userId2], args, success, failure);
   addList('getUserList', 'GET',
-          'https://alpha-api.app.net/stream/0/users');
+          'https://api.pnut.io/v0/users');
 
   // getAllUserList([userId1, userId2], args, success, failure);
   addAllList('getAllUserList', $.proxy(api.getUserList, api));
 
   // updateUser(newUserObject, args, success, failure);
   addData('updateUser', 'PUT',
-          'https://alpha-api.app.net/stream/0/users/me');
+          'https://api.pnut.io/v0/users/me');
 
   addOne('getFollowers', 'GET',
-         'https://alpha-api.app.net/stream/0/users/', '/followers');
+         'https://api.pnut.io/v0/users/', '/followers');
 
   addOne('getFollowing', 'GET',
-         'https://alpha-api.app.net/stream/0/users/', '/following');
+         'https://api.pnut.io/v0/users/', '/following');
 
   api.setUserAnnotations = function (notes, success, failure)
   {
@@ -290,14 +290,14 @@ function ($, util) {
       locale: locale,
       timezone: user.timezone,
       description: {
-        text: user.description.text,
+        text: user.content.text,
         entities: {
-          links: user.description.entities.links
+          links: user.content.entities.links
         }
       },
-      annotations: this.notes
+      raw: this.notes
     };
-    api.updateUser(newUser, { include_annotations: 1 },
+    api.updateUser(newUser, { include_raw: 1 },
                    this.success, this.failure);
   };
 
@@ -307,38 +307,40 @@ function ($, util) {
 
   // createChannel
   addData('createChannel', 'POST',
-          'https://alpha-api.app.net/stream/0/channels');
+          'https://api.pnut.io/v0/channels');
 
   // getChannel(channelId, args, success, failure);
   addOne('getChannel', 'GET',
-         'https://alpha-api.app.net/stream/0/channels/');
+         'https://api.pnut.io/v0/channels/');
 
   // getChannelList([channelId1, channelId2], args, success, failure);
   addList('getChannelList', 'GET',
-          'https://alpha-api.app.net/stream/0/channels/');
+          'https://api.pnut.io/v0/channels/');
 
   // getAllChannelList([channelId1, channelId2], args, success, failure);
   addAllList('getAllChannelList', $.proxy(api.getChannelList, api));
 
   // updateChannel(channelId, newChannel, args, success, failure);
   addDataOne('updateChannel', 'PUT',
-             'https://alpha-api.app.net/stream/0/channels/');
+             'https://api.pnut.io/v0/channels/');
 
   api.createSharedFeed = function (name, success, failure)
   {
     var channel = {
       type: 'net.share-app.feed',
-      annotations: [{
+      raw: [{
         type: 'net.share-app.feed',
         value: {
           name: name
         }
       }],
-      readers: { 'public': true },
-      writers: { any_user: true },
+      acl: {
+        read: { 'public': true },
+        write: { any_user: true }
+      },
       auto_subscribe: true
     };
-    api.createChannel(channel, { include_annotations: 1 }, success, failure);
+    api.createChannel(channel, { include_raw: 1 }, success, failure);
   };
 
   api.createShareStorage = function (success, failure)
@@ -347,7 +349,7 @@ function ($, util) {
       type: 'net.share-app.storage',
       auto_subscribe: true
     };
-    api.createChannel(channel, { include_annotations: 1 }, success, failure);
+    api.createChannel(channel, { include_raw: 1 }, success, failure);
   };
 
   // ------------------------------------------------------------------------
@@ -356,29 +358,29 @@ function ($, util) {
 
   // getMessages(channelId, args, success, failure);
   addOne('getMessages', 'GET',
-         'https://alpha-api.app.net/stream/0/channels/', '/messages');
+         'https://api.pnut.io/v0/channels/', '/messages');
 
   // getAllMessages(channelId, args, success, failure);
   addAllOne('getAllMessages', $.proxy(api.getMessages, api));
 
   // createMessage(channelId, newMessage, args, success, failure);
   addDataOne('createMessage', 'POST',
-             'https://alpha-api.app.net/stream/0/channels/', '/messages');
+             'https://api.pnut.io/v0/channels/', '/messages');
 
   // deleteMessage(channelId, messageId, args, success, failure);
   addTwo('deleteMessage', 'DELETE',
-         'https://alpha-api.app.net/stream/0/channels/', '/messages/');
+         'https://api.pnut.io/v0/channels/', '/messages/');
 
   api.shareItem = function (channelId, comment, link, title, content,
                             success, failure)
   {
     var message = {
       text: comment,
-      annotations: [{
+      raw: [{
         type: 'net.share-app.item',
         value: { link: link }
       }, {
-        type: 'net.app.core.oembed',
+        type: 'io.pnut.core.oembed',
         value: {
           type: 'rich',
           version: '1.0',
@@ -390,7 +392,7 @@ function ($, util) {
         }
       }]
     };
-    api.createMessage(channelId, message, { include_annotations: 1 },
+    api.createMessage(channelId, message, { include_raw: 1 },
                       success, failure);
   };
 
@@ -398,7 +400,7 @@ function ($, util) {
   {
     var message = {
       text: 'Subscribed to Feed URL: ' + url,
-      annotations: [{
+      raw: [{
         type: 'net.share-app.subscription',
         value: {
           link: url,
@@ -406,7 +408,7 @@ function ($, util) {
         }
       }]
     };
-    api.createMessage(channelId, message, { include_annotations: 1 },
+    api.createMessage(channelId, message, { include_raw: 1 },
                       success, failure);
   };
 
@@ -416,22 +418,22 @@ function ($, util) {
 
   // createPost(newPost, args, success, failure);
   addData('createPost', 'POST',
-          'https://alpha-api.app.net/stream/0/posts');
+          'https://api.pnut.io/v0/posts');
 
   addOne('getPost', 'GET',
-         'https://alpha-api.app.net/stream/0/posts/');
+         'https://api.pnut.io/v0/posts/');
 
   add('getGlobal', 'GET',
-      'https://alpha-api.app.net/stream/0/posts/stream/global');
+      'https://api.pnut.io/v0/posts/streams/global');
 
   add('getMyStream', 'GET',
-      'https://alpha-api.app.net/stream/0/posts/stream');
+      'https://api.pnut.io/v0/posts/streams/me');
 
   add('getMyUnified', 'GET',
-      'https://alpha-api.app.net/stream/0/posts/stream/unified');
+      'https://api.pnut.io/v0/posts/streams/unified');
 
   addOne('getReplies', 'GET',
-         'https://alpha-api.app.net/stream/0/posts/', '/replies');
+         'https://api.pnut.io/v0/posts/', '/thread');
 
   addAllOne('getAllReplies', $.proxy(api.getReplies, api));
 
@@ -441,26 +443,26 @@ function ($, util) {
 
   // getSubscriptions(args, success, failure);
   add('getSubscriptions', 'GET',
-      'https://alpha-api.app.net/stream/0/channels/');
+      'https://api.pnut.io/v0/users/me/channels/subscribed');
 
   // getAllSubscriptions(args, success, failure);
   addAll('getAllSubscriptions', $.proxy(api.getSubscriptions, api));
 
   // createSubscription(channelId, args, success, failure);
-  addOne('createSubscription', 'POST',
-         'https://alpha-api.app.net/stream/0/channels/', '/subscribe');
+  addOne('createSubscription', 'PUT',
+         'https://api.pnut.io/v0/channels/', '/subscribe');
 
   // deleteSubscription(channelId, args, success, failure);
   addOne('deleteSubscription', 'DELETE',
-         'https://alpha-api.app.net/stream/0/channels/', '/subscribe');
+         'https://api.pnut.io/v0/channels/', '/subscribe');
 
   // muteChannel(channelId, args, success, failure);
-  addOne('muteChannel', 'POST',
-         'https://alpha-api.app.net/stream/0/channels/', '/mute');
+  addOne('muteChannel', 'PUT',
+         'https://api.pnut.io/v0/channels/', '/mute');
 
   // muteChannel(channelId, args, success, failure);
   addOne('unmuteChannel', 'DELETE',
-         'https://alpha-api.app.net/stream/0/channels/', '/mute');
+         'https://api.pnut.io/v0/channels/', '/mute');
 
   // ------------------------------------------------------------------------
   // Files
@@ -468,12 +470,12 @@ function ($, util) {
 
   // createFile(file, args, success, failure);
   addData('createFile', 'POST',
-          'https://alpha-api.app.net/stream/0/files');
+          'https://api.pnut.io/v0/files');
 
 
   // completeFile(fileId, data, args, success, failure);
   addDataOne('completeFile', 'PUT',
-             'https://alpha-api.app.net/stream/0/files/', '/content');
+             'https://api.pnut.io/v0/files/', '/content');
 
   // ------------------------------------------------------------------------
   // Other
@@ -481,10 +483,10 @@ function ($, util) {
 
   // updateMarker(newMarker, args, success, failure);
   addData('updateMarker', 'POST',
-          'https://alpha-api.app.net/stream/0/posts/marker');
+          'https://api.pnut.io/v0/markers');
 
   addData('processText', 'POST',
-          'https://alpha-api.app.net/stream/0/text/process');
+          'https://api.pnut.io/v0/text/process');
 
   api.authorize = function ()
   {

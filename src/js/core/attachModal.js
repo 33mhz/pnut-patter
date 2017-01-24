@@ -3,9 +3,9 @@
 // A dialog box for attaching links, images, files, or pastes to a chat.
 
 /*global define:true */
-define(['jquery', 'util', 'appnet',
+define(['jquery', 'util', 'pnut',
        'js/deps/text!template/attachModal.html'],
-function ($, util, appnet, attachTemplate) {
+function ($, util, pnut, attachTemplate) {
   'use strict';
 
   var attachModal = {};

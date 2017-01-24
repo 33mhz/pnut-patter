@@ -3,10 +3,10 @@
 // A pane showing a scrollable list of chats and posts
 
 /*global define:true */
-define(['jquery', 'underscore', 'util', 'js/options', 'appnet',
+define(['jquery', 'underscore', 'util', 'js/options', 'pnut',
         'js/deps/text!template/post.html', 'js/deps/text!template/postEmoji.html',
         'jquery-desknoty', 'jquery-titlealert'],
-function ($, _, util, options, appnet, postString, emojiTemplate) {
+function ($, _, util, options, pnut, postString, emojiTemplate) {
   'use strict';
 
   var postTemplate = _.template(postString);
@@ -40,7 +40,7 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
         allPosts.append(post);
         last = {
           username: '@' + data[i].user.username,
-          text: util.htmlEncode(data[i].text)
+          text: util.htmlEncode(data[i].content.text)
         };
         this.shownPosts[data[i].id] = 1;
       }
@@ -54,7 +54,7 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
   ChatHistory.prototype.validPost = function (data)
   {
     var result = true;
-    if (! data.text)
+    if (typeof data.is_deleted !== 'undefined')
     {
       result = false;
     }
@@ -73,7 +73,7 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
 
   ChatHistory.prototype.renderPost = function (data)
   {
-    var body = appnet.textToHtml(data.text, data.entities).html();
+    var body = pnut.textToHtml(data.content.text, data.content.entities).html();
     body = embedEmoji(body);
     body = embedNewlines(body);
     var name = '';
@@ -99,7 +99,7 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
     timestamp.attr('title', data.created_at);
     util.formatTimestamp(timestamp);
 
-    if (this.checkMention(data.text))
+    if (this.checkMention(data.content.text))
     {
       post.addClass('mentioned');
     }
@@ -110,7 +110,7 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
 
     return post;
 /*
-    var broadcast = appnet.note.findAnnotation('net.patter-app.broadcast',
+    var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast',
                                                data.annotations);
     if (broadcast !== null)
     {
@@ -138,10 +138,10 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
   function renderEmbedImage(data, post) {
     var hasFound = false;
     var wrapper = post.find('.embedImageWrapper');
-    var notes = data.annotations;
+    var notes = data.raw;
     var i = 0;
     for (i = 0; i < notes.length; i += 1) {
-      if (notes[i].type === 'net.app.core.oembed') {
+      if (notes[i].type === 'io.pnut.core.oembed') {
         var embed = notes[i].value;
         if (embed !== null && embed.type === 'photo') {
           var link = $('<a target="_blank"></a>');
@@ -225,9 +225,9 @@ function ($, _, util, options, appnet, postString, emojiTemplate) {
   {
     var result = false;
     var userMention;
-    if (appnet.user !== null)
+    if (pnut.user !== null)
     {
-      userMention = new RegExp('@' + appnet.user.username + '\\b');
+      userMention = new RegExp('@' + pnut.user.username + '\\b');
       if (userMention.test(post))
       {
         result = true;
