@@ -180,7 +180,7 @@ ul.messageList {
   background-image: url('https://twimg0-a.akamaihd.net/profile_images/1599940394/photo.jpg');
   background-size: 40px 40px;
   display: block;
-  border-radius: 9999px;
+  border-radius: 2px;
   float: left;
   margin-right: 10px;
 }
@@ -249,7 +249,7 @@ ul.messageList {
   height: 32px;
   background-size: 35px 35px;
   background-position: center center;
-  border-radius: 9999px;
+  border-radius: 2px;
   border: 1px solid #363333;
   display: inline-block;
   margin: 7px 0 0 5px;

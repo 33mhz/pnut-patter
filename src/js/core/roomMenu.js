@@ -157,7 +157,7 @@ function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
     }
 
     // Setup archive button
-    var settings = pnut.note.findAnnotation('net.patter-app.settings',
+    var settings = pnut.note.findAnnotation('io.pnut.core.chat-settings',
                                               roomInfo.channel.raw);
     if (roomInfo.channel.acl.read['public'] && settings)
     {

@@ -362,10 +362,10 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       }
       var channel = getPatterAccess($('#edit-room-perm').val(),
                                     names, oldChannel);
-      channel.annotations = getPatterNotes(oldChannel,
+      channel.raw = getPatterNotes(oldChannel,
                                            $('#edit-room-name').val(),
                                            getPromo());
-      pnut.api.updateChannel(oldChannel.id, channel, {include_annotations: 1},
+      pnut.api.updateChannel(oldChannel.id, channel, {include_raw: 1},
                                success, null);
       $('#edit-room-modal').modal('hide');
     }
