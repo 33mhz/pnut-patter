@@ -299,7 +299,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var fallback = {
       type: 'io.pnut.core.fallback_url',
       value: {
-        url: 'http://patter.s3rv.com/room.html?channel=' + channel.id
+        url: 'https://patter.chat/room.html?channel=' + channel.id
       }
     };
     annotations.push(fallback);

@@ -140,7 +140,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
   var broadcastMessage = function (response)
   {
     var postAnnotations = this.raw.slice(0);
-    var url = 'http://patter.s3rv.com/room.html?channel=' + this.chat.channelId;
+    var url = 'https://patter.chat/room.html?channel=' + this.chat.channelId;
     postAnnotations.push({
       type: 'io.pnut.core.crosspost',
       value: {

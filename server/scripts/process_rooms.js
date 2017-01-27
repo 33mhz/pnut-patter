@@ -214,7 +214,7 @@ function updatePosts()
       },{
         type: 'io.pnut.core.crosspost',
         value: {
-          'canonical_url': 'http://patter.s3rv.com/room.html?channel=' + arg.channel
+          'canonical_url': 'https://patter.chat/room.html?channel=' + arg.channel
         }
       }]
     };

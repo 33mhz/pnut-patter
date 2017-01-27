@@ -7,7 +7,7 @@ rooms over pnut.io.
 Although you can run your own private instances, the main deployment
 is located at:
 
-[patter.s3rv.com](http://patter.s3rv.com)
+[patter.chat](https://patter.chat)
 
 ## Setting up patter
 
