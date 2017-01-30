@@ -123,9 +123,9 @@ function ($, util, pnut) {
     var allOk = true;
     for (i = 0; i < keys.length; i += 1)
     {
-      var index = this.memberNames[keys[i]];
+      var index = this.memberNames[keys[i].toString().toLowerCase()];
       $('#' + this.prefix + '-wrapper-' + index).removeClass('error');
-      if (validNames[keys[i]] === undefined)
+      if (validNames[keys[i].toString().toLowerCase()] === undefined)
       {
         allOk = false;
         $('#' + this.prefix + '-wrapper-' + index).addClass('error');

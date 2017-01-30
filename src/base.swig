@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="apple-itunes-app" content="app-id=600033550, affiliate-data=myAffiliateData, app-argument=myURL">
     <title>Patter - A chat client for pnut.io</title>
 
     <link rel="shortcut icon" href="favicon.ico"/>
@@ -64,30 +63,10 @@
           <img src="images/lock-fig.png" alt="You are in control with Patter" width="280" height="347">
         </div>
         <div class="panel-body text-center">
-          <p>Patter is built on <a href="https://pnut.io">pnut.io</a>: the social network <b>for users</b> and not advertisers.</p>
+          <p>Patter is built on <a href="https://pnut.io">pnut.io</a>.</p>
           <p>Your Patter messages are stored only on pnut.io: <b>you decide</b> who can read them.</p>
-          <p>Your messages are kept for as long as you want them</p>
-          <p><b>Download</b> your entire archive at any time from pnut.io</p>
-          <p>If you delete your account, your messages are deleted as well</p>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading text-center">
-          <h1>Mobile Compatibility</h1>
-          <img src="images/mobile-fig.png" alt="Patter is compatible with many mobile apps" width="387" height="320">
-        </div>
-        <div class="panel-body text-center">
-          <p>Patter is compatible with clients on <b>many platforms</b>.</p>
-          <p><b>Android:</b>
-            <a href="https://directory.app.net/app/253/rory-jr/">Rory Jr.</a>, <a href="https://directory.app.net/app/144/robin/">Robin</a>,
-            <a href="https://directory.app.net/app/157/drift/">Drift</a></p>
-          <p><b>iOS:</b>
-            <a href="https://directory.app.net/app/189/patter-for-ios/">Patter for iOS</a>,
-            <a href="https://directory.app.net/app/46/felix/">Felix</a>,
-            <a href="https://directory.app.net/app/125/happy/">hAppy</a>,
-            <a href="https://directory.app.net/app/185/chimp/">Chimp</a></p>
-          <p><b>Windows Phone:</b>
-            <a href="https://directory.app.net/app/27/dotdot/">DotDot</a></p>
+          <p>Your messages are kept for as long as you want them.</p>
+          <p>If you delete your account, your messages are deleted as well.</p>
         </div>
       </div>
       <div class="panel panel-default">
@@ -96,8 +75,8 @@
           <img src="images/open-fig.png" alt="Patter is compatible with many mobile apps" width="320" height="318">
         </div>
         <div class="panel-body text-center">
-          <p>Patter is an <b>open protocol</b> built on app.net (details <a href="https://github.com/appdotnet/object-metadata/blob/master/annotations/net.patter-app.settings.md">here</a> and <a href="https://github.com/appdotnet/object-metadata/blob/master/channel-types/net.patter-app.room.md">here</a>)</p>
-          <p>The Patter web application is <b>open source</b>. You can contribute <a href="https://github.com/patter-app-net/patter">here</a>.</p>
+          <p>Patter uses the <code>io.core.pnut.chat</code> protocol, built on pnut.io.</p>
+          <p>The Patter web application is <b>open source</b>. You can contribute <a href="https://github.com/33mhz/pnut-patter">here</a>.</p>
         </div>
       </div>
       <div class="panel panel-default panel-primary">
@@ -113,9 +92,9 @@
         </div>
       </div>
       <div class="well well-small">
-        <p>For troubleshooting, contact <a href="https://alpha.app.net/duerig">@duerig</a>.</p>
+        <p>For troubleshooting, contact <a href="https://pnut.io/@33mhz">@33MHz</a>.</p>
         <p>Our privacy policy is <a href="http://www.privacychoice.org/policy/mobile?policy=7e57611e9551c6105db81e5c27f3a415">here</a>.</p>
-        <p>Patter interacts with <a href="http://app.net">app.net</a> on your behalf, and any message you create will be subject to their policies.</p>
+        <p>Patter interacts with <a href="https://pnut.io">pnut.io</a> on your behalf, and any message you create will be subject to their policies.</p>
       </div>
     </div>
 

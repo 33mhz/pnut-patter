@@ -83,7 +83,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     $('#edit-room-type').html(roomType);
 
     // Modal subtitle
-    var ownerText = 'Unknown Owner';
+    var ownerText = '';
     if (editRoomChannel !== null && editRoomChannel.owner)
     {
       ownerText = 'Owned by @' + editRoomChannel.owner.username;
@@ -119,9 +119,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     if (editRoomType === 'io.pnut.core.pm') {
       $('#edit-room-perm').attr('disabled', true);
       $('#edit-room-perm').val('private');
-    } else if (editRoomChannel !== null &&
-               (editRoomChannel.acl.write['public'] ||
-                editRoomChannel.acl.write.any_user)) {
+    } else if (editRoomChannel !== null && editRoomChannel.acl.write.any_user) {
       $('#edit-room-perm').val('public');
     } else if (editRoomChannel !== null &&
                (editRoomChannel.acl.read['public'] ||
@@ -256,7 +254,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function getPatterAccess(perm, members, oldChannel)
   {
-    var channel = { auto_subscribe: true };
+    var channel = { auto_subscribe: true, acl: { read:{}, write:{} } };
     if (! oldChannel || ! oldChannel.acl.write.immutable) {
       var canWrite = (perm === 'public');
       var writers = {
@@ -273,10 +271,13 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       var canRead = (perm === 'public' || perm === 'public-read');
       var readers = {
         immutable: false,
-        'public': canRead
+        'public': canRead,
+        any_user: canRead
       };
       channel.acl.read = readers;
     }
+    channel.acl.write.immutable = false;
+    channel.acl.read.immutable = false;
 
     return channel;
   }
@@ -291,18 +292,19 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       type: 'io.pnut.core.chat-settings',
       value: { name: name }
     };
-    if (promo === '') {
-      pnut.api.deleteMessage('1614',
-                               null, null, null);
-    }
+    // if (promo === '') {
+      // pnut.api.deleteMessage('1614',
+                               // null, null, null);
+    // }
     annotations.push(settingsNote);
-    var fallback = {
-      type: 'io.pnut.core.fallback_url',
-      value: {
-        url: 'https://patter.chat/room.html?channel=' + channel.id
-      }
-    };
-    annotations.push(fallback);
+    // [CHANGE] reintroduce once core raw valid
+    // var fallback = {
+      // type: 'io.pnut.core.fallback_url',
+      // value: {
+        // url: 'https://patter.chat/room.html?channel=' + channel.id
+      // }
+    // };
+    // annotations.push(fallback);
     return annotations;
   }
 
@@ -360,8 +362,10 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       {
         success = callback;
       }
+
       var channel = getPatterAccess($('#edit-room-perm').val(),
                                     names, oldChannel);
+
       channel.raw = getPatterNotes(oldChannel,
                                            $('#edit-room-name').val(),
                                            getPromo());
@@ -402,12 +406,23 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var context = {
       names: names
     };
+    var access = $('#edit-room-perm').val();
     var channel = {
       type: 'io.pnut.core.chat'
     };
+    if (access === 'public') {
+      channel.acl = {write:{any_user:true},read:{public:true}};
+    } else if (access === 'public-read') {
+      channel.acl = {write:{any_user:false,user_ids:names},read:{any_user:true,public:false}};
+    } else if (access === 'private') {
+      channel.acl = {write:{any_user:false,user_ids:names},read:{public:false}};
+    }
+    channel.raw = getPatterNotes(channel,
+                            $('#edit-room-name').val(),
+                            getPromo());
     pnut.api.createChannel(channel, { include_raw: 1 },
-                             $.proxy(completeCreatePatter, context),
-                             $.proxy(failCreatePatter, context));
+                            $.proxy(completeCreatePatter, context),
+                            $.proxy(failCreatePatter, context));
   }
 
   var completeCreatePatter = function (response)

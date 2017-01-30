@@ -38,11 +38,11 @@ define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
     }
     for (i = 0; i < keyList.length; i += 1)
     {
-      delete this.members[keyList[i]];
+      delete this.members[keyList[i].toString().toLowerCase()];
     }
     if (owner)
     {
-      this.members[owner.username] = owner;
+      this.members[owner.username.toString().toLowerCase()] = owner;
     }
     if (pnut.isLogged() && roomInfo.channel.acl.write.user_ids.length > 0)
     {
@@ -80,7 +80,7 @@ define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
     var i = 0;
     for (i = 0; i < response.data.length; i += 1)
     {
-      roomInfo.members[response.data[i].username] = response.data[i];
+      roomInfo.members[response.data[i].username.toString().toLowerCase()] = response.data[i];
     }
 
     if (roomInfo.changeCallback)
