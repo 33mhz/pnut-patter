@@ -95,11 +95,6 @@
       <div class="well well-small">
         <p>For troubleshooting, contact <a href="https://pnut.io/@33MHz">@33MHz</a>. In-room design by <a href="http://alpha.app.net/zenimpulse">@zenimpulse</a>. Patter for iOS was created by <a href="http://alpha.app.net/boxenjim">@boxenjim</a>. The Patter logo was created by <a href="https://pnut.io/@tellingtales">@tellingtales</a>.</p>
       </div>
-      <div class="well well-small">
-        
-
-      </div>
-
 
           </div>
           <div id="rooms" class="tab-pane">
