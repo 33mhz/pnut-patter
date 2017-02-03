@@ -51,8 +51,8 @@
           <li id="home-tab" class="active"><a href="#home" data-toggle="tab">Home</a></li>
           <li id="room-tab" style="display: none"><a id="room-tab-link" href="#rooms" data-toggle="tab">My Rooms <span class="badge" style="display: none" id="unread"></span></a></li>
           <li id="pm-tab" style="display: none"><a id="pm-tab-link" href="#pms" data-toggle="tab">Private Messages <span class="badge" style="display: none" id="unread"></span></a></li>
-          <li id="public-tab" style="display: none"><a id="public-tab-link" href="#public" data-toggle="tab">Public Rooms</a></li>
-          <li id="search-tab" style="display: none"><a id="search-tab-link" href="#search" data-toggle="tab">Search</a></li>
+          <!--<li id="public-tab" style="display: none"><a id="public-tab-link" href="#public" data-toggle="tab">Public Rooms</a></li>
+          <li id="search-tab" style="display: none"><a id="search-tab-link" href="#search" data-toggle="tab">Search</a></li>-->
         </ul>
         <div class="tab-content">
           <div id="home" class="tab-pane active">
