@@ -397,8 +397,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   var completeBlurb = function (response)
   {
-    changePatterChannel(this.channel, this.names, response.data.id,
-                        this.callback);
+    changePatterChannel(this.channel, this.names, this.callback);
   };
 
   function createPatterChannel(names)
@@ -428,7 +427,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
   var completeCreatePatter = function (response)
   {
     if (getPromo() === '') {
-      changePatterChannel(response.data, this.names, null, redirectToChannel);
+      changePatterChannel(response.data, this.names, redirectToChannel);
     }
   };
 
