@@ -69,7 +69,7 @@ function ($, moment)
       client_id: clientId,
       response_type: 'token',
       redirect_uri: uri,
-      scope: ['messages', 'write_post'].join(' ')
+      scope: ['messages:io.pnut.core.chat', 'messages:io.pnut.core.pm', 'write_post'].join(' ')
     };
 
     if (state) {
