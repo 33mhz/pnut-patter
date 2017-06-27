@@ -70,7 +70,7 @@
                   </div>
                   <br>
                   <div class="row well well-small">
-                  <div class="col-md-3"><a href="https://patter.chat/room.html?channel=964" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
+                  <div class="col-md-3"><a href="https://patter.chat/room.html?channel=585" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
                   </div>
                 </div>
                 <div id="loading-home">
