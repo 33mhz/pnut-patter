@@ -161,14 +161,14 @@ function ($, util, pnut, attachModal, chatTemplate) {
     var promo = ' \n\n' + this.chat.channelName + ' <=>';
     if (text.length + promo.length <= 256)
     {
-      var links = response.data.content.entities.links;
+      var links = response.data.links;
       if (! links)
       {
         links = [];
       }
       links.push({
         text: '<=>',
-        url: url,
+        link: url,
         pos: text.length + promo.length - 3,
         len: 3
       });

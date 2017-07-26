@@ -82,7 +82,6 @@ function ($, moment)
   util.makeAuthorizeUrl = function (state) {
     var params = util.urlParams(state);
 
-    console.log(params);
     return 'https://pnut.io/oauth/authenticate?' + $.param(params);
   };
 
