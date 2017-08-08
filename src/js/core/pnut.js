@@ -82,8 +82,8 @@ function ($, util, api, note) {
       {
         link.addClass('hashtag');
         link.attr('href',
-                  'https://pnut.io/hashtags/' +
-                  util.htmlEncode(entity.name));
+                  'https://pnut.io/tags/' +
+                  util.htmlEncode(entity.text));
         link.append(util.htmlEncode('#' + entity.text));
       }
       else if (entities[i].type === 'links')
