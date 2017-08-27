@@ -77,7 +77,7 @@ function ($, util, pnut) {
     var foundName = false;
     var i = 0;
     for (i = 0; i < this.fieldCount; i += 1) {
-      var newName = $('#' + this.prefix + '-input-' + i).val();
+      var newName = $('#' + this.prefix + '-input-' + i).val().trim();
       if (newName.substr(0, 1) !== '@')
       {
         newName = '@' + newName.toLowerCase();

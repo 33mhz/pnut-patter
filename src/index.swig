@@ -23,6 +23,7 @@
       <div id="compose" class="dropdown">
         <ul class="dropdown-menu" role="menu">
           <li role="presentation"><a role="menuitem" id="compose-pm" href="#" data-toggle="dropdown" data-target="#compose">Send Private Message</a></li>
+          <!--<li role="presentation"><a role="menuitem" id="lookup-pm" href="#" data-toggle="dropdown" data-target="#compose">Lookup Private Message</a></li>-->
           <li role="presentation"><a role="menuitem" id="compose-room" href="#" data-toggle="dropdown" data-target="#compose">Create Room</a></li>
         </ul>
       </div>

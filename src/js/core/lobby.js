@@ -84,6 +84,7 @@ function ($, pnut, util, options, editRoomModal,
       editRoomModal.show();
     });
     $('#compose-pm').on('click', clickPm);
+    $('#lookup-pm').on('click', clickPm);
     $('#new-send-pm').on('click', clickPm);
     $('#new-find-rooms').on('click', function (event) {
       event.preventDefault();
