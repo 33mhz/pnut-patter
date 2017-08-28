@@ -212,7 +212,7 @@ function ($, pnut, util, options, editRoomModal,
       {
         event.preventDefault();
       }
-      searchFor(text);
+      clickKeyword(text);
       return false;
     };
   }
@@ -247,8 +247,17 @@ function ($, pnut, util, options, editRoomModal,
 
   function searchFor(text)
   {
-    searches.reset(searches.searchMethod, { query: text },
+    searches.reset(searches.searchMethod, { q: text },
                    'Search Results for "' + text + '"');
+    $('#search-tab').show();
+    $('#search-tab-link').tab('show');
+    searches.fetchMore();
+  }
+
+  function clickKeyword(text)
+  {
+    searches.reset(searches.searchChannelMethod, { categories: text },
+                   'Channels in category: "' + text + '"');
     $('#search-tab').show();
     $('#search-tab-link').tab('show');
     searches.fetchMore();
@@ -307,7 +316,7 @@ function ($, pnut, util, options, editRoomModal,
     event.preventDefault();
     searches.reset(searches.searchChannelMethod,
                    { q: '',
-                     is_public: true,
+                     is_public: 1,
                      order: 'activity' },
                    'All Public Active Rooms');
     $('#search-tab').show();
@@ -320,7 +329,7 @@ function ($, pnut, util, options, editRoomModal,
     event.preventDefault();
     searches.reset(searches.searchChannelMethod,
                    { q: '',
-                     is_public: true,
+                     is_public: 1,
                      order: 'popularity' },
                    'All Public Popular Rooms');
     $('#search-tab').show();

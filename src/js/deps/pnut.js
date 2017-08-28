@@ -202,6 +202,16 @@ if (typeof module !== 'undefined')
         "content":         "content",
         "marker":          [ "id", "name", "percentage" ],
         "post_or_message": [ "text" ],
+        "post_search":     [ "index", "order", "query", "text", "hashtags", "links",
+            "link_domains", "mentions", "leading_mentions",
+            "annotation_types", "attachment_types", "crosspost_url",
+            "crosspost_domain", "place_id", "is_reply", "is_directed",
+            "has_location", "has_checkin", "is_crosspost",
+            "has_attachment", "has_oembed_photo", "has_oembed_video",
+            "has_oembed_html5video", "has_oembed_rich", "language",
+            "client_id", "creator_id", "reply_to", "thread_id" ],
+        "user_search":     [ "q", "count" ],
+        "channel_search": [ "order", "q", "type", "creator_id", "tags" ],
         "user_ids":    [ "ids" ],
         "post_ids":    [ "ids" ],
         "channel_ids": [ "ids" ],
@@ -482,6 +492,23 @@ if (typeof module !== 'undefined')
             "scope": "basic",
             "description": "Retrieve multiple Users",
             "link": "http://developers.app.net/docs/resources/user/lookup/#retrieve-multiple-users"
+        },
+        {
+            "id": "113",
+            "group": "user",
+            "name": "search",
+            "url_params": [],
+            "data_params": [],
+            "array_params": [],
+            "get_params": [ "user_search", "general_user" ],
+            "method": "GET",
+            "url": [
+                "users/search"
+            ],
+            "token": "Any",
+            "scope": "basic",
+            "description": "Search for Users",
+            "link": "http://developers.app.net/docs/resources/user/lookup/#search-for-users"
         },
         {
             "id": "114",
@@ -890,6 +917,23 @@ if (typeof module !== 'undefined')
             "link": "http://developers.app.net/docs/resources/post/streams/#retrieve-the-global-stream"
         },
         {
+            "id": "217",
+            "group": "post",
+            "name": "search",
+            "url_params": [],
+            "data_params": [],
+            "array_params": [],
+            "get_params": [ "post_search", "general_post" ],
+            "method": "GET",
+            "url": [
+                "posts/search"
+            ],
+            "token": "Any",
+            "scope": "basic",
+            "description": "Search for Posts",
+            "link": "http://developers.app.net/docs/resources/post/search/#search-for-posts"
+        },
+        {
             "id": "300",
             "group": "channel",
             "name": "getUserSubscribed",
@@ -1134,6 +1178,23 @@ if (typeof module !== 'undefined')
             "scope": "messages",
             "description": "Get current user's muted Channels",
             "link": "http://developers.app.net/docs/resources/channel/muting/#get-current-users-muted-channels"
+        },
+        {
+            "id": "315",
+            "group": "channel",
+            "name": "search",
+            "url_params": [],
+            "data_params": [],
+            "array_params": [],
+            "get_params": [ "channel_search", "general_channel" ],
+            "method": "GET",
+            "url": [
+                "channels/search"
+            ],
+            "token": "User",
+            "scope": "public_messages",
+            "description": "Search for Channels",
+            "link": "http://developers.app.net/docs/resources/channel/search/#search-for-channels"
         },
         {
             "id": "400",

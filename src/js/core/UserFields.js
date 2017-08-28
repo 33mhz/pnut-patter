@@ -31,7 +31,7 @@ function ($, util, pnut) {
                     this.fieldCount +
                     '" class="input-append control-group pull-left"/>');
     newItem.append('<input id="' + this.prefix + '-input-' + this.fieldCount +
-                   '" class="input" type="text" placeholder="@user">');
+                   '" class="input" type="text" placeholder="username">');
     newItem.append('<button tabindex="-1" id="' + this.prefix + '-remove-' +
                    this.fieldCount +
                    '" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i></button>');

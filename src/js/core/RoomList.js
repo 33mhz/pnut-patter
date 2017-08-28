@@ -106,40 +106,27 @@ function ($, _, Backbone, allChannels, allUsers)
     },
 
     searchChannelMethod: function () {
-      this.get('params').include_raw = 1;
-      this.get('params').include_recent_message = 1;
-      this.get('params').type = 'net.patter-app.room';
+      this.get('params').include_channel_raw = 1;
+      this.get('params').type = 'io.pnut.core.chat';
       var promise = $.pnut.channel.search(this.get('params'));
       return promise.then(updateMeta(this));
     },
 
     subscriptionMethod: function () {
-      this.get('params').include_raw = 1;
-      this.get('params').include_recent_message = 1;
+      this.get('params').include_channel_raw = 1;
       var promise = $.pnut.channel.getUserSubscribed(this.get('params'));
       return promise.then(updateMeta(this));
     },
 
     activeMethod: function () {
-      var that = this;
-      this.get('params').include_raw = 1;
-      this.get('params').include_recent_message = 1;
-      var promise = $.pnut.core.call('/recent',
-                                       'GET', this.get('params'));
-      return promise.then(updateMeta(this)).then(function (response) {
-        var ids = [];
-        var i = 0;
-        for (i = 0; i < response.data.length; i += 1)
-        {
-          ids.push(response.data[i].id);
-        }
-
-        return $.pnut.channel.getList(ids, { include_raw: 1,
-                                               include_recent_message: 1 });
-      });
+      this.get('params').include_channel_raw = 1;
+      this.get('params').is_public = 1;
+      var promise = $.pnut.channel.search(this.get('params'));
+      return promise.then(updateMeta(this));
     },
 
     searchMethod: function () {
+      // broken
       this.get('params').include_raw = 1;
       this.get('params').creator_id = '137703';
       var promise = $.pnut.post.search(this.get('params'));
@@ -149,6 +136,7 @@ function ($, _, Backbone, allChannels, allUsers)
     },
 
     recentlyCreatedMethod: function () {
+      // broken
       this.get('params').include_deleted = 0;
       this.get('params').include_raw = 1;
       var promise = $.pnut.post.getUser('@patter_rooms', this.get('params'));
@@ -194,7 +182,7 @@ function ($, _, Backbone, allChannels, allUsers)
       }
     }
     var params = {
-      include_raw: 1,
+      include_channel_raw: 1,
       include_recent_message: 1
     };
     return $.pnut.channel.getList(channelList, params);
