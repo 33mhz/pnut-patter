@@ -7,11 +7,9 @@
     <link rel="shortcut icon" href="favicon.ico"/>
     {% block css %}
     {% endblock %}
-    <link rel="stylesheet" style="text/css"
-          href="/css/bootstrap/readable.min.css">
+    <link rel="stylesheet" style="text/css" href="/css/bootstrap/readable.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="/js/core/config.js"></script>
-    <!--<script src="//d2zh9g63fcvyrq.cloudfront.net/adn.js"></script>-->
     {% block javascript %}
     {% endblock %}
   </head>
@@ -39,6 +37,7 @@
             <li><button type="button" class="btn btn-primary navbar-btn"
                         id="authorize-menu"
                         style="margin-top: 8px; margin-right: 8px;">Login or Signup</button></li>
+          </ul>
         </div>
       </nav>
       <br><br><br>

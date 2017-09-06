@@ -60,6 +60,19 @@ function ($, util, api, note) {
   };
 
 
+  pnut.htmlToHtml = function (content)
+  {
+    var result = content.html;
+    for (var index = content.entities.mentions.length-1; index >= 0; index=index-1) {
+      result = result.replace(new RegExp('(^|[^@\\w])@(' + content.entities.mentions[index].text +')\\b', 'ig'), '$1<a href="https://pnut.io/@$2" target="_blank" class="mention">@$2</a>');
+    }
+    for (index = content.entities.tags.length-1; index >= 0; index=index-1) {
+      var tag = content.entities.tags[index].text;
+      result = result.replace(new RegExp('<span data-tag-name=\"'+tag+'\" itemprop=\"tag\">#'+tag+'</span>', 'ig'), '<a href="https://pnut.io/tags/'+tag+'" target="_blank" class="hashtag">#'+tag+'</a>');
+    }
+    return result;
+  };
+
   pnut.textToHtml = function (text, entitiesIn)
   {
     var result = $('<div/>');

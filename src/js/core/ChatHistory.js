@@ -73,7 +73,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
 
   ChatHistory.prototype.renderPost = function (data)
   {
-    var body = pnut.textToHtml(data.content.text, data.content.entities).html();
+    // var body = pnut.textToHtml(data.content.text, data.content.entities).html();
+    var body = pnut.htmlToHtml(data.content);
     body = embedEmoji(body);
     body = embedNewlines(body);
     var name = '';

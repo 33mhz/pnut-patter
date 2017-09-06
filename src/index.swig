@@ -3,10 +3,8 @@
 {% block css %}
   <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
   <link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-  <link rel="stylesheet" style="text/css"
-        href="/css/jqcloud.css">
-  <link rel="stylesheet" style="text/css"
-        href="/css/lobby.css">
+  <link rel="stylesheet" style="text/css" href="/css/jqcloud.css">
+  <link rel="stylesheet" style="text/css" href="/css/lobby.css">
 {% endblock %}
 
 {% block javascript %}

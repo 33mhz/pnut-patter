@@ -9,7 +9,7 @@
 (function () {
   var styles = [
     'https://fonts.googleapis.com/css?family=Cabin:400,400italic|Open+Sans:400italic,400',
-    '/css/reset.css',
+    '/css/normalize.css',
     '/css/style.css'
   ];
 
