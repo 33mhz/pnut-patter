@@ -7,7 +7,7 @@ var recent = require('./recent');
 
 var app = express();
 
-app.get('/room.html', room.execute);
+app.get('/room', room.execute);
 app.get('/embed.html', room.execute);
 app.get('/archive.html', archive.execute);
 app.get('/recent', recent.execute);

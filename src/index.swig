@@ -8,11 +8,11 @@
 {% endblock %}
 
 {% block javascript %}
-<script data-main="js/core/lobby" src="/js/deps/require-jquery.js"></script>
+<script data-main="/js/core/lobby" src="/js/deps/require-jquery.js"></script>
 {% endblock %}
 {% block body  %}
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="index.html" data-toggle="dropdown" data-target="#compose"><span class="ss-standard ss-icon white-icon" style="color: white">plus</span></a>
+      <a id="lobby_btn" class="header_btn" href="/" data-toggle="dropdown" data-target="#compose"><span class="ss-standard ss-icon white-icon" style="color: white">plus</span></a>
 
       <div id="logo"></div>
 
@@ -47,7 +47,7 @@
 
       <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-          <li id="home-tab" class="active"><a href="#home" data-toggle="tab">Home</a></li>
+          <li id="home-tab" class="active"><a href="#home" data-toggle="tab">Unread</a></li>
           <li id="room-tab" style="display: none"><a id="room-tab-link" href="#rooms" data-toggle="tab">My Rooms <span class="badge" style="display: none" id="unread"></span></a></li>
           <li id="pm-tab" style="display: none"><a id="pm-tab-link" href="#pms" data-toggle="tab">Private Messages <span class="badge" style="display: none" id="unread"></span></a></li>
           <li id="public-tab" style="display: none"><a id="public-tab-link" href="#public" data-toggle="tab">Public Rooms</a></li>
@@ -69,7 +69,7 @@
                   </div>
                   <br>
                   <div class="row well well-small">
-                  <div class="col-md-3"><a href="https://patter.chat/room.html?channel=585" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
+                  <div class="col-md-3"><a href="https://patter.chat/room/585" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
                   </div>
                 </div>
                 <div id="loading-home">
@@ -120,6 +120,6 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="fonts/ss-social.js"></script>
+  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+  <script type="text/javascript" src="/fonts/ss-social.js"></script>
 {% endblock %}

@@ -44,7 +44,7 @@ function ($, _, Backbone)
       this.trigger('actionBegin');
       var id = this.get('channel').id;
       var options = {
-        include_raw: 1,
+        include_channel_raw: 1,
         include_recent_message: 1
       };
       var that = this;

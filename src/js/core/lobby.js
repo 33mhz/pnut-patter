@@ -441,7 +441,7 @@ function ($, pnut, util, options, editRoomModal,
   {
     event.preventDefault();
     delete localStorage.patter2Token;
-    util.redirect('index.html');
+    util.redirect('/');
     return false;
   }
 

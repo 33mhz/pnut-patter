@@ -1412,7 +1412,7 @@ if (typeof module !== 'undefined')
 /*
  * core.js
  *
- * Core functions for calling the app.net API via ajax.
+ * Core functions for calling the pnut.io API via ajax.
  *
  */
 

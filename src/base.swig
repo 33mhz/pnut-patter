@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Patter - A chat client for pnut.io</title>
 
-    <link rel="shortcut icon" href="favicon.ico"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
     {% block css %}
     {% endblock %}
     <link rel="stylesheet" style="text/css" href="/css/bootstrap/readable.min.css">
@@ -29,7 +29,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand patter-logo" href="index.html"><img src="images/patter-logo-alt.png" width="70" height="15"></a>
+          <a class="navbar-brand patter-logo" href="/"><img src="images/patter-logo-alt.png" width="70" height="15"></a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">

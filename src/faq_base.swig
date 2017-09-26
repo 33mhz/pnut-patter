@@ -9,7 +9,7 @@
 
 {% block faq_header %}
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="index.html"><span class="ss-standard ss-icon white-icon">home</span></a>
+      <a id="lobby_btn" class="header_btn" href="/"><span class="ss-standard ss-icon white-icon">home</span></a>
       <div id="logo"></div>
     </header>
     <br><br><br>
@@ -24,6 +24,6 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="fonts/ss-social.js"></script>
+  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+  <script type="text/javascript" src="/fonts/ss-social.js"></script>
 {% endblock %}

@@ -47,7 +47,7 @@
   window.PATTER.unique_id = Math.random().toString(36).slice(2);
 </script>
 <script src="/js/core/config.js"></script>
-<script data-main="js/core/room" src="/js/deps/require-jquery.js"></script>
+<script data-main="/js/core/room" src="/js/deps/require-jquery.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -70,6 +70,6 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="fonts/ss-social.js"></script>
+  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+  <script type="text/javascript" src="/fonts/ss-social.js"></script>
 {% endblock %}

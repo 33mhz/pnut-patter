@@ -100,15 +100,24 @@ function () {
 
   function getUrlVars()
   {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    var i = 0;
-    for (i = 0; i < hashes.length; i += 1)
-    {
-      hash = hashes[i].split('#');
-      hash = hash[0].split('=');
-      vars.push(hash[0]);
-      vars[hash[0]] = hash[1];
+    if (window.location.href.indexOf('?') !== -1) {
+      var vars = [], hash;
+      var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+      var i = 0;
+      for (i = 0; i < hashes.length; i += 1)
+      {
+        hash = hashes[i].split('#');
+        hash = hash[0].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+      }
+    } else {
+      var vars = [];
+      var hashes = window.location.href.split('/');
+      if (typeof hashes[3] !== 'undefined' && hashes[3] == 'room' && typeof hashes[4] !== 'undefined') {
+        vars.push('channel');
+        vars.channel = hashes[4];
+      }
     }
     return vars;
   }
@@ -127,8 +136,6 @@ function () {
     while (e = r.exec(q)) {
       hashParams[d(e[1])] = d(e[2]);
     }
-
-
     return hashParams;
   }
 

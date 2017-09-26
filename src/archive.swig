@@ -22,12 +22,12 @@
   <div class="container">
     <div class="navbar navbar-default">
       <div class="navbar-header">
-        <a class="navbar-brand patter-logo" style="padding: 8px 20px 1px;" href="index.html"><img src="/images/patter-logo-alt.png" width="70" height="15"></a>
+        <a class="navbar-brand patter-logo" style="padding: 8px 20px 1px;" href="/"><img src="/images/patter-logo-alt.png" width="70" height="15"></a>
       </div>
     </div>
     <div class="page-header"><h1><%- name %></h1></div>
     <p><%- blurb %> </p>
-    <p><% if (channelId) { %><a href="room.html?channel=<%- channelId %>" class="btn btn-primary">Chat Live</a><% } %></p>
+    <p><% if (channelId) { %><a href="room/<%- channelId %>" class="btn btn-primary">Chat Live</a><% } %></p>
 
     <% if (hasOlder) { %>
       <a href="<%= olderUrl %>" class="btn btn-default">Older</a>
@@ -65,8 +65,8 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="fonts/ss-social.js"></script>
+  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+  <script type="text/javascript" src="/fonts/ss-social.js"></script>
   <script>
     (function ()
     {

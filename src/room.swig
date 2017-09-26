@@ -51,7 +51,7 @@
     }
   </script>
   <script src="/js/core/config.js"></script>
-  <script data-main="js/core/room" src="/js/deps/require-jquery.js"></script>
+  <script data-main="/js/core/room" src="/js/deps/require-jquery.js"></script>
 {% endblock %}
 
 {% block server %}
@@ -89,7 +89,7 @@
             <p id="fail-body"></p>
           </div>
           <div class="modal-footer">
-            <a href="index.html" class="btn btn-primary">Return to Lobby</a>
+            <a href="/" class="btn btn-primary">Return to Lobby</a>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@
 
   <div id="container" style="display: none">
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="index.html"><span class="ss-standard ss-icon white-icon">home</span></a>
+      <a id="lobby_btn" class="header_btn" href="/"><span class="ss-standard ss-icon white-icon">home</span></a>
       <div id="logo"></div>
       <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><span class="ss-standard ss-icon white-icon">gear</span></a>
       <div id="settings" class="dropdown pull-right">
@@ -153,6 +153,6 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="fonts/ss-social.js"></script>
+  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+  <script type="text/javascript" src="/fonts/ss-social.js"></script>
 {% endblock %}

@@ -181,6 +181,8 @@ ul.messageList {
     right: 10px;
     top: 50%;
     margin-top: -14px;
+    background-color:#eee;
+    border-radius:2px;
 }
 #users {
   width: 20%;

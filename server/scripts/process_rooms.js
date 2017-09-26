@@ -11,13 +11,13 @@ function execute()
 
   pnut.authorize(config.patter_token);
 
-  var promise = pnut.all.getUserPosts('me', { include_deleted: 0, include_raw: 1 });
+  var promise = pnut.all.getUserPosts('me', { include_deleted: 0, include_post_raw: 1 });
   promise.then(function (buffer) {
     processUser(buffer);
-    return pnut.all.getMessages('1614', { include_deleted: 0, include_raw: 1 });
+    return pnut.all.getMessages('1614', { include_deleted: 0, include_message_raw: 1 });
   }).then(function (buffer) {
     var channels = getChannels(buffer);
-    return pnut.all.getChannelList(channels, { include_raw: 1 });
+    return pnut.all.getChannelList(channels, { include_channel_raw: 1 });
   }).then(function (buffer) {
     processChannels(buffer);
     checkPosts();
@@ -113,7 +113,7 @@ function getChannels(response)
 }
 
 function processChannels(response)
-{ 
+{
   console.log('processChannels');
   var i = 0;
   for (i = 0; i < response.data.length; i += 1)
@@ -206,7 +206,7 @@ function updatePosts()
     var arg = newPosts.pop();
     var post = {
       text: arg.text,
-      annotations: [{
+      raw: [{
         type: 'io.pnut.core.channel.invite',
         value: {
           'channel_id': arg.channel
@@ -214,7 +214,7 @@ function updatePosts()
       },{
         type: 'io.pnut.core.crosspost',
         value: {
-          'canonical_url': 'https://patter.chat/room.html?channel=' + arg.channel
+          'canonical_url': 'https://patter.chat/room/' + arg.channel
         }
       }]
     };
