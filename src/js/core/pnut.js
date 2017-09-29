@@ -63,8 +63,10 @@ function ($, util, api, note) {
   pnut.htmlToHtml = function (content)
   {
     var result = content.html;
-    for (var index = content.entities.mentions.length-1; index >= 0; index=index-1) {
-      result = result.replace(new RegExp('(^|[^@\\w])@(' + content.entities.mentions[index].text +')\\b', 'ig'), '$1<a href="https://pnut.io/@$2" target="_blank" class="mention">@$2</a>');
+    var index;
+    for (index = content.entities.mentions.length-1; index >= 0; index=index-1) {
+      var mention = content.entities.mentions[index].text;
+      result = result.replace(new RegExp('<span data-mention-id=\"[0-9]+?\" data-mention-name=\"'+mention+'\" itemprop=\"mention\">@'+mention+'</span>', 'ig'), '<a href="https://pnut.io/@'+mention+'" target="_blank" class="mention">@'+mention+'</a>');
     }
     for (index = content.entities.tags.length-1; index >= 0; index=index-1) {
       var tag = content.entities.tags[index].text;

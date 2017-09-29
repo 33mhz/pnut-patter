@@ -27,7 +27,7 @@
     </div>
     <div class="page-header"><h1><%- name %></h1></div>
     <p><%- blurb %> </p>
-    <p><% if (channelId) { %><a href="room/<%- channelId %>" class="btn btn-primary">Chat Live</a><% } %></p>
+    <p><% if (channelId) { %><a href="/room/<%- channelId %>" class="btn btn-primary">Chat Live</a><% } %></p>
 
     <% if (hasOlder) { %>
       <a href="<%= olderUrl %>" class="btn btn-default">Older</a>
