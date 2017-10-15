@@ -16,7 +16,7 @@
   <% } else { %>
     <% _.each(thumbs, function (thumb) { %>
       <img class="avatarImg img-rounded" width="40" height="40"
-           src="<%- thumb.avatar %>" alt="Avatar for @<%- thumb.user %>">
+           src="<%- thumb.avatar %>?w=80" alt="Avatar for @<%- thumb.user %>">
     <% }); %>
   <% } %>
 </td>
