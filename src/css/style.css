@@ -83,8 +83,6 @@ footer {
   width: 100%;
   position: absolute;
   top: 50px;
-  /*background-image: url('../images/room_avatar.jpg');
-  background-size: 100% 100%;*/
   color: #fff;
   background-color:#332828;
   box-shadow: inset 1px 0px 5px rgba(0, 0, 0, 0.5);
@@ -94,7 +92,6 @@ footer {
   font-weight: 500;
   font-size: 24px;
   position: absolute;
-/*  bottom: 15px;*/
   bottom: 0;
   left: 15px;
   white-space:nowrap;
@@ -122,7 +119,6 @@ ul.messageList {
 #messages {
   width: 80%;
   position: absolute;
-/*  top: 135px;*/
   top:95px;
   bottom: 50px;
   left: 0;
@@ -132,11 +128,9 @@ ul.messageList {
 #messages .message {
   width: auto;
   margin: 0 auto 2px auto;
-/*  min-height: 60px;*/
   min-height: 50px;
   background-color: #eeeeee;
   position: relative;
-/*  padding: 5px;*/
   padding: 2px;
   padding-left: 5px;
 }
@@ -159,7 +153,6 @@ ul.messageList {
 #messages .message .userTag .userPic {
   width: 40px;
   height: 40px;
-  /*background-image: url('https://twimg0-a.akamaihd.net/profile_images/1599940394/photo.jpg');*/
   background-size: 40px 40px;
   display: block;
   border-radius: 2px;
@@ -167,9 +160,7 @@ ul.messageList {
   margin-right: 10px;
 }
 #messages .message .messageContent {
-  /*max-width: 800px;*/
   padding: 10px 0 10px 0;
-  /*min-width: 200px;*/
   line-height: 24px;
 }
 #messages .message .username .author {
@@ -177,18 +168,11 @@ ul.messageList {
 }
 .postTimestamp {
     font-family: 'Open Sans';
-    /*position: absolute;
-    right: 10px;
-    top: 50%;
-    margin-top: -14px;
-    background-color:#eee;
-    border-radius:2px;*/
     float:right;
 }
 #users {
   width: 20%;
   position: absolute;
-/*  top: 135px;*/
   top: 95px;
   bottom: 50px;
   right: 0;
@@ -215,22 +199,15 @@ ul.messageList {
 #users .me {
   background-color: #4d3637;
 }
-#users .me .userPic {
-  /*background-image: url('https://twimg0-a.akamaihd.net/profile_images/1599940394/photo.jpg');*/
-}
 #users .inactive {
   background-color: #a6a6a6;
   color: #d9d9d9;
 }
 #users .inactive .userPic {
   opacity: 0.5;
-  /*background-image: url('https://d2rfichhc2fb9n.cloudfront.net/image/5/lH84xoxrN_7ADeqOHap_fuY9N6R7InMiOiJzMyIsImIiOiJhZG4tdXNlci1hc3NldHMiLCJrIjoiYXNzZXRzL3VzZXIvNTkvODEvMTAvNTk4MTEwMDAwMDAwMDAwMC5wbmciLCJvIjoiIn0?h=114&w=114');*/
 }
 #users .inactive.me {
   background-color: #968c8c;
-}
-#users .inactive.me .userPic {
-  /*background-image: url('https://twimg0-a.akamaihd.net/profile_images/1599940394/photo.jpg');*/
 }
 #users .userPic {
   width: 32px;
@@ -244,7 +221,6 @@ ul.messageList {
   overflow: hidden;
   box-sizing: content-box;
   font-weight: 300;
-  /*background-image: url('https://d2rfichhc2fb9n.cloudfront.net/image/5/KzfZTPcPxSdLf9EAHZXtg7exEOl7InMiOiJzMyIsImIiOiJhZG4tdXNlci1hc3NldHMiLCJrIjoiYXNzZXRzL3VzZXIvZDcvNjcvMjAvZDc2NzIwMDAwMDAwMDAwMC5qcGciLCJvIjoiIn0?h=114&w=114');*/
 }
 #users .username {
   display: inline-block;
@@ -260,8 +236,6 @@ ul.messageList {
   display: block;
 }
 #chatInput a {
-/*  width: 60px;
-    margin: 5px;*/
   max-width:60px;
   width: 12%;
   margin: 5px 0;
@@ -283,7 +257,6 @@ ul.messageList {
 }
 #chatInput #chatBox {
   border: 1px solid #000;
-/*  width: 74%;*/
   width: 70%;
   height: 40px;
   resize: none;
