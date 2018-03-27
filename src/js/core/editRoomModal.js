@@ -141,12 +141,12 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     if (settings.description)
     {
       $('#edit-room-promo-text').val(settings.description);
-      $('#edit-room-promote').attr('checked', 'checked');
+      // $('#edit-room-promote').attr('checked', 'checked');
     }
     else
     {
       $('#edit-room-promo-text').val('');
-      $('#edit-room-promote').removeAttr('checked');
+      // $('#edit-room-promote').removeAttr('checked');
     }
 
     if (settings.categories)
@@ -222,9 +222,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
         if (editRoomChannel === null) {
           createPatterChannel(names);
         } else {
-          if (getPromo() === '') {
-            changePatterChannel(editRoomChannel, names);
-          }
+          changePatterChannel(editRoomChannel, names);
         }
       }
       $('#edit-room-modal').modal('hide');
@@ -290,7 +288,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var i = 0;
     var settingsNote = {
       type: 'io.pnut.core.chat-settings',
-      value: { name: name }
+      value: { name: name, description: promo }
     };
     // if (promo === '') {
       // pnut.api.deleteMessage('1614',
@@ -312,7 +310,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var perm = $('#edit-room-perm');
     var label = $('#edit-room-perm-label');
     var pwrapper = $('#edit-room-promote-wrapper');
-    var pbox = $('#edit-room-promote');
+    // var pbox = $('#edit-room-promote');
     var poptions = $('#edit-room-promo-options');
     var fields = editRoomFields;
 
@@ -324,11 +322,11 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       pwrapper.show();
     }
 
-    if (pbox.attr('checked')) {
-      poptions.show();
-    } else {
-      poptions.hide();
-    }
+    // if (pbox.attr('checked')) {
+    //   poptions.show();
+    // } else {
+    //   poptions.hide();
+    // }
 
     if (perm.val() === 'public') {
       fields.hide();
@@ -346,11 +344,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function getPromo()
   {
-    var promo = '';
-    if ($('#edit-room-promote').attr('checked'))
-    {
-      promo = $('#edit-room-promo-text').val();
-    }
+    var promo = $('#edit-room-promo-text').val();
     return promo;
   }
 
@@ -387,7 +381,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function completeCreatePm(response)
   {
-    util.redirect('room.html?channel=' + response.data.channel_id);
+    util.redirect('room/' + response.data.channel_id);
   }
 
   function failCreatePm(meta)
@@ -419,7 +413,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     channel.raw = getPatterNotes(channel,
                             $('#edit-room-name').val(),
                             getPromo());
-    pnut.api.createChannel(channel, { include_raw: 1 },
+    pnut.api.createChannel(channel, { include_channel_raw: 1 },
                             $.proxy(completeCreatePatter, context),
                             $.proxy(failCreatePatter, context));
   }
@@ -438,7 +432,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function redirectToChannel(response)
   {
-    util.redirect('room.html?channel=' + response.data.id);
+    util.redirect('room/' + response.data.id);
   }
 
   function clickSave(event) {
