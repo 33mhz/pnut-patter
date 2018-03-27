@@ -127,7 +127,7 @@ function ($, _, Backbone, allChannels, allUsers)
 
     searchMethod: function () {
       // broken
-      this.get('params').include_raw = 1;
+      this.get('params').include_channel_raw = 1;
       this.get('params').creator_id = '137703';
       var promise = $.pnut.post.search(this.get('params'));
       return promise.then(updateMeta(this)).then(function (response) {
@@ -138,7 +138,7 @@ function ($, _, Backbone, allChannels, allUsers)
     recentlyCreatedMethod: function () {
       // broken
       this.get('params').include_deleted = 0;
-      this.get('params').include_raw = 1;
+      this.get('params').include_channel_raw = 1;
       var promise = $.pnut.post.getUser('@patter_rooms', this.get('params'));
       return promise.then(updateMeta(this)).then(function (response) {
         return messagesToChannels(response);

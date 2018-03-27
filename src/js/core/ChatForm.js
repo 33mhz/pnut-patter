@@ -158,31 +158,17 @@ function ($, util, pnut, attachModal, chatTemplate) {
       raw: postAnnotations
     };
     var text = this.message;
-    var promo = ' \n\n' + this.chat.channelName + ' <=>';
+    var promo = '\n\n[' + this.chat.channelName + '](' + url + ')';
     if (text.length + promo.length <= 256)
     {
-      var links = response.data.links;
-      if (! links)
-      {
-        links = [];
-      }
-      links.push({
-        text: '<=>',
-        link: url,
-        pos: text.length + promo.length - 3,
-        len: 3
-      });
       post.text = text + promo;
-      post.entities = {
-        links: links
-      };
     }
     var context = {
       message: this.message,
       raw: this.raw,
       chat: this.chat
     };
-    pnut.api.createPost(post, { include_raw: 1 },
+    pnut.api.createPost(post, {},
                           $.proxy(completeBroadcastMessage, context),
                           $.proxy(failBroadcastMessage, context));
   };

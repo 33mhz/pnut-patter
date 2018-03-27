@@ -16,7 +16,7 @@ define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
   roomInfo.updateChannel = function ()
   {
 //    $('#loading-message').html("Fetching Channel Information");
-    pnut.api.getChannel(this.id, {include_raw: 1},
+    pnut.api.getChannel(this.id, {include_channel_raw: 1},
                           $.proxy(this.completeChannelInfo, this),
                           $.proxy(failChannelInfo, this));
   };

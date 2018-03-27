@@ -183,21 +183,21 @@ function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
   {
     if (roomInfo.channel.you_muted)
     {
-      pnut.api.unmuteChannel(roomInfo.id, { include_raw: 1 },
+      pnut.api.unmuteChannel(roomInfo.id, { include_channel_raw: 1 },
                                $.proxy(roomInfo.completeChannelInfo,
                                        roomInfo),
                                failToggleSubscribe);
     }
     else if (roomInfo.channel.you_subscribed)
     {
-      pnut.api.deleteSubscription(roomInfo.id, { include_raw: 1 },
+      pnut.api.deleteSubscription(roomInfo.id, { include_channel_raw: 1 },
                                     $.proxy(roomInfo.completeChannelInfo,
                                             roomInfo),
                                     failToggleSubscribe);
     }
     else
     {
-      pnut.api.createSubscription(roomInfo.id, { include_raw: 1 },
+      pnut.api.createSubscription(roomInfo.id, { include_channel_raw: 1 },
                                     $.proxy(roomInfo.completeChannelInfo,
                                             roomInfo),
                                     failToggleSubscribe);

@@ -356,7 +356,7 @@ function ($, pnut, util, options, editRoomModal,
   {
     util.formatTimestamp($('.timestamp'));
     var params = {
-      include_raw: 1,
+      include_channel_raw: 1,
       include_recent_message: 1,
       channel_types: 'io.pnut.core.pm,io.pnut.core.chat'
     };
@@ -378,11 +378,28 @@ function ($, pnut, util, options, editRoomModal,
     }).then(function () {
       var used = {};
       var channels = [];
+      // dirty hack to get some channel IDs because they aren't getting gotten elsewhere!
+      var items = document.getElementsByClassName('btn btn-primary');
+      for(var i = 0; i < items.length; i += 1)
+      {
+        if (items[i].href)
+        {
+          var split = items[i].href.split('/');
+          if (typeof split[4] !== 'undefined')
+          {
+            channels.push(split[4]);
+          }
+        }
+      }
       pms.getUnreadIdList(channels, used);
       rooms.getUnreadIdList(channels, used);
-      return $.pnut.all.getChannelList(channels,
-                                         { include_raw: 1,
+      if (channels.length > 0) {
+        return $.pnut.all.getChannelList(channels,
+                                         { include_channel_raw: 1,
                                            include_recent_message: 1 });
+      } else {
+        return [];
+      }
     }).then(function (response) {
       return allUsers.fetchNewUsers(response.data).then(function () {
         processUpdate(response.data);
