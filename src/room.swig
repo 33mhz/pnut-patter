@@ -1,14 +1,10 @@
 {% extends 'base.swig' %}
-{% block title %}A chat client for pnut.io{% endblock %}
+{% block title %}A chat client for Pnut{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
-<link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-
 <script type='text/javascript'>
 (function () {
   var styles = [
-    'https://fonts.googleapis.com/css?family=Cabin:400,400italic|Open+Sans:400italic,400',
     '/css/normalize.css',
     '/css/style.css'
   ];
@@ -36,10 +32,6 @@
 
 }())
 </script>
-
-   <meta name="apple-mobile-web-app-capable" content="yes" />
-   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-   <meta name="viewport" content = "width=device-width, initial-scale=1.0, user-scalable=no" />
 {% endblock %}
 
 {% block javascript %}
@@ -50,7 +42,6 @@
       window.PATTER.unique_id = Math.random().toString(36).slice(2);
     }
   </script>
-  <script src="/js/core/config.js"></script>
   <script data-main="/js/core/room" src="/js/deps/require-jquery.js"></script>
 {% endblock %}
 
@@ -97,17 +88,17 @@
 
   <div id="container" style="display: none">
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="/"><span class="ss-standard ss-icon white-icon">home</span></a>
+      <a id="lobby_btn" class="header_btn" href="/"><i class="fa fa-home white-icon" title="Home"></i></a>
       <div id="logo"></div>
-      <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><span class="ss-standard ss-icon white-icon">gear</span></a>
+      <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><i class="fa fa-cog white-icon" title="Settings"></i></a>
       <div id="settings" class="dropdown pull-right">
         <ul class="dropdown-menu" role="menu">
           <li role="presentation"><a role="menuitem" id="subscribe" href="#" data-toggle="dropdown" data-target="#settings">Subscribe</a></li>
           <li role="presentation"><a role="menuitem" id="view" href="#" data-toggle="dropdown" data-target="#settings">View Room</a></li>
-          <li role="presentation"><a role="menuitem" id="archive" href="archive.html" target="_blank" data-toggle="dropdown" data-target="#settings">Archive</a></li>
+          <li role="presentation"><a role="menuitem" id="archive" href="/archive.html" target="_blank" data-toggle="dropdown" data-target="#settings">Archive</a></li>
           <li role="presentation" class="divider"></li>
           <li role="presentation"><a role="menuitem" id="options-button" href="" data-toggle="dropdown" data-target="#settings">Options</a></li>
-          <li role="presentation"><a role="menuitem" id="help" href="faq.html" target="_blank" data-toggle="dropdown" data-target="#settings">Help</a></li>
+          <li role="presentation"><a role="menuitem" id="help" href="/faq.html" target="_blank" data-toggle="dropdown" data-target="#settings">Help</a></li>
         </ul>
       </div>
     </header>
@@ -120,6 +111,11 @@
       <div id="messages">
         <ul class="messageList">
         </ul>
+        <div id="stickyMessages" style="display:none">
+          <p id="stickyLink" class="stickyColor"><i class="fa fa-thumb-tack" aria-hidden="true"></i> Sticky Messages</p>
+          <ul class="stickyMessageList" style="margin-top:0">
+          </ul>
+        </div>
       </div>
 
       <div id="users">
@@ -133,9 +129,9 @@
           <input type="text" id="chatBox" placeholder="Enter text here." maxlength="2000" autofocus="true">
         </form>
         <textarea id="textBox" placeholder="Enter text here." maxlength="2000" autofocus="true" style="display: none"></textarea>
-        <a id="chatSend"><span class="ss-standard ss-icon white-icon">Chat</span></a>
-        <a id="chatBroadcast"><span class="ss-standard ss-icon white-icon">Wifi</span></a>
-        <a id="chatEmbed"><span class="ss-standard ss-icon white-icon">Attach</span></a>
+        <a id="chatSend"><i class="fa fa-comment white-icon" title="Chat"></i></a>
+        <a id="chatBroadcast"><i class="fa fa-globe white-icon" title="Broadcast to Global"></i></a>
+        <a id="chatEmbed"><i class="fa fa-file white-icon" title="Attach File"></i></a>
       </div>
       <div class="must-authorize">
         <p>You must <a class="authorize-chat-button btn btn-primary">Authorize</a>
@@ -153,6 +149,8 @@
 {% endblock %}
 
 {% block bottom_js %}
+<!--
   <script type="text/javascript" src="/fonts/ss-standard.js"></script>
   <script type="text/javascript" src="/fonts/ss-social.js"></script>
+-->
 {% endblock %}

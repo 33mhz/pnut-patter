@@ -10,10 +10,10 @@ function ($, util, pnut, PatterEmbed) {
 
   function RoomFeed(channel, members, formRoot, userRoot, historyRoot)
   {
-    this.embed = new PatterEmbed(channel, members, formRoot, userRoot,
-                                 historyRoot, $.proxy(this.update, this),
-                                 $.proxy(this.mute, this)/*,
-                                 $.proxy(this.deleteMessage, this)*/);
+    this.embed = new PatterEmbed(channel, members, formRoot, userRoot, historyRoot,
+                                 $.proxy(this.update, this),
+                                 $.proxy(this.mute, this),
+                                 $.proxy(this.deleteMessage, this));
     this.channel = channel;
     this.goBack = false;
     this.timer = null;
@@ -22,6 +22,10 @@ function ($, util, pnut, PatterEmbed) {
     this.shownFeed = false;
     this.more = true;
     this.markerName = null;
+
+    pnut.api.getStickyMessages(this.channel.id, {include_message_raw: 1},
+                                $.proxy(completeStickyFeed, this),
+                                $.proxy(failFeed, this));
   }
 
   RoomFeed.prototype.checkFeed = function ()
@@ -36,8 +40,8 @@ function ($, util, pnut, PatterEmbed) {
 //    this.goBack = false;
 
     var options = {
-      include_raw: 1,
-      count: 200
+      include_message_raw: 1,
+      count: 100
     };
 
     if (! this.shownFeed) {
@@ -52,6 +56,7 @@ function ($, util, pnut, PatterEmbed) {
     pnut.api.getMessages(this.channel.id, options,
                            $.proxy(completeFeed, this),
                            $.proxy(failFeed, this));
+
     this.timer = setTimeout($.proxy(this.checkFeed, this), 20000);
   };
 
@@ -85,6 +90,65 @@ function ($, util, pnut, PatterEmbed) {
 
     this.timer = setTimeout($.proxy(this.checkFeed, this), time);
   };
+
+  var completeStickyFeed = function (response)
+  {
+    if (response.data.length > 0) {
+      this.embed.addPosts(response.data, false, true);
+
+      // show individual 
+      if (typeof localStorage['hiddenStickyIds_' + this.channel.id] !== 'undefined') {
+        var hiddenStickyIds = JSON.parse(localStorage['hiddenStickyIds_' + this.channel.id]);
+
+        var allHidden = true;
+        var i = 0;
+        for (i = response.data.length - 1; i > -1; i -= 1) {
+          if (hiddenStickyIds.indexOf(response.data[i].id) !== -1) {
+            // hide dismissed ID
+            $('#stickyMessages .msg' + response.data[i].id).hide();
+          } else {
+            allHidden = false;
+          }
+        }
+
+        // hide list if all are hidden (for toggle)
+        if (allHidden) {
+          $('.stickyMessageList').hide();
+          $('#stickyLink').removeClass('stickyColor');
+        }
+      }
+
+      $('#stickyLink').click({channel_id: this.channel.id}, function(event) {
+        if ($('.stickyMessageList').is(':visible')) {
+          // add newly hidden to list
+          var hidden = [];
+          try {
+            hidden = JSON.parse(localStorage['hiddenStickyIds_' + event.data.channel_id]);
+          } catch (e) { }
+
+          var n = 0;
+          var visible = $('#stickyMessages li:visible');
+          for (n = visible.length -1; n > -1; n -= 1) {
+            hidden.push(visible[n].dataset.messageId);
+          }
+          localStorage['hiddenStickyIds_' + event.data.channel_id] = JSON.stringify(hidden);
+          // hide block
+          $('.stickyMessageList').hide('fast');
+          $('#stickyLink').removeClass('stickyColor');
+        } else {
+          // show all
+          $('.stickyMessageList li').show();
+          $('.stickyMessageList').show('fast');
+          delete localStorage['hiddenStickyIds_' + event.data.channel_id];
+        }
+      });
+
+      // show tab if any exist
+      $('#stickyMessages').show();
+    }
+  };
+
+
 
   RoomFeed.prototype.update = function (posts, marker, inMaxId)
   {
@@ -130,7 +194,7 @@ function ($, util, pnut, PatterEmbed) {
   RoomFeed.prototype.mute = function (userId)
   {
   };
-/*
+
   RoomFeed.prototype.deleteMessage = function (messageId, complete, failure)
   {
     var context = {
@@ -138,22 +202,36 @@ function ($, util, pnut, PatterEmbed) {
       complete: complete,
       failure: failure
     };
-    pnut.api.deleteMessage(this.channel.id, messageId,
-                             $.proxy(completeDelete, context),
+    pnut.api.deleteMessage(this.channel.id, messageId, {},
+                            $.proxy(completeDelete, context),
                             $.proxy(failDelete, context));
   };
 
   var completeDelete = function (response)
   {
-    this.complete(this.messageId);
+    // this.complete(this.messageId);
+    $('.msg' + this.messageId).hide('slow', function(){ this.remove(); });
   };
 
   var failDelete = function (meta)
   {
-    this.failure(this.messageId, meta);
+    console.log('Failed to delete message ' + this.messageId);
+    // this.failure(this.messageId, meta);
   };
 
-*/
+  // RoomFeed.prototype.stickyMessage = function (messageId, complete, failure)
+  // {
+  //   var pieces = messageId.split(',');
+  //   messageId = pieces[0];
+  //   var is_sticky = pieces[1];
+
+  //   var context = {
+  //     messageId: messageId,
+  //     complete: complete,
+  //     failure: failure
+  //   };
+
+  // };
 
   return RoomFeed;
 });

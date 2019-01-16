@@ -111,7 +111,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
         parse_links: 1
       };
     }
-    pnut.api.createMessage(this.channelId, post, { include_raw: 1 },
+    pnut.api.createMessage(this.channelId, post, { include_message_raw: 1 },
                              $.proxy(completePostMessage, this),
                              $.proxy(failPostMessage, this));
   };

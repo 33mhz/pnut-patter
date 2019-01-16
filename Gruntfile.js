@@ -17,7 +17,7 @@ module.exports = function (grunt) {
     user_conf = grunt.file.readJSON('config.json');
   } catch (e) {
     grunt.log.writeln(e);
-    grunt.log.warn('Couldn\'t find config.json in root will use default configuration');
+    grunt.log.warn('Couldn\'t find config.json in root. Will use default configuration.');
   }
 
   grunt.initConfig({

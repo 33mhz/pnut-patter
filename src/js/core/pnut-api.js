@@ -360,6 +360,18 @@ function ($, util) {
   addOne('getMessages', 'GET',
          'https://api.pnut.io/v0/channels/', '/messages');
 
+  // getStickyMessages();
+  addOne('getStickyMessages', 'GET',
+         'https://api.pnut.io/v0/channels/', '/sticky_messages');
+
+  // stickyMessage(channelId, messageId, args, success, failure);
+  addTwo('stickyMessage', 'PUT',
+         'https://api.pnut.io/v0/channels/', '/messages/', '/sticky');
+
+  // unstickyMessage(channelId, messageId, args, success, failure);
+  addTwo('unstickyMessage', 'DELETE',
+         'https://api.pnut.io/v0/channels/', '/messages/', '/sticky');
+
   // getAllMessages(channelId, args, success, failure);
   addAllOne('getAllMessages', $.proxy(api.getMessages, api));
 

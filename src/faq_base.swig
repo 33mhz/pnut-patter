@@ -1,15 +1,14 @@
 {% extends 'base.swig' %}
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
-  <link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-  <link rel="stylesheet" style="text/css"
-        href="/css/lobby.css">
+<!--  <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
+  <link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">-->
+  <link rel="stylesheet" style="text/css" href="/css/lobby.css">
 {% endblock %}
 
 {% block faq_header %}
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="/"><span class="ss-standard ss-icon white-icon">home</span></a>
+      <a id="lobby_btn" class="header_btn" href="/"><i class="fa fa-home white-icon" title="Home"></i></a>
       <div id="logo"></div>
     </header>
     <br><br><br>
@@ -24,6 +23,7 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+<!--  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
   <script type="text/javascript" src="/fonts/ss-social.js"></script>
+-->
 {% endblock %}

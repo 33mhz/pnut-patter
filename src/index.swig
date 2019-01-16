@@ -1,9 +1,9 @@
 {% extends 'base.swig' %}
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
+<!--  <link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
   <link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-  <link rel="stylesheet" style="text/css" href="/css/jqcloud.css">
+-->  <link rel="stylesheet" style="text/css" href="/css/jqcloud.css">
   <link rel="stylesheet" style="text/css" href="/css/lobby.css">
 {% endblock %}
 
@@ -12,11 +12,11 @@
 {% endblock %}
 {% block body  %}
     <header class="menuBar">
-      <a id="lobby_btn" class="header_btn" href="/" data-toggle="dropdown" data-target="#compose"><span class="ss-standard ss-icon white-icon" style="color: white">plus</span></a>
+      <a id="lobby_btn" class="header_btn" href="/" data-toggle="dropdown" data-target="#compose"><i class="fa fa-plus white-icon" title="New"></i></a>
 
       <div id="logo"></div>
 
-      <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><span class="ss-standard ss-icon white-icon">gear</span></a>
+      <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><i class="fa fa-gear white-icon" title="Settings"></i></a>
 
       <div id="compose" class="dropdown">
         <ul class="dropdown-menu" role="menu">
@@ -69,14 +69,16 @@
                   </div>
                   <br>
                   <div class="row well well-small">
-                  <div class="col-md-3"><a href="https://patter.chat/room/585" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
+                  <div class="col-md-3"><a href="https://patter.chat/585" class="btn btn-primary">Welcome to Patter</a></div><div class="col-md-9"> If you have questions about how to use Patter or suggestions for how to make it better, come say hi.</div>
                   </div>
                 </div>
                 <div id="loading-home">
                   <div class="text-center">
                     <h4>Loading...</h4>
-                    <img src="images/spinner-big.gif" width="32" height="32"
-                         alt="Loading...">
+                    <!--<img src="images/spinner-big.gif" width="32" height="32"
+                         alt="Loading...">-->
+                    <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    <span class="sr-only">Loading...</span>
                   </div>
                 </div>
                 <div id="error-home" style="display: none">
@@ -120,6 +122,7 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+<!--  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
   <script type="text/javascript" src="/fonts/ss-social.js"></script>
+-->
 {% endblock %}

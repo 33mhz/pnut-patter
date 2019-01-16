@@ -166,9 +166,40 @@ ul.messageList {
 #messages .message .username .author {
   color: #000000;
 }
+.postMetaTop {
+  float: right;
+  cursor: pointer;
+  color: #3071a9;
+}
 .postTimestamp {
-    font-family: 'Open Sans';
-    float:right;
+  font-family: 'Open Sans', sans-serif;
+}
+.postMeta {
+  text-align: right;
+  margin: 0;
+  display: none;
+}
+.postMeta .btn {
+  padding: 4px 8px;
+}
+.stickyColor {
+  color: #bf2935 !important;
+}
+.stickyMessageList {
+  margin-top: 1.4em;
+}
+.stickyMessageList .stickyColor {
+  display: none;
+}
+.stickyMessageList .message {
+  background-color: #ffe6e8 !important;
+}
+#stickyLink {
+  color: #000;
+  margin-left: 1em;
+  margin-top: 1em;
+  margin-bottom: 0;
+  cursor: pointer;
 }
 #users {
   width: 20%;

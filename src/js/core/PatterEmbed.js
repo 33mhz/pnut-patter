@@ -11,20 +11,22 @@ function ($, ChatForm, UserList, ChatHistory) {
 
   function PatterEmbed(channel, members,
                        formRoot, userRoot, historyRoot,
-                       postCallback, muteCallback)
+                       postCallback, muteCallback, deleteCallback)
   {
     this.form = new ChatForm(formRoot, channel, postCallback);
     var insertCallback = $.proxy(this.form.insertUserIntoText, this.form);
     this.user = new UserList(userRoot, insertCallback);
-    this.history = new ChatHistory(historyRoot, insertCallback, muteCallback,
-                                  this.user.avatars);
+    this.history = new ChatHistory(channel, historyRoot, insertCallback, muteCallback,
+                                  this.user.avatars, deleteCallback);
     this.user.updateChannel(channel, members);
   }
 
-  PatterEmbed.prototype.addPosts = function (posts, goBack)
+  PatterEmbed.prototype.addPosts = function (posts, goBack, stickyMessages)
   {
-    this.user.updatePosts(posts);
-    this.history.update(posts, goBack);
+    if (!stickyMessages) {
+      this.user.updatePosts(posts);
+    }
+    this.history.update(posts, goBack, stickyMessages);
   };
 
   return PatterEmbed;

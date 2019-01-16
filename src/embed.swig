@@ -1,14 +1,13 @@
 {% extends 'base.swig' %}
-{% block title %}A chat client for pnut.io{% endblock %}
+{% block title %}A chat client for Pnut{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
+<!--<link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
 <link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-
+-->
 <script type='text/javascript'>
 (function () {
   var styles = [
-    'https://fonts.googleapis.com/css?family=Cabin:400,400italic|Open+Sans:400italic,400',
     '/css/post.css',
     '/css/user.css',
     '/css/room.css'
@@ -70,6 +69,7 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
+<!--  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
   <script type="text/javascript" src="/fonts/ss-social.js"></script>
+-->
 {% endblock %}

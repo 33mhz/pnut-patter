@@ -298,4 +298,10 @@ input.chatbox {
   .postRowWrap .authorContainer .authorAvatar {
     display: none;
   }
+  .postSticky {
+    color: green;
+  }
+  .stickyMessageList {
+    border-top: 2px solid #000;
+  }
 }

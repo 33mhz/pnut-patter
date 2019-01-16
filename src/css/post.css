@@ -54,6 +54,10 @@
   margin-right: 5px;
 }
 
+.postSticky {
+  color: green;
+}
+
 .emoji {
   max-height: 24px;
 }

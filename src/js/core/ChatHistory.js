@@ -13,12 +13,14 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
   var bloop;
 
   // id is the DOM id of the node to add the history too.
-  function ChatHistory(root, authorCallback, muteCallback, avatarUrls)
+  function ChatHistory(channel, root, authorCallback, muteCallback, avatarUrls, deleteCallback)
   {
+    this.channel = channel;
     this.root = root;
     this.shownPosts = {};
     this.authorCallback = authorCallback;
     this.muteCallback = muteCallback;
+    this.deleteCallback = deleteCallback;
     this.avatarUrls = avatarUrls;
     this.atBottom = true;
     this.root.scroll($.proxy(onScroll, this));
@@ -27,14 +29,18 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     bloop = new Audio('audio/bloop.mp3');
   }
 
-  ChatHistory.prototype.update = function (data, goBack)
+  ChatHistory.prototype.update = function (data, goBack, stickyMessages)
   {
     var allPosts = $('<ul/>');
     var last = null;
     var i = 0;
     for (i = data.length - 1; i > -1; i -= 1)
     {
-      if (this.validPost(data[i]))
+      if (stickyMessages)
+      {
+        this.root.find('.stickyMessageList').append(this.renderPost(data[i]));
+      }
+      else if (this.validPost(data[i]))
       {
         var post = this.renderPost(data[i]);
         allPosts.append(post);
@@ -53,16 +59,15 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
 
   ChatHistory.prototype.validPost = function (data)
   {
-    var result = true;
     if (typeof data.is_deleted !== 'undefined')
     {
-      result = false;
+      return false;
     }
     else if (this.shownPosts.hasOwnProperty(data.id))
     {
-      result = false;
+      return false;
     }
-    return result;
+    return true;
   };
 
   var onScroll = function (event)
@@ -90,15 +95,28 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     var params = {
       body: body,
       name: name,
-      avatarUrl: avatarUrl
+      avatarUrl: avatarUrl,
+      is_sticky: data.is_sticky,
+      id: data.id,
+      can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && (pnut.user.id === this.channel.owner.id || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))))
     };
     var post = $(postTemplate(params));
 
     renderEmbedImage(data, post);
 
+    // updates all message timestamps
     var timestamp = $('.postTimestamp', post);
     timestamp.attr('title', data.created_at);
     util.formatTimestamp(timestamp);
+
+    // open meta on click (replace with modal eventually)
+    var metaButton = $('.postMetaTop', post);
+    metaButton.click(function(event) {
+      event.preventDefault();
+      $(this).closest('.message').children('.postMeta').toggle('fast');
+      $(this).find('i').toggleClass('fa-caret-up fa-caret-down');
+      return false;
+    });
 
     if (this.checkMention(data.content.text))
     {
@@ -108,6 +126,21 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     var author = post.find('.author');
     author.attr('id', '@' + data.user.username);
     author.on('click', this.authorCallback);
+
+    var deleter = post.find('.deleteButton');
+    var that = this;
+    deleter.click(function (event) {
+      event.preventDefault();
+      that.deleteCallback(data.id);
+      return false;
+    });
+
+    // var stick = post.find('.stickyButton');
+    // stick.click(function (event) {
+    //   event.preventDefault();
+    //   that.stickyCallback(data.id + ',' + data.is_sticky);
+    //   return false;
+    // });
 
     return post;
 /*

@@ -34,7 +34,7 @@ define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
     }
     else
     {
-      $('title').html('Private Message Channel (Patter)');
+      $('title').html('Private Message (Patter)');
     }
     for (i = 0; i < keyList.length; i += 1)
     {
@@ -64,7 +64,8 @@ define(['jquery', 'util', 'pnut'], function ($, util, pnut) {
 
   function getWriterInfo()
   {
-    var ids = roomInfo.channel.acl.write.user_ids;
+    // bandaid. Should instead be able to manage different ACLs. At least concat adds the full-access to the list, so updates won't revoke their access
+    var ids = roomInfo.channel.acl.write.user_ids.concat(roomInfo.channel.acl.full.user_ids);
     if (ids)
     {
       pnut.api.getUserList(ids, null, completeWriterInfo, failWriterInfo);

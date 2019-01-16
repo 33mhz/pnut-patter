@@ -2,9 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Patter - A chat client for pnut.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="/favicon.ico"/>
+    <title>Patter - A chat client for Pnut</title>
+
+    <link rel="shortcut icon" href="/favicon.ico">
     {% block css %}
     {% endblock %}
     <link rel="stylesheet" style="text/css" href="/css/bootstrap/readable.min.css">
@@ -33,7 +35,7 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="/faq.html">FAQ</a></li>
             <li><button type="button" class="btn btn-primary navbar-btn"
                         id="authorize-menu"
                         style="margin-top: 8px; margin-right: 8px;">Login or Signup</button></li>
@@ -50,10 +52,10 @@
           <img src="images/chat-fig.png" alt="Patter is for chatting" width="687" height="408">
         </div>
         <div class="panel-body text-center">
-          <p>Patter lets you <b>chat</b> with others</p>
-          <p><b>Public rooms</b> let you find those with similar interests</p>
-          <p>Use <b>private rooms</b> to connect with your friends</p>
-          <p>Patter supports both <b>real-time</b> chat and occasional messages</p>
+          <p>Patter lets you <b>chat</b> with others.</p>
+          <p><b>Public rooms</b> let you find those with similar interests.</p>
+          <p>Use <b>private rooms</b> to connect with your friends.</p>
+          <p>Patter supports both <b>real-time</b> chat and occasional messages.</p>
         </div>
       </div>
       <div class="panel panel-default">
@@ -62,8 +64,8 @@
           <img src="images/lock-fig.png" alt="You are in control with Patter" width="280" height="347">
         </div>
         <div class="panel-body text-center">
-          <p>Patter is built on <a href="https://pnut.io">pnut.io</a>.</p>
-          <p>Your Patter messages are stored only on pnut.io: <b>you decide</b> who can read them.</p>
+          <p>Patter is built on <a href="https://pnut.io">Pnut</a>.</p>
+          <p>Your Patter messages are stored only on Pnut: <b>you decide</b> who can read them.</p>
           <p>Your messages are kept for as long as you want them.</p>
           <p>If you delete your account, your messages are deleted as well.</p>
         </div>
@@ -74,7 +76,7 @@
           <img src="images/open-fig.png" alt="Patter is compatible with many mobile apps" width="320" height="318">
         </div>
         <div class="panel-body text-center">
-          <p>Patter uses the <code>io.core.pnut.chat</code> protocol, built on pnut.io.</p>
+          <p>Patter uses the <code>io.core.pnut.chat</code> protocol, built on Pnut.</p>
           <p>The Patter web application is <b>open source</b>. You can contribute <a href="https://github.com/33mhz/pnut-patter">here</a>.</p>
         </div>
       </div>
@@ -93,7 +95,7 @@
       <div class="well well-small">
         <p>For troubleshooting, contact <a href="https://pnut.io/@33mhz">@33MHz</a>.</p>
         <p>Our privacy policy is <a href="http://www.privacychoice.org/policy/mobile?policy=7e57611e9551c6105db81e5c27f3a415">here</a>.</p>
-        <p>Patter interacts with <a href="https://pnut.io">pnut.io</a> on your behalf, and any message you create will be subject to their policies.</p>
+        <p>Patter interacts with <a href="https://pnut.io">Pnut</a> on your behalf, and any message you create will be subject to their policies.</p>
       </div>
     </div>
 

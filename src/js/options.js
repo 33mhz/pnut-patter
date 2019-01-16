@@ -117,6 +117,9 @@ function () {
       if (typeof hashes[3] !== 'undefined' && hashes[3] == 'room' && typeof hashes[4] !== 'undefined') {
         vars.push('channel');
         vars.channel = hashes[4];
+      } else if (typeof hashes[3] !== 'undefined' && !isNaN(hashes[3])) {
+        vars.push('channel');
+        vars.channel = hashes[3];
       }
     }
     return vars;

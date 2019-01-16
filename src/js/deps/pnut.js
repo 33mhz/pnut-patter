@@ -1217,6 +1217,26 @@ if (typeof module !== 'undefined')
             "link": "http://developers.app.net/docs/resources/message/lifecycle/#retrieve-the-messages-in-a-channel"
         },
         {
+            "id": "400",
+            "group": "message",
+            "name": "getSticky",
+            "url_params": [
+                "channel_id"
+            ],
+            "data_params": [],
+            "array_params": [],
+            "get_params": [ "general_message", "pagination" ],
+            "method": "GET",
+            "url": [
+                "channels/",
+                "/sticky_messages"
+            ],
+            "token": "None",
+            "scope": "messages",
+            "description": "Retrieve the Sticky Messages in a Channel",
+            "link": "http://developers.app.net/docs/resources/message/lifecycle/#retrieve-the-messages-in-a-channel"
+        },
+        {
             "id": "401",
             "group": "message",
             "name": "create",
@@ -1716,6 +1736,7 @@ if (typeof module !== 'undefined')
     $.pnut.all = {};
     addAll('getSubscriptions', $.pnut.channel.getUserSubscribed);
     addAllOne('getMessages', $.pnut.message.getChannel);
+    addAllOne('getStickyMessages', $.pnut.message.getSticky);
     addAllOne('getUserPosts', $.pnut.post.getUser);
     addAllOne('getFollowing', $.pnut.user.getFollowing);
     addAllList('getChannelList', $.pnut.channel.getList);
