@@ -26,7 +26,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     this.root.scroll($.proxy(onScroll, this));
     $(window).on('resize', $.proxy(this.scrollToBottom, this));
     updateTimestamps();
-    bloop = new Audio('audio/bloop.mp3');
+    bloop = new Audio('/audio/bloop.mp3');
   }
 
   ChatHistory.prototype.update = function (data, goBack, stickyMessages)

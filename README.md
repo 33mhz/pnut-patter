@@ -32,8 +32,6 @@ Before getting started make sure you have created a config.json file.
 
 You should now be able to navigate to http://localhost:9001 and see your local copy of patter running.
 
-## NOTE there is an issue building, and you will have to `grunt server --force`, and then copy the /src/js/core/config.js file to the equivalent core folder with the client_id replaced.
-
 ### To Distribute Patter
 
 Once you are finished developing patter you can then distribute patter to a production environment. To do so you must generate a version of patter, and then copy all the files to your webserver.
@@ -46,3 +44,8 @@ For example:
 ```
 
 Once all your files are uploaded you should then have a working version of patter.
+
+
+### Linking to Rooms Externally
+
+If using Pnut's E-mail notifications, users can fill in the custom notification link with `https://patter.chat/{id}` for messages, and the E-mails will include links directly to Patter rooms.
