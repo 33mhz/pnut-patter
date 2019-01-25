@@ -42,7 +42,7 @@ function ($, util, pnut, options, roomInfo, roomMenu, RoomFeed) {
 
   function failUser()
   {
-    failInit('Could fetch user information. Check your connection.');
+    failInit('Could not fetch user information. Check your connection.');
   }
 
   function failInit(message)
