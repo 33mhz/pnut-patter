@@ -98,7 +98,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       avatarUrl: avatarUrl,
       is_sticky: data.is_sticky,
       id: data.id,
-      can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && (pnut.user.id === this.channel.owner.id || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))))
+      can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))))
     };
     var post = $(postTemplate(params));
 
