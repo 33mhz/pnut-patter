@@ -336,3 +336,24 @@ ul {
     display:none;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  /* dark mode */
+  #container {
+    background-color: #0d0c0c;
+  }
+  #messages .message {
+    background-color: #0f0f0f;
+    color: #ddd;
+  }
+  #users {
+    background-color: #130c0c;
+  }
+  #messages .message .username .author {
+    color: #fff;
+  }
+  #users .inactive {
+    background-color: #0b0707;
+    color: #333;
+  }
+}
