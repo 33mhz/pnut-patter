@@ -295,6 +295,7 @@ function ($, pnut, util, options, editRoomModal,
     var text = $('#private-search-text');
     searches.reset(searches.searchChannelMethod,
                    { q: text.val(),
+                     channel_types: 'io.pnut.core.chat',
                      is_private: 1 },
                    'Searching Your Private Rooms');
     $('#search-tab').show();
