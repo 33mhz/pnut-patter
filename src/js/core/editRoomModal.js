@@ -76,9 +76,9 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       roomType = 'View ';
     }
     if (editRoomType === 'io.pnut.core.chat') {
-      roomType += 'Patter Room';
+      roomType += 'Chat Room';
     } else if (editRoomType === 'io.pnut.core.pm') {
-      roomType += 'PM Channel';
+      roomType += 'Private Message';
     }
     $('#edit-room-type').html(roomType);
 
@@ -93,7 +93,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     $('#edit-room-body').hide();
     if (editRoomChannel === null) {
       if (editRoomType === 'io.pnut.core.chat') {
-        $('#edit-room-body').html('Patter rooms may be public or private and the owner can modify permissions after they are created.');
+        $('#edit-room-body').html('Chat rooms may be public or private and the owner can modify permissions after they are created.');
         $('#edit-room-body').show();
       } else if (editRoomType === 'io.pnut.core.pm') {
         $('#edit-room-body').html('Private message channels are always private, and you cannot change their permissions.');
@@ -295,14 +295,13 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
                                // null, null, null);
     // }
     annotations.push(settingsNote);
-    // [CHANGE] reintroduce once core raw valid
-    // var fallback = {
-      // type: 'io.pnut.core.fallback_url',
-      // value: {
-        // url: 'https://patter.chat/room.html?channel=' + channel.id
-      // }
-    // };
-    // annotations.push(fallback);
+    var fallback = {
+      type: 'io.pnut.core.fallback_url',
+      value: {
+        url: 'https://patter.chat/' + channel.id
+      }
+    };
+    annotations.push(fallback);
     return annotations;
   }
 
@@ -420,14 +419,12 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   var completeCreatePatter = function (response)
   {
-    if (getPromo() === '') {
-      changePatterChannel(response.data, this.names, redirectToChannel);
-    }
+    util.redirect('room/' + response.data.id);
   };
 
   var failCreatePatter = function (meta)
   {
-    util.flagError('edit-room-error-div', 'Create Patter Room Request Failed');
+    util.flagError('edit-room-error-div', 'Create Room Request Failed');
   };
 
   function redirectToChannel(response)
@@ -439,7 +436,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     event.preventDefault();
     if ($('#edit-room-name').val() === '' &&
         editRoomType === 'io.pnut.core.chat') {
-      util.flagError('edit-room-error-div', 'You must specify a name');
+      util.flagError('edit-room-error-div', 'You must specify a room name');
     } else if ($('#edit-room-text').val() === '' &&
                editRoomType === 'io.pnut.core.pm') {
       util.flagError('edit-room-error-div', 'You must compose a message');
