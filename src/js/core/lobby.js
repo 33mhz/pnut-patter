@@ -257,7 +257,7 @@ function ($, pnut, util, options, editRoomModal,
   function clickKeyword(text)
   {
     searches.reset(searches.searchChannelMethod, { categories: text },
-                   'Channels in category: "' + text + '"');
+                   'Chat Rooms in Category: "' + text + '"');
     $('#search-tab').show();
     $('#search-tab-link').tab('show');
     searches.fetchMore();
@@ -266,18 +266,24 @@ function ($, pnut, util, options, editRoomModal,
   function clickRecent(event)
   {
     event.preventDefault();
-    searches.reset(searches.recentlyCreatedMethod, {},
+    searches.reset(searches.searchChannelMethod,
+                   { q: '',
+                     include_recent_message: 1,
+                     is_public: 1,
+                     order: 'id' },
                    'Recently Created Rooms');
     $('#search-tab').show();
     $('#search-tab-link').tab('show');
     searches.fetchMore();
+    //searches.reset(searches.recentlyCreatedMethod, {},
+    //               'Recently Created Rooms');
   }
 
   function clickActive(event)
   {
     event.preventDefault();
     searches.reset(searches.activeMethod, {},
-                   'Active Rooms in the Patter Directory');
+                   'Active Rooms');
     $('#search-tab').show();
     $('#search-tab-link').tab('show');
     searches.fetchMore();
@@ -303,7 +309,8 @@ function ($, pnut, util, options, editRoomModal,
     var text = $('#public-search-text');
     searches.reset(searches.searchChannelMethod,
                    { q: text.val(),
-                     is_public: 1 },
+                     is_public: 1,
+                     include_recent_message: 1 },
                    'Searching All Public Rooms');
     $('#search-tab').show();
     $('#search-tab-link').tab('show');
@@ -317,6 +324,7 @@ function ($, pnut, util, options, editRoomModal,
     searches.reset(searches.searchChannelMethod,
                    { q: '',
                      is_public: 1,
+                     include_recent_message: 1,
                      order: 'activity' },
                    'All Public Active Rooms');
     $('#search-tab').show();
@@ -330,6 +338,7 @@ function ($, pnut, util, options, editRoomModal,
     searches.reset(searches.searchChannelMethod,
                    { q: '',
                      is_public: 1,
+                     include_recent_message: 1,
                      order: 'popularity' },
                    'All Public Popular Rooms');
     $('#search-tab').show();

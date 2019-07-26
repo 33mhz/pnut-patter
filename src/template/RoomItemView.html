@@ -20,10 +20,8 @@
     <% }); %>
   <% } %>
 </td>
-<td><span>Last chat:</span> <span title="<%- time %>" class="timestamp text-muted"></span></td>
+<td><span>Last chat:</span> <% if (time) { %><span title="<%- time %>" class="timestamp text-muted"><% } else { %><span class="text-muted">Never<% } %></span></td>
 <td>
-<!--  <img id="loading" src="images/spinner-big.gif" width="32" height="32"
-       style="display: none" alt="Loading...">-->
   <i id="loading" style="display:none" class="fa fa-cog fa-spin"></i>
   <span class="sr-only">Loading...</span>
   <div id="menu" class="dropdown">
