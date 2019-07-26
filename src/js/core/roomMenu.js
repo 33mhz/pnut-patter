@@ -54,8 +54,8 @@ function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
   function initNotify()
   {
     var button = $('#notify-button', container);
-    if (window.webkitNotifications &&
-        window.webkitNotifications.checkPermission() !== 0) {
+    if ('Notification' in window &&
+        window.Notification.checkPermission() !== 'denied') {
       button.show();
       button.click(clickNotify);
     } else {
@@ -66,7 +66,7 @@ function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
   function clickNotify(event)
   {
     event.preventDefault();
-    window.webkitNotifications.requestPermission();
+    window.Notification.requestPermission();
     $('#notify-button', container).hide();
     return false;
   }

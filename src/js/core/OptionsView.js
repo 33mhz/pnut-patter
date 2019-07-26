@@ -1,7 +1,6 @@
 /*global define:true */
 define(['jquery', 'underscore', 'backbone',
-        'js/deps/text!template/OptionsModal.html',
-        'jquery-desknoty'],
+        'js/deps/text!template/OptionsModal.html'],
 function ($, _, Backbone, modalString)
 {
   'use strict';
@@ -29,7 +28,7 @@ function ($, _, Backbone, modalString)
     render: function () {
       this.updateChat();
       this.updateBoxes();
-      if (window.webkitNotifications)
+      if ('Notification' in window)
       {
         $('#test-notify').button('reset');
       }
@@ -112,15 +111,15 @@ function ($, _, Backbone, modalString)
     },
 
     tryNotify: function (message) {
-      if (window.webkitNotifications)
+      if ('Notification' in window)
       {
-        window.webkitNotifications.requestPermission();
-        $.desknoty({
-          icon: '/images/patter-top-mobile.png',
+        window.Notification.requestPermission();
+        var notification = new window.Notification('Patter', {body: message, icon: '/images/patter-top-mobile.png'});
+/*          icon: '/images/patter-top-mobile.png',
           title: 'Patter Notification',
           body: message,
           url: ''
-        });
+        });*/
       }
       if (window.fluid)
       {

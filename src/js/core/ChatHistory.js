@@ -5,7 +5,7 @@
 /*global define:true */
 define(['jquery', 'underscore', 'util', 'js/options', 'pnut',
         'js/deps/text!template/post.html', 'js/deps/text!template/postEmoji.html',
-        'jquery-desknoty', 'jquery-titlealert'],
+        'jquery-titlealert'],
 function ($, _, util, options, pnut, postString, emojiTemplate) {
   'use strict';
 
@@ -293,14 +293,9 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
         if (options.settings.everyNotify ||
             (isMention && options.settings.mentionNotify))
         {
-          if (window.webkitNotifications)
+          if ('Notification' in window)
           {
-            $.desknoty({
-              icon: '/images/patter-top-mobile.png',
-              title: last.username,
-              body: last.text,
-              url: ''
-            });
+            var notification = new window.Notification(last.username, {body: last.text, icon: '/images/patter-top-mobile.png'});
           }
           if (window.fluid)
           {

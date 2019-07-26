@@ -31,7 +31,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand patter-logo" href="/"><img src="images/patter-logo-alt.png" width="70" height="15"></a>
+          <a class="navbar-brand patter-logo" href="/"><img src="/images/patter-logo-alt.png" width="70" height="15"></a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -49,7 +49,7 @@
       <div class="panel panel-default">
         <div class="panel-heading text-center">
           <h1>What is Patter?</h1>
-          <img src="images/chat-fig.png" alt="Patter is for chatting" width="687" height="408">
+          <i class="fa fa-comments" style="font-size:15em" aria-hidden="true"></i>
         </div>
         <div class="panel-body text-center">
           <p>Patter lets you <b>chat</b> with others.</p>
@@ -61,7 +61,7 @@
       <div class="panel panel-default">
         <div class="panel-heading text-center">
           <h1>Privacy and Control</h1>
-          <img src="images/lock-fig.png" alt="You are in control with Patter" width="280" height="347">
+          <i class="fa fa-lock" style="font-size:15em" aria-hidden="true"></i>
         </div>
         <div class="panel-body text-center">
           <p>Patter is built on <a href="https://pnut.io">Pnut</a>.</p>
@@ -73,7 +73,7 @@
       <div class="panel panel-default">
         <div class="panel-heading text-center">
           <h1>Patter is Open</h1>
-          <img src="images/open-fig.png" alt="Patter is compatible with many mobile apps" width="320" height="318">
+          <i class="fa fa-heart" style="font-size:15em" aria-hidden="true"></i>
         </div>
         <div class="panel-body text-center">
           <p>Patter uses the <code>io.core.pnut.chat</code> protocol, built on Pnut.</p>

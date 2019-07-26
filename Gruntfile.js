@@ -92,7 +92,6 @@ module.exports = function (grunt) {
             'jquery': 'js/deps/require-jquery',
             'jquery-caret': 'js/deps/jquery.caret.min',
             'jquery-cookie': 'js/deps/jquery.cookie',
-            'jquery-desknoty': 'js/deps/jquery.desknoty',
             'jquery-easydate': 'js/deps/jquery.easydate-0.2.4.min',
             'jquery-imagesloaded': 'js/deps/lib/jquery.imagesloaded.min',
             'jquery-jfontsize': 'js/deps/jquery.jfontsize-1.0',
@@ -113,7 +112,6 @@ module.exports = function (grunt) {
           shim: {
             'jquery-caret': ['jquery'],
             'jquery-cookie': ['jquery'],
-            'jquery-desknoty': ['jquery'],
             'jquery-easydate': ['jquery'],
             'jquery-imagefit': ['jquery'],
             'jquery-imagesloaded': ['jquery'],
