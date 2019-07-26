@@ -1,11 +1,9 @@
 Patter
 ======
 
-Patter is a web client for participating in public and private chat
-rooms over pnut.io.
+Patter is a web client for participating in public and private chat rooms over pnut.io.
 
-Although you can run your own private instances, the main deployment
-is located at:
+Although you can run your own private instances, the main deployment is located at:
 
 [patter.chat](https://patter.chat)
 
