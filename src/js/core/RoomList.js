@@ -86,6 +86,7 @@ function ($, _, Backbone, allChannels, allUsers)
       this.trigger('fetchBegin');
       var newChannels;
       var that = this;
+      this.get('params').include_recent_message = 1;
       var promise = this.get('method')();
       promise.then(function (response) {
         newChannels = response.data;
