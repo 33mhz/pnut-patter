@@ -13,7 +13,8 @@ function ($, util, pnut, PatterEmbed) {
     this.embed = new PatterEmbed(channel, members, formRoot, userRoot, historyRoot,
                                  $.proxy(this.update, this),
                                  $.proxy(this.mute, this),
-                                 $.proxy(this.deleteMessage, this));
+                                 $.proxy(this.deleteMessage, this),
+                                 $.proxy(this.stickyMessage, this));
     this.channel = channel;
     this.goBack = false;
     this.timer = null;
@@ -193,6 +194,7 @@ function ($, util, pnut, PatterEmbed) {
 
   RoomFeed.prototype.mute = function (userId)
   {
+    console.log('FILL THIS FUNCTION IN');
   };
 
   RoomFeed.prototype.deleteMessage = function (messageId, complete, failure)
@@ -215,23 +217,60 @@ function ($, util, pnut, PatterEmbed) {
 
   var failDelete = function (meta)
   {
-    console.log('Failed to delete message ' + this.messageId);
+    console.error('Failed to delete message.',this.messageId);
     // this.failure(this.messageId, meta);
   };
 
-  // RoomFeed.prototype.stickyMessage = function (messageId, complete, failure)
-  // {
-  //   var pieces = messageId.split(',');
-  //   messageId = pieces[0];
-  //   var is_sticky = pieces[1];
+  RoomFeed.prototype.stickyMessage = function (messageId, complete, failure)
+  {
+    var pieces = messageId.split(',');
+    messageId = pieces[0];
+    var is_sticky = pieces[1]; // whether to sticky post (1) or unsticky post (0)
 
-  //   var context = {
-  //     messageId: messageId,
-  //     complete: complete,
-  //     failure: failure
-  //   };
+    var context = {
+      messageId: messageId,
+      complete: complete,
+      failure: failure
+    };
+    if (is_sticky === '0') {
+      pnut.api.unstickyMessage(this.channel.id, messageId, {},
+                            $.proxy(completeUnsticky, context),
+                            $.proxy(failUnsticky, context));
+    } else {
+      pnut.api.stickyMessage(this.channel.id, messageId, {},
+                            $.proxy(completeSticky, context),
+                            $.proxy(failSticky, context));
+    }
 
-  // };
+  };
+
+  var completeSticky = function (response)
+  {
+    var post = $('.msg' + this.messageId);
+    // add pin
+    post.find('.stickyPin').show();
+    post.find('.stickyButton').text('Unstick').addClass('unstickyButton').removeClass('stickyButton');
+    // add to list of sticky messages
+    $('.stickyMessageList').prepend(post.clone());
+  };
+  var failSticky = function (meta)
+  {
+    console.error('Failed to sticky message.',this.messageId);
+  };
+
+  var completeUnsticky = function (response)
+  {
+    var post = $('.msg' + this.messageId);
+    // remove pin
+    post.find('.stickyPin').hide();
+    post.find('.unstickyButton').text('Stick to Top').addClass('stickyButton').removeClass('unstickyButton');
+    // remove from list of sticky messages
+    $('.stickyMessageList .msg' + this.messageId).hide('slow', function(){ this.remove(); });
+  };
+  var failUnsticky = function (meta)
+  {
+    console.error('Failed to unsticky message.',this.messageId);
+  };
 
   return RoomFeed;
 });

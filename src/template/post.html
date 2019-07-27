@@ -1,6 +1,18 @@
 <li class="message msg<%- id %>" data-message-id="<%- id %>">
-  <span class="userTag"><a title="Avatar link for @<%- name %>" href="https://pnut.io/@<%- name %>" target="_blank"><span class="userPic" <% if (avatarUrl !== '') { %>style="background-image: url('<%- avatarUrl %>?w=80')"<% } %>></span></a>&nbsp;<span class="username"><a class="author" href=""><%- name %></a></span></span>&nbsp;<% if (is_sticky) { %><span class="stickyColor stickyButton" title="Pinned"><i class="fa fa-thumb-tack" aria-hidden="true"></i></span><% } %><span class="postMetaTop"><i class="fa fa-caret-up" aria-hidden="true"></i> <span class="postTimestamp"></span></span>
+  <span class="userTag"><a title="Avatar link for @<%- name %>" href="https://beta.pnut.io/@<%- name %>" target="_blank"><span class="userPic" <% if (avatarUrl !== '') { %>style="background-image: url('<%- avatarUrl %>?w=80')"<% } %>></span></a>&nbsp;<span class="username"><a class="author" href=""><%- name %></a></span></span>&nbsp;<span class="stickyColor stickyPin"<% if (!is_sticky) { %> style="display:none"<% } %> title="Pinned"><i class="fa fa-thumb-tack" aria-hidden="true"></i></span>
+  <a class="broadcastLink" target="_blank"><span class="broadcastIcon"></a>
+  <span class="postMetaTop">
+    <div class="dropdown" style="display: block;">
+      <span class="postTimestamp"></span>
+      <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down" title="Options" aria-hidden="true"></i></button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu2">
+        <% if (can_sticky && !is_sticky) { %><li role="presentation"><a role="menuitem" class="stickyButton" tabindex="-1" href="#" title="Stick message to the top">Stick to Top</a></li><% } else if (can_sticky && is_sticky) { %>
+        <li role="presentation"><a role="menuitem" class="unstickyButton" tabindex="-1" href="#" title="Unstick message to the top">Unstick</a></li><% } %>
+        <% if (can_delete) { %><li role="presentation"><a role="menuitem" class="deleteButton" tabindex="-1" href="#" title="Delete message">Delete</a></li><% } %>
+        <% if (can_mute) { %><li role="presentation"><a role="menuitem" class="muteButton" tabindex="-1" href="#" title="Muting this user will prevent you from seeing their posts.">Mute User</a></li><% } %>
+      </ul>
+    </div>
+  </span>
   <span class="messageContent"><%= body %></span>
   <span class="embedImageWrapper"></span>
-  <% if (can_delete) { %><p class="postMeta"><a class="deleteButton btn btn-primary" href="" title="Delete"><i class="fa fa-trash" aria-hidden="true"></i></a></p><% } %>
 </li>

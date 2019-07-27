@@ -66,6 +66,10 @@ footer {
   background-image: url('../images/logo.png');
   margin: 6px auto 0 auto;
 }
+.dropdown-menu {
+  left: auto !important;
+  right: 0;
+}
 header {
   top: 0;
   border-top: 1px solid #c94953;
@@ -168,8 +172,6 @@ ul.messageList {
 }
 .postMetaTop {
   float: right;
-  cursor: pointer;
-  color: #3071a9;
 }
 .postTimestamp {
   font-family: 'Open Sans', sans-serif;
@@ -355,5 +357,11 @@ ul {
   #users .inactive {
     background-color: #0b0707;
     color: #333;
+  }
+  .stickyMessageList .message {
+    background-color: #20090b !important;
+  }
+  #stickyLink {
+    color: #fff;
   }
 }

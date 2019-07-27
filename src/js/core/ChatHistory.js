@@ -13,7 +13,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
   var bloop;
 
   // id is the DOM id of the node to add the history too.
-  function ChatHistory(channel, root, authorCallback, muteCallback, avatarUrls, deleteCallback)
+  function ChatHistory(channel, root, authorCallback, muteCallback, avatarUrls, deleteCallback, stickyCallback)
   {
     this.channel = channel;
     this.root = root;
@@ -21,6 +21,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     this.authorCallback = authorCallback;
     this.muteCallback = muteCallback;
     this.deleteCallback = deleteCallback;
+    this.stickyCallback = stickyCallback;
     this.avatarUrls = avatarUrls;
     this.atBottom = true;
     this.root.scroll($.proxy(onScroll, this));
@@ -98,7 +99,9 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       avatarUrl: avatarUrl,
       is_sticky: data.is_sticky,
       id: data.id,
-      can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))))
+      can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))),
+      can_mute: (pnut.user && pnut.user.id !== data.user.id),
+      can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))
     };
     var post = $(postTemplate(params));
 
@@ -110,13 +113,13 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     util.formatTimestamp(timestamp);
 
     // open meta on click (replace with modal eventually)
-    var metaButton = $('.postMetaTop', post);
-    metaButton.click(function(event) {
-      event.preventDefault();
-      $(this).closest('.message').children('.postMeta').toggle('fast');
-      $(this).find('i').toggleClass('fa-caret-up fa-caret-down');
-      return false;
-    });
+    // var metaButton = $('.postMetaTop', post);
+    // metaButton.click(function(event) {
+    //   event.preventDefault();
+    //   $(this).closest('.message').children('.postMeta').toggle('fast');
+    //   $(this).find('i').toggleClass('fa-caret-up fa-caret-down');
+    //   return false;
+    // });
 
     if (this.checkMention(data.content.text))
     {
@@ -135,17 +138,22 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       return false;
     });
 
-    // var stick = post.find('.stickyButton');
-    // stick.click(function (event) {
-    //   event.preventDefault();
-    //   that.stickyCallback(data.id + ',' + data.is_sticky);
-    //   return false;
-    // });
+    var stick = post.find('.stickyButton');
+    stick.click(function (event) {
+      event.preventDefault();
+      that.stickyCallback(data.id + ',1');
+      return false;
+    });
 
-    return post;
-/*
+    var unstick = post.find('.unstickyButton');
+    unstick.click(function (event) {
+      event.preventDefault();
+      that.stickyCallback(data.id + ',0');
+      return false;
+    });
+
     var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast',
-                                               data.annotations);
+                                               data.raw);
     if (broadcast !== null)
     {
       $('.broadcastLink', post).attr('href', broadcast.url);
@@ -155,18 +163,17 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     {
       $('.broadcastLink', post).remove();
     }
-*/
-/*
 
     var mute = post.find('.muteButton');
-    var that = this;
+    // var that = this;
     var username = data.user.username;
     mute.click(function (event) {
       event.preventDefault();
       that.muteCallback(username);
       return false;
     });
-*/
+
+    return post;
   };
 
   function renderEmbedImage(data, post) {

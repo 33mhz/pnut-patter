@@ -11,13 +11,13 @@ function ($, ChatForm, UserList, ChatHistory) {
 
   function PatterEmbed(channel, members,
                        formRoot, userRoot, historyRoot,
-                       postCallback, muteCallback, deleteCallback)
+                       postCallback, muteCallback, deleteCallback, stickyCallback, unstickyCallback)
   {
     this.form = new ChatForm(formRoot, channel, postCallback);
     var insertCallback = $.proxy(this.form.insertUserIntoText, this.form);
     this.user = new UserList(userRoot, insertCallback);
     this.history = new ChatHistory(channel, historyRoot, insertCallback, muteCallback,
-                                  this.user.avatars, deleteCallback);
+                                  this.user.avatars, deleteCallback, stickyCallback, unstickyCallback);
     this.user.updateChannel(channel, members);
   }
 
