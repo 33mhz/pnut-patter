@@ -19,7 +19,7 @@
       <a id="room_btn" data-toggle="dropdown" data-target="#settings" class="header_btn"><i class="fa fa-gear white-icon" title="Settings"></i></a>
 
       <div id="compose" class="dropdown">
-        <ul class="dropdown-menu" role="menu">
+        <ul class="dropdown-menu" role="menu" style="left:0;right:auto">
           <li role="presentation"><a role="menuitem" id="compose-pm" href="#" data-toggle="dropdown" data-target="#compose">Send Private Message</a></li>
           <!--<li role="presentation"><a role="menuitem" id="lookup-pm" href="#" data-toggle="dropdown" data-target="#compose">Lookup Private Message</a></li>-->
           <li role="presentation"><a role="menuitem" id="compose-room" href="#" data-toggle="dropdown" data-target="#compose">Create Room</a></li>
