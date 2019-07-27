@@ -47,7 +47,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
         allPosts.append(post);
         last = {
           username: '@' + data[i].user.username,
-          text: util.htmlEncode(data[i].content.text)
+          text: util.htmlEncode(data[i].content.text),
+          mentions: data[i].content.entities.mentions || []
         };
         this.shownPosts[data[i].id] = 1;
       }
@@ -121,7 +122,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     //   return false;
     // });
 
-    if (this.checkMention(data.content.text))
+    if (this.checkMention(data.content.entities.mentions))
     {
       post.addClass('mentioned');
     }
@@ -262,16 +263,16 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     return result;
   }
 
-  ChatHistory.prototype.checkMention = function (post)
+  ChatHistory.prototype.checkMention = function (mentions)
   {
     var result = false;
-    var userMention;
     if (pnut.user !== null)
     {
-      userMention = new RegExp('@' + pnut.user.username + '\\b');
-      if (userMention.test(post))
-      {
-        result = true;
+      var i = 0;
+      for (i = mentions.length - 1; i > -1; i -= 1) {
+        if (mentions[i].id === pnut.user.id) {
+          result = true;
+        }
       }
     }
     return result;
@@ -288,7 +289,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     {
       this.root.find('.messageList').append(posts);
       if (! util.has_focus) {
-        var isMention = this.checkMention(last.text);
+        var isMention = this.checkMention(last.mentions);
         if (options.settings.everyTitle ||
             (isMention && options.settings.mentionTitle))
         {

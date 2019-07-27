@@ -348,6 +348,9 @@ ul {
     background-color: #0f0f0f;
     color: #ddd;
   }
+  #messages .mentioned {
+    background-color: #000d00 !important;
+  }
   #users {
     background-color: #130c0c;
   }
