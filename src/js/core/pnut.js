@@ -59,7 +59,6 @@ function ($, util, api, note) {
                    $.proxy(updateUserFailure, complete));
   };
 
-
   pnut.htmlToHtml = function (content)
   {
     var result = content.html;
@@ -74,67 +73,6 @@ function ($, util, api, note) {
     }
     return result;
   };
-
-  pnut.textToHtml = function (text, entitiesIn)
-  {
-    var result = $('<div/>');
-    var entities = sortEntities(entitiesIn);
-    var anchor = 0;
-    var entity, link;
-    var i = 0;
-    for (i = 0; i < entities.length; i += 1) {
-      entity = entities[i].entity;
-      result.append(util.htmlEncode(text.substr(anchor, entity.pos - anchor)));
-      link = $('<a target="_blank"/>');
-      if (entities[i].type === 'mentions')
-      {
-        link.addClass('mention');
-        link.attr('href',
-                  'https://pnut.io/@' + util.htmlEncode(entity.text));
-        link.append(util.htmlEncode('@' + entity.text));
-      }
-      else if (entities[i].type === 'tags')
-      {
-        link.addClass('hashtag');
-        link.attr('href',
-                  'https://pnut.io/tags/' +
-                  util.htmlEncode(entity.text));
-        link.append(util.htmlEncode('#' + entity.text));
-      }
-      else if (entities[i].type === 'links')
-      {
-        link.addClass('link');
-        link.attr('href', entity.link);
-        link.append(util.htmlEncode(entity.text));
-      }
-      result.append(link);
-      anchor = entity.pos + entity.len;
-    }
-    result.append(util.htmlEncode(text.substr(anchor)));
-    return result;
-  };
-
-  function sortEntities(entities)
-  {
-    var result = [];
-    var typeList = ['mentions', 'tags', 'links'];
-    var i = 0;
-    var j = 0;
-    for (i = 0; i < typeList.length; i += 1)
-    {
-      var type = typeList[i];
-      for (j = 0; j < entities[type].length; j += 1)
-      {
-        result.push({pos: entities[type][j].pos,
-                     type: type,
-                     entity: entities[type][j]});
-      }
-    }
-    result.sort(function (left, right) {
-      return left.pos - right.pos;
-    });
-    return result;
-  }
 
   pnut.renderStatus = function (channel)
   {
