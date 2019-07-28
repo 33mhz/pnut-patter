@@ -230,6 +230,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
       var url = match[0];
       var foundIndex = url.length - 4;
       if (url.indexOf('.jpg') === foundIndex ||
+          url.indexOf('.jpeg') === foundIndex ||
           url.indexOf('.png') === foundIndex ||
           url.indexOf('.gif') === foundIndex) {
         result.push(pnut.note.embedImageNote(url, 200, 200));
