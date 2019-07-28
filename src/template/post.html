@@ -6,11 +6,11 @@
       <span class="postTimestamp"></span>
       <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down" title="Options" aria-hidden="true"></i></button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu2">
-        <% if (can_sticky && !is_sticky) { %><li role="presentation"><a role="menuitem" class="stickyButton" tabindex="-1" href="#" title="Stick message to the top">Stick to Top</a></li><% } else if (can_sticky && is_sticky) { %>
-        <li role="presentation"><a role="menuitem" class="unstickyButton" tabindex="-1" href="#" title="Unstick message to the top">Unstick</a></li><% } %>
-        <% if (broadcast) { %><li role="presentation"><a role="menuitem" class="broadcastButton" tabindex="-1" href="<%- broadcast.url %>" target="_blank" title="This message was Broadcasted to the Global stream of posts and linked back to this channel.">Go to Broadcast</a></li><% } %>
-        <% if (can_delete) { %><li role="presentation"><a role="menuitem" class="deleteButton" tabindex="-1" href="#" title="Delete message">Delete</a></li><% } %>
-        <% if (can_mute) { %><li role="presentation"><a role="menuitem" class="muteButton" tabindex="-1" href="#" title="Muting this user will prevent you from seeing their posts.">Mute User</a></li><% } %>
+        <% if (can_sticky && !is_sticky) { %><li role="presentation"><a role="menuitem" class="stickyButton" href="#" title="Stick message to the top"><i class="fa fa-thumb-tack" aria-hidden="true"></i> Stick to Top</a></li><% } else if (can_sticky && is_sticky) { %>
+        <li role="presentation"><a role="menuitem" class="unstickyButton" href="#" title="Unstick message to the top"><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unstick</a></li><% } %>
+        <% if (broadcast) { %><li role="presentation"><a role="menuitem" class="broadcastButton" href="<%- broadcast.url %>" target="_blank" title="This message was Broadcasted to the Global stream of posts and linked back to this channel."><i class="fa fa-globe" aria-hidden="true"></i> Go to Broadcast</a></li><% } %>
+        <% if (can_delete) { %><li role="presentation"><a role="menuitem" class="deleteButton" href="#" title="Delete message"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li><% } %>
+        <% if (can_mute) { %><li role="presentation"><a role="menuitem" class="muteButton" href="#" title="Muting this user will prevent you from seeing their posts."><i class="fa fa-microphone-slash" aria-hidden="true"></i> Mute User</a></li><% } %>
       </ul>
     </div>
   </span>

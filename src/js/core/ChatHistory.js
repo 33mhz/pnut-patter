@@ -115,20 +115,16 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     timestamp.attr('title', data.created_at);
     util.formatTimestamp(timestamp);
 
-    // open meta on click (replace with modal eventually)
-    // var metaButton = $('.postMetaTop', post);
-    // metaButton.click(function(event) {
-    //   event.preventDefault();
-    //   $(this).closest('.message').children('.postMeta').toggle('fast');
-    //   $(this).find('i').toggleClass('fa-caret-up fa-caret-down');
-    //   return false;
-    // });
-
+    // add a couple styles
+    if (broadcast) {
+      post.addClass('broadcasted');
+    }
     if (this.checkMention(data.content.entities.mentions))
     {
       post.addClass('mentioned');
     }
 
+    // click handlers
     var author = post.find('.author');
     author.attr('id', '@' + data.user.username);
     author.on('click', this.authorCallback);
