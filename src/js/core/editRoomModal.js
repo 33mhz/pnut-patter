@@ -93,10 +93,10 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     $('#edit-room-body').hide();
     if (editRoomChannel === null) {
       if (editRoomType === 'io.pnut.core.chat') {
-        $('#edit-room-body').html('Chat rooms may be public or private and the owner can modify permissions after they are created.');
+        $('#edit-room-body').html('You can modify chat room permissions at any time.');
         $('#edit-room-body').show();
       } else if (editRoomType === 'io.pnut.core.pm') {
-        $('#edit-room-body').html('Private message channels are always private, and you cannot change their permissions.');
+        $('#edit-room-body').html('Private message permissions cannot be changed.');
         $('#edit-room-body').show();
       }
     }
@@ -141,31 +141,15 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     if (settings.description)
     {
       $('#edit-room-promo-text').val(settings.description);
-      // $('#edit-room-promote').attr('checked', 'checked');
     }
     else
     {
       $('#edit-room-promo-text').val('');
-      // $('#edit-room-promote').removeAttr('checked');
     }
 
     if (settings.categories)
     {
-      for (i = 0; i < categories.length; i += 1)
-      {
-        $('#edit-' + categories[i]).removeAttr('checked');
-      }
-
-      for (i = 0; i < settings.categories.length; i += 1)
-      {
-        for (j = 0; j < categories.length; j += 1)
-        {
-          if (settings.categories[i] === categories[j])
-          {
-            $('#edit-' + categories[j]).attr('checked', 'checked');
-          }
-        }
-      }
+      $('#edit-room-categories').val(settings.categories);
     }
 
     editRoomFields.reset();
@@ -284,21 +268,16 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
   {
     var annotations = [];
     var settings = pnut.note.findPatterSettings(channel);
-    var cats = [];
-    var i = 0;
+    var cats = $('#edit-room-categories').val();
     var settingsNote = {
       type: 'io.pnut.core.chat-settings',
-      value: { name: name, description: promo }
+      value: { name: name, description: promo, categories: cats }
     };
-    // if (promo === '') {
-      // pnut.api.deleteMessage('1614',
-                               // null, null, null);
-    // }
     annotations.push(settingsNote);
     var fallback = {
       type: 'io.pnut.core.fallback_url',
       value: {
-        url: 'https://patter.chat/' + channel.id
+        url: 'https://beta.pnut.io/messages/' + channel.id
       }
     };
     annotations.push(fallback);
@@ -309,7 +288,6 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var perm = $('#edit-room-perm');
     var label = $('#edit-room-perm-label');
     var pwrapper = $('#edit-room-promote-wrapper');
-    // var pbox = $('#edit-room-promote');
     var poptions = $('#edit-room-promo-options');
     var fields = editRoomFields;
 
@@ -362,7 +340,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
       channel.raw = getPatterNotes(oldChannel,
                                            $('#edit-room-name').val(),
                                            getPromo());
-      pnut.api.updateChannel(oldChannel.id, channel, {include_raw: 1},
+      pnut.api.updateChannel(oldChannel.id, channel, {include_channel_raw: 1},
                                success, null);
       $('#edit-room-modal').modal('hide');
     }
@@ -374,7 +352,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var text = $('#edit-room-text').val();
     var message = { text: text,
                     destinations: names };
-    pnut.api.createMessage('pm', message, { include_raw: 1 },
+    pnut.api.createMessage('pm', message, { include_channel_raw: 1 },
                              completeCreatePm, failCreatePm);
   }
 

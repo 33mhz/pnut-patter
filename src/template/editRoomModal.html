@@ -10,7 +10,7 @@
         <p id="edit-room-body">Main body text</p>
         <form id="edit-room-form">
           <fieldset>
-            <input type="text" placeholder="Name" id="edit-room-name">
+            <input type="text" placeholder="Name" id="edit-room-name" style="width:100%">
           </fieldset>
           <fieldset>
             <textarea id="edit-room-text" class="input-xlarge"
@@ -18,44 +18,29 @@
                       placeholder="Private Message..."></textarea>
           </fieldset>
           <fieldset>
+            <label>Access: 
             <select id="edit-room-perm" class="input-medium">
               <option value="private">Private</option>
               <option value="public">Public</option>
               <option value="public-read">Public Read</option>
-            </select>
-            <label id="edit-room-perm-label"></label>
+            </select></label>
+            <label id="edit-room-perm-label" style="font-weight:normal">Access</label>
           </fieldset>
           <fieldset id="edit-room-promote-wrapper">
-            <!-- <label class="checkbox">
-              <input type="checkbox" id="edit-room-promote">Show this room in the Patter Directory</input>
-            </label> -->
             <!-- not displayed until logic added to limit options and injest into raw -->
             <fieldset id="edit-room-promo-options">
-              <textarea id="edit-room-promo-text" class="input-xlarge"
-                        rows="3" maxlength="256"
-                        placeholder="Describe Your Room..."></textarea>
-              <!--
-              <label class="checkbox">
-                <input type="checkbox" id="edit-fun">Fun</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-lifestyle">Lifestyle</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-profession">Professional</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-language">Language/Region</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-community">Community</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-tech">Tech</input>
-              </label>
-              <label class="checkbox">
-                <input type="checkbox" id="edit-event">Event</input>
-              </label>-->
+              <p><textarea id="edit-room-promo-text" class="input-xlarge" style="width:100%" rows="3" maxlength="256" placeholder="Describe Your Room..."></textarea></p>
+
+              <p><select id="edit-room-categories" multiple>
+                <option selected>general</option>
+                <option>fun</option>
+                <option>lifestyle</option>
+                <option>profession</option>
+                <option>language</option>
+                <option>community</option>
+                <option>tech</option>
+                <option>event</option>
+              </select></p>
             </fieldset>
           </fieldset>
           <div class="row-fluid">
