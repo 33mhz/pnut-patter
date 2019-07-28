@@ -140,7 +140,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
   var broadcastMessage = function (response)
   {
     var postAnnotations = this.raw.slice(0);
-    var url = 'https://patter.chat/room/' + this.chat.channelId;
+    var url = 'https://beta.pnut.io/messages/' + this.chat.channelId;
     postAnnotations.push({
       type: 'io.pnut.core.crosspost',
       value: {
@@ -169,8 +169,8 @@ function ($, util, pnut, attachModal, chatTemplate) {
       chat: this.chat
     };
     pnut.api.createPost(post, {},
-                          $.proxy(completeBroadcastMessage, context),
-                          $.proxy(failBroadcastMessage, context));
+                        $.proxy(completeBroadcastMessage, context),
+                        $.proxy(failBroadcastMessage, context));
   };
 
   var completeBroadcastMessage = function (response)
@@ -179,7 +179,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
     {
       var messageAnn = this.raw.slice(0);
       var broadcast = pnut.note.broadcastNote(response.data.id,
-                                                response.data.canonical_url);
+                                              'https://posts.pnut.io/' + response.data.id);
       messageAnn.push(broadcast);
       this.chat.postMessage(this.message, messageAnn);
     }

@@ -98,11 +98,11 @@ define(['util'], function (util) {
     return id;
   };
 
-  note.broadcastNote = function (id, url) {
+  note.broadcastNote = function (post_id, url) {
     return {
       type: 'net.patter-app.broadcast',
       value: {
-        id: id,
+        id: post_id,
         url: url
       }
     };

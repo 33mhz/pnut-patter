@@ -94,6 +94,10 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     {
       avatarUrl = this.avatarUrls[data.user.username];
     }
+    var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast', data.raw);
+    if (broadcast && !broadcast.url) {
+      broadcast.url = 'https://beta.pnut.io/posts/' + broadcast.id;
+    }
     var params = {
       body: body,
       name: name,
@@ -102,7 +106,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       id: data.id,
       can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))),
       can_mute: (pnut.user && pnut.user.id !== data.user.id),
-      can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))
+      can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))),
+      broadcast: broadcast
     };
     var post = $(postTemplate(params));
 
@@ -152,18 +157,6 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       that.stickyCallback(data.id + ',0');
       return false;
     });
-
-    var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast',
-                                               data.raw);
-    if (broadcast !== null)
-    {
-      $('.broadcastLink', post).attr('href', broadcast.url);
-      $('.postRow', post).addClass('broadcastPost');
-    }
-    else
-    {
-      $('.broadcastLink', post).remove();
-    }
 
     var mute = post.find('.muteButton');
     // var that = this;
