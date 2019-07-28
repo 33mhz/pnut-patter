@@ -6,7 +6,7 @@
 (function () {
   var styles = [
     '/css/normalize.css',
-    '/css/style.css'
+    '/css/style.css?d=2019-07-28'
   ];
 
   var query = window.location.search.substring(1);
@@ -149,8 +149,5 @@
 {% endblock %}
 
 {% block bottom_js %}
-<!--
-  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="/fonts/ss-social.js"></script>
--->
+
 {% endblock %}

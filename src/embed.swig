@@ -2,9 +2,6 @@
 {% block title %}A chat client for Pnut{% endblock %}
 
 {% block css %}
-<!--<link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
-<link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
--->
 <script type='text/javascript'>
 (function () {
   var styles = [
@@ -69,7 +66,5 @@
 {% endblock %}
 
 {% block bottom_js %}
-<!--  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="/fonts/ss-social.js"></script>
--->
+
 {% endblock %}

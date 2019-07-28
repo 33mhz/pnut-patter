@@ -139,15 +139,15 @@ function ($, util, pnut, attachModal, chatTemplate) {
 
   var broadcastMessage = function (response)
   {
-    var postAnnotations = this.raw.slice(0);
+    var postRaw = this.raw.slice(0);
     var url = 'https://beta.pnut.io/messages/' + this.chat.channelId;
-    postAnnotations.push({
+    postRaw.push({
       type: 'io.pnut.core.crosspost',
       value: {
         canonical_url: url
       }
     });
-    postAnnotations.push({
+    postRaw.push({
       type: 'io.pnut.core.channel.invite',
       value: {
         channel_id: this.chat.channelId
@@ -155,7 +155,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
     });
     var post = {
       text: this.message,
-      raw: postAnnotations
+      raw: postRaw
     };
     var text = this.message;
     var promo = '\n\n[' + this.chat.channelName + '](' + url + ')';
@@ -187,6 +187,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
 
   var failBroadcastMessage = function (response)
   {
+    console.error('Failed to broadcast');
   };
 
   ChatForm.prototype.getInput = function ()

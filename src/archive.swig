@@ -2,15 +2,9 @@
 {% block title %}A chat client for pnut.io{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/fonts/ss-standard.css">
-<link rel="stylesheet" type="text/css" href="/fonts/ss-social.css">
-<link href='https://fonts.googleapis.com/css?family=Cabin:400,400italic|Open+Sans:400italic,400' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" style="text/css"
-      href="/css/post.css" title="sms">
-<link rel="stylesheet" style="text/css"
-      href="/css/user.css" title="sms">
-<link rel="stylesheet" style="text/css"
-      href="/css/room.css" title="sms">
+<link rel="stylesheet" style="text/css" href="/css/post.css" title="sms">
+<link rel="stylesheet" style="text/css" href="/css/user.css" title="sms">
+<link rel="stylesheet" style="text/css" href="/css/room.css" title="sms">
 {% endblock %}
 
 {% block javascript %}
@@ -65,8 +59,6 @@
 {% endblock %}
 
 {% block bottom_js %}
-  <script type="text/javascript" src="/fonts/ss-standard.js"></script>
-  <script type="text/javascript" src="/fonts/ss-social.js"></script>
   <script>
     (function ()
     {

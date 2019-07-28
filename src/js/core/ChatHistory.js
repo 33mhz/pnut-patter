@@ -89,7 +89,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     var avatarUrl = '';
     if (this.avatarUrls[data.user.username])
     {
-      avatarUrl = this.avatarUrls[data.user.username];
+      avatarUrl = ' style="background-image: url(\'' + this.avatarUrls[data.user.username] + '?w=80\')"';
     }
     var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast', data.raw);
     if (broadcast && !broadcast.url) {

@@ -7,9 +7,9 @@
     <title>Patter - A chat client for Pnut</title>
 
     <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" style="text/css" href="/css/bootstrap/readable.min.css">
     {% block css %}
     {% endblock %}
-    <link rel="stylesheet" style="text/css" href="/css/bootstrap/readable.min.css">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="/js/core/config.js"></script>
     {% block javascript %}
