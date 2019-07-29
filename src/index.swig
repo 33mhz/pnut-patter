@@ -27,12 +27,12 @@
 
       <div id="settings" class="dropdown pull-right">
         <ul class="dropdown-menu" role="menu">
-          <li role="presentation" class="dropdown-header" id="username">@username</li>
+          <li role="presentation" class="dropdown-header" id="username">No User</li>
           <li role="presentation" class="divider"></li>
           <li role="presentation"><a role="menuitem" href="" id="options-button">Options</a></li>
           <li role="presentation"><a role="menuitem" href="faq.html">FAQ</a></li>
           <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" id="logout" href="#" data-toggle="dropdown" data-target="#settings">Logout</a></li>
+          <li role="presentation"><a role="menuitem" class="logout" href="#" data-toggle="dropdown" data-target="#settings">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -41,15 +41,15 @@
 
     <div id="main-lobby">
 
-<br/><br/><br/>
+<br><br><br>
 
       <div class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-          <li id="home-tab" class="active"><a href="#home" data-toggle="tab">Unread</a></li>
-          <li id="room-tab" style="display: none"><a id="room-tab-link" href="#rooms" data-toggle="tab">My Rooms <span class="badge" style="display: none" id="unread"></span></a></li>
-          <li id="pm-tab" style="display: none"><a id="pm-tab-link" href="#pms" data-toggle="tab">Private Messages <span class="badge" style="display: none" id="unread"></span></a></li>
-          <li id="public-tab" style="display: none"><a id="public-tab-link" href="#public" data-toggle="tab">Public Rooms</a></li>
-          <li id="search-tab" style="display: none"><a id="search-tab-link" href="#search" data-toggle="tab">Search</a></li>
+          <li id="home-tab" class="active" title="Unread"><a href="#home" data-toggle="tab">Unread</a></li>
+          <li id="pm-tab" style="display: none" title="Private Messages"><a id="pm-tab-link" href="#pms" data-toggle="tab"><span class="hideLess767">Private Messages</span><span class="hideGreater767">PM</span> <span class="badge" style="display: none" id="unread"></span></a></li>
+          <li id="room-tab" style="display: none" title="Rooms I am subscribed to"><a id="room-tab-link" href="#rooms" data-toggle="tab"><span class="hideLess767">My </span>Rooms <span class="badge" style="display: none" id="unread"></span></a></li>
+          <li id="public-tab" style="display: none" title="Public Rooms"><a id="public-tab-link" href="#public" data-toggle="tab">Public<span class="hideLess767"> Rooms</span></a></li>
+          <li id="search-tab" style="display: none" title="Search"><a id="search-tab-link" href="#search" data-toggle="tab">Search</a></li>
         </ul>
         <div class="tab-content">
           <div id="home" class="tab-pane active">
@@ -81,9 +81,9 @@
                 </div>
                 <div id="error-home" style="display: none">
                   <div class="text-center">
-                    <h4>Failed on Load</h4>
+                    <h4>Failed to Load</h4>
                     <p id="error-message"></p>
-                    <button id="retry-button" class="btn btn-default">Retry</button>
+                    <p><button id="retry-button" class="btn btn-default">Retry</button> or <button class="logout btn btn-default">Logout</button></p>
                   </div>
                 </div>
                 <div id="main-home" style="display: none"></div>
@@ -99,9 +99,9 @@
           <div id="rooms" class="tab-pane">
             <br>
             <form role="form" class="form-inline" id="private-search-rooms">
-              <div class="form-group">
+              <div class="form-group" style="display: inline-block">
                 <label class="sr-only" for="private-search-text">Search Your Private Rooms by Title</label>
-                <input type="text" class="form-control" id="private-search-text" placeholder="Private Rooms by Title">
+                <input type="text" class="form-control" id="private-search-text" placeholder="Search by Title & Description">
               </div>
               <button type="submit" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>

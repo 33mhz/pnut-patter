@@ -23,7 +23,7 @@ function ($, pnut, util, options, editRoomModal,
     {text:'community',weight:218},
     {text:'tech',weight:201},
     {text:'event',weight:58},
-    {text:'general',weight:29}
+    {text:'general',weight:40}
   ];
 
   var checkWait = 30 * 1000;
@@ -47,7 +47,7 @@ function ($, pnut, util, options, editRoomModal,
         $('#loading-home').show();
         initLobby();
       });
-      $('#logout').on('click', logout);
+      $('.logout').on('click', logout);
       $('#options-button').on('click', clickOptions);
       optionsModel = new OptionsModel();
       optionsView = new OptionsView({ model: optionsModel,
@@ -70,7 +70,7 @@ function ($, pnut, util, options, editRoomModal,
       pollUpdate();
     }, function (error) {
       $('#loading-home').hide();
-      $('#error-message').html('Could not get user information');
+      $('#error-message').html('You may have a bad connection or need to log back in.');
       $('#error-home').show();
     });
   }

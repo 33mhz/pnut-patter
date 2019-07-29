@@ -87,9 +87,29 @@ footer {
   border-top: 1px solid #4c1015;
   border-bottom: 1px solid #c94953;
 }
+.nav-tabs,.nav-tabs > li {
+  display: flex;
+}
+.well-small {
+  padding: 10px;
+  font-size: 80%;
+  box-shadow: none;
+  min-height: none;
+}
 
 @media screen and (max-width: 767px) {
   .avatarImg {
+    display: none;
+  }
+  .hideLess767 {
+    display: none;
+  }
+  .room-description {
+    display: none;
+  }
+}
+@media (min-width: 768px) {
+  .hideGreater767 {
     display: none;
   }
 }
