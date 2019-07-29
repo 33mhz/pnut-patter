@@ -38,6 +38,9 @@ function ($, _, Backbone)
 
   function findNewUserList(channels)
   {
+    if (channels.length === 0) {
+      return [];
+    }
     var result = [];
     var i = 0;
     for (i = 0; i < channels.length; i += 1)

@@ -107,6 +107,12 @@ footer {
   .room-description {
     display: none;
   }
+  h1, .h1 {
+    font-size: 33px;
+  }
+  h1 small, .h1 small {
+    font-size: 22px;
+  }
 }
 @media (min-width: 768px) {
   .hideGreater767 {

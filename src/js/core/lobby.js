@@ -372,8 +372,9 @@ function ($, pnut, util, options, editRoomModal,
     };
     if (updateSince)
     {
-      params.since_id = updateSince;
-      params.count = -20;
+      // params.since_id = updateSince;
+      // params.count = -20;
+      params.include_read = 0;
     }
 
     var promise = $.pnut.channel.getUserSubscribed(params);
@@ -388,19 +389,6 @@ function ($, pnut, util, options, editRoomModal,
     }).then(function () {
       var used = {};
       var channels = [];
-      // dirty hack to get some channel IDs because they aren't getting gotten elsewhere!
-      var items = document.getElementsByClassName('btn btn-primary');
-      for(var i = 0; i < items.length; i += 1)
-      {
-        if (items[i].href)
-        {
-          var split = items[i].href.split('/');
-          if (typeof split[4] !== 'undefined')
-          {
-            channels.push(split[4]);
-          }
-        }
-      }
       pms.getUnreadIdList(channels, used);
       rooms.getUnreadIdList(channels, used);
       if (channels.length > 0) {
@@ -480,3 +468,4 @@ function ($, pnut, util, options, editRoomModal,
 
   $(document).ready(initialize);
 });
+
