@@ -98,6 +98,22 @@ define(['util'], function (util) {
     return id;
   };
 
+  note.findCrosspost = function (message)
+  {
+    return note.findAnnotation('io.pnut.core.crosspost',
+                               message.raw);
+  };
+
+  note.findBroadcast = function (message)
+  {
+    var ref = note.findAnnotation('net.patter-app.broadcast',
+                               message.raw);
+    if (ref && !ref.url) {
+      ref.url = 'https://beta.pnut.io/posts/' + ref.id;
+    }
+    return ref;
+  };
+
   note.broadcastNote = function (post_id, url) {
     return {
       type: 'net.patter-app.broadcast',

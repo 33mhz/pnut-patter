@@ -92,9 +92,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       avatarUrl = this.avatarUrls[data.user.username];
     }
     var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast', data.raw);
-    if (broadcast && !broadcast.url) {
-      broadcast.url = 'https://beta.pnut.io/posts/' + broadcast.id;
-    }
+    var crosspost = pnut.note.findCrosspost(data.raw);
     var params = {
       body: body,
       name: name,
@@ -104,7 +102,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))),
       can_mute: (pnut.user && pnut.user.id !== data.user.id),
       can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))),
-      broadcast: broadcast
+      broadcast: broadcast,
+      crosspost: crosspost
     };
     var post = $(postTemplate(params));
 
@@ -119,8 +118,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     if (broadcast) {
       post.addClass('broadcasted');
     }
-    if (this.checkMention(data.content.entities.mentions))
-    {
+    if (this.checkMention(data.content.entities.mentions)) {
       post.addClass('mentioned');
     }
 

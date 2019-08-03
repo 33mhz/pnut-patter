@@ -13,6 +13,9 @@
         <% if (broadcast) { %>
           <li role="presentation"><a role="menuitem" class="broadcastButton" href="<%- broadcast.url %>" target="_blank" title="This message was Broadcasted to the Global stream of posts and linked back to this channel."><i class="fa fa-globe" aria-hidden="true"></i> Go to Broadcast</a></li>
         <% } %>
+        <% if (crosspost) { %>
+          <li role="presentation"><a role="menuitem" class="crosspostButton" href="<%- crosspost.canonical_url %>" target="_blank" title="This message was created from a different service."><i class="fa fa-globe" aria-hidden="true"></i> Original URL</a></li>
+        <% } %>
         <% if (can_delete) { %>
           <li role="presentation"><a role="menuitem" class="deleteButton" href="#" title="Delete message"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
         <% } %>

@@ -97,6 +97,13 @@ footer {
   min-height: none;
 }
 
+#edit-room-body {
+  font-style: italic;
+}
+#edit-room-text {
+  width: 100%;
+}
+
 @media screen and (max-width: 767px) {
   .avatarImg {
     display: none;
