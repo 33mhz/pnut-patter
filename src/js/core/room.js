@@ -81,6 +81,15 @@ function ($, util, pnut, options, roomInfo, roomMenu, RoomFeed) {
         roomInfo.updateChannel();
       }
     }
+
+    $('body').on('click', '.messageContent a', function(event) {
+      if (this.href.substring(0,4) === 'http') {
+        event.preventDefault();
+        event.stopPropagation();
+        var win = window.open(this.href, '_blank');
+        win.focus();
+      }
+    });
   }
 
   $(document).ready(initialize);

@@ -84,8 +84,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
     // Modal subtitle
     var ownerText = '';
-    if (editRoomChannel !== null && editRoomChannel.owner)
-    {
+    if (editRoomChannel !== null && editRoomChannel.owner) {
       ownerText = 'Owned by @' + editRoomChannel.owner.username;
     }
     $('#edit-room-owner').html(ownerText);
@@ -153,12 +152,13 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     }
 
     editRoomFields.reset();
-    if (editRoomChannel !== null)
-    {
+    if (editRoomChannel !== null) {
       var keys = Object.keys(roomInfo.members);
       for (i = 0; i < keys.length; i += 1) {
         editRoomFields.addField('@' + keys[i]);
       }
+
+      $('#edit-room-message-count').html('Messages created: ' + editRoomChannel.counts.messages);
     }
     if (canEdit) {
       editRoomFields.addField();
@@ -358,7 +358,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function completeCreatePm(response)
   {
-    util.redirect('room/' + response.data.channel_id);
+    util.redirect('/' + response.data.channel_id);
   }
 
   function failCreatePm(meta)
@@ -397,7 +397,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   var completeCreatePatter = function (response)
   {
-    util.redirect('room/' + response.data.id);
+    util.redirect('/' + response.data.id);
   };
 
   var failCreatePatter = function (meta)
@@ -407,7 +407,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
 
   function redirectToChannel(response)
   {
-    util.redirect('room/' + response.data.id);
+    util.redirect('/' + response.data.id);
   }
 
   function clickSave(event) {
