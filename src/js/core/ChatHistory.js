@@ -117,7 +117,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     if (broadcast) {
       post.addClass('broadcasted');
     }
-    if (this.checkMention(data.content.entities.mentions)) {
+    if (this.checkMention(data.user.id, data.content.entities.mentions)) {
       post.addClass('mentioned');
     }
 
@@ -195,10 +195,10 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     }
   }
 
-  ChatHistory.prototype.checkMention = function (mentions)
+  ChatHistory.prototype.checkMention = function (sender_id, mentions)
   {
     var result = false;
-    if (pnut.user !== null)
+    if (pnut.user !== null && pnut.user.id !== sender_id)
     {
       var i = 0;
       for (i = mentions.length - 1; i > -1; i -= 1) {
@@ -221,7 +221,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     {
       this.root.find('.messageList').append(posts);
       if (! util.has_focus) {
-        var isMention = this.checkMention(last.mentions);
+        var isMention = this.checkMention(last.user.id, last.mentions);
         if (options.settings.everyTitle ||
             (isMention && options.settings.mentionTitle))
         {
