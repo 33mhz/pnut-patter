@@ -94,7 +94,7 @@ footer {
   padding: 10px;
   font-size: 80%;
   box-shadow: none;
-  min-height: none;
+  min-height: auto;
 }
 
 #edit-room-body {

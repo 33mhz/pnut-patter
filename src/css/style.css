@@ -44,17 +44,17 @@ footer {
   text-align: center;
   line-height: 40px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  background-image: linear-gradient(bottom, #bf2936 100%, #b22531 0%);
+  background-image: linear-gradient(to bottom, #bf2936 0%, #b22531 100%);
   border: 1px solid #99202a;
   box-sizing: content-box;
   font-size: 18px;
   cursor: pointer;
 }
 .header_btn:hover {
-  background-image: linear-gradient(bottom, #cc2b3b 0%, #e63344 100%);
+  background-image: linear-gradient(to bottom, #cc2b3b 0%, #e63344 100%);
 }
 .header_btn:active {
-  background-image: linear-gradient(bottom, #b22531 100%, #bf2936 0%);
+  background-image: linear-gradient(to bottom, #b22531 0%, #bf2936 100%);
 }
 #lobby_btn,
 #room_btn {
@@ -291,17 +291,17 @@ ul.messageList {
   text-align: center;
   font-size: 24px;
   line-height: 43px;
-  background-image: linear-gradient(bottom, #bf2936 100%, #b22531 0%);
+  background-image: linear-gradient(to bottom, #bf2936 0%, #b22531 100%);
   border: 1px solid #99202a;
   box-sizing: content-box;
   font-size: 18px;
   cursor: pointer;
 }
 #chatInput a:hover {
-  background-image: linear-gradient(bottom, #cc2b3b 0%, #e63344 100%);
+  background-image: linear-gradient(to bottom, #cc2b3b 0%, #e63344 100%);
 }
 #chatInput a:active {
-  background-image: linear-gradient(bottom, #b22531 100%, #bf2936 0%);
+  background-image: linear-gradient(to bottom, #b22531 0%, #bf2936 100%);
 }
 #chatInput #chatBox {
   border: 1px solid #000;

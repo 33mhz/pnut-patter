@@ -26,14 +26,14 @@ function ($, pnut, roomInfo, editRoomModal, OptionsView, OptionsModel,
     header = headerContainer;
 //    container.append((window.PATTER.embedded) ? embeddedMenuTemplate : menuTemplate);
 
-//    initTranslate();
-//    initNotify();
+    // initTranslate();
+    // initNotify();
     container.find('#view').click(clickEditRoom);
     container.find('#subscribe').click(clickSubscribe);
     container.find('#help').click(clickHelp);
     container.find('#archive').click(clickArchive);
     container.find('#options-button').click(clickOptions);
-//    initFontsize(history);
+    // initFontsize(history);
     editRoomModal.init();
     roomMenu.updateChannelView();
 

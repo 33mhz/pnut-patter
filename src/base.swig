@@ -94,7 +94,6 @@
       </div>
       <div class="well well-small">
         <p>For troubleshooting, contact <a href="https://pnut.io/@33mhz">@33MHz</a>.</p>
-        <p>Our privacy policy is <a href="http://www.privacychoice.org/policy/mobile?policy=7e57611e9551c6105db81e5c27f3a415">here</a>.</p>
         <p>Patter interacts with <a href="https://pnut.io">Pnut</a> on your behalf, and any message you create will be subject to their policies.</p>
       </div>
     </div>
