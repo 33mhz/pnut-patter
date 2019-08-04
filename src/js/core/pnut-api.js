@@ -324,6 +324,10 @@ function ($, util) {
   addDataOne('updateChannel', 'PUT',
              'https://api.pnut.io/v0/channels/');
 
+  // deleteChannel(channelId, args, success, failure);
+  addOne('deleteChannel', 'DELETE',
+             'https://api.pnut.io/v0/channels/');
+
   api.createSharedFeed = function (name, success, failure)
   {
     var channel = {

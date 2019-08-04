@@ -6,6 +6,9 @@ body {
 a {
   color: #0060b3;
 }
+.btn:hover, .btn:focus {
+  color: inherit !important;
+}
 body,
 .room_title,
 .username,
@@ -328,6 +331,10 @@ ul {
   padding-left: 0;
 }
 
+#edit-room-deactivate {
+  float: left;
+}
+
 @media (max-width: 580px) {
   /* room */
   #messages {
@@ -349,6 +356,9 @@ ul {
   .avatarImg {
     display:none;
   }
+  .message .source {
+    display: none;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -361,13 +371,10 @@ ul {
     color: #ddd;
   }
   #messages .mentioned {
-    background-color: #b9ffb9;
+    background-color: rgb(11, 23, 11);
   }
   #messages .broadcasted {
-    background-color: #fffcbe;
-  }
-  #messages .broadcasted,#messages .mentioned,#messages .mentioned .username .author,#messages .mentioned .username .author {
-    color: #000;
+    background-color: rgb(32, 32, 15);
   }
   #users {
     background-color: #130c0c;

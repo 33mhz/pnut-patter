@@ -3,7 +3,7 @@
   <% if (broadcast) { %><a class="broadcastLink" title="This message was Broadcasted to the Global stream of posts and linked back to this channel." href="<%- broadcast.url %>" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a><% } %>
   <span class="postMetaTop">
     <div class="dropdown" style="display: block;">
-      <span class="postTimestamp"></span>
+      <span class="postTimestamp"></span><span class="source"> via <a href="<%- source.link %>"><%- source.name %></a></span>
       <button class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fa fa-caret-down" title="Options" aria-hidden="true"></i></button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownmenu2">
         <% if (can_sticky && !is_sticky) { %>

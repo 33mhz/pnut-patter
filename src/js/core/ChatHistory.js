@@ -82,13 +82,11 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
   {
     var body = pnut.htmlToHtml(data.content);
     var name = '';
-    if (data.user)
-    {
+    if (data.user) {
       name = data.user.username;
     }
     var avatarUrl = null;
-    if (this.avatarUrls[data.user.username])
-    {
+    if (this.avatarUrls[data.user.username]) {
       avatarUrl = this.avatarUrls[data.user.username];
     }
     var broadcast = pnut.note.findAnnotation('net.patter-app.broadcast', data.raw);
@@ -99,6 +97,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       avatarUrl: avatarUrl,
       is_sticky: data.is_sticky,
       id: data.id,
+      source: data.source,
       can_delete: (pnut.user && (pnut.user.id === data.user.id || (this.channel.type === 'io.pnut.core.chat' && ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1)))),
       can_mute: (pnut.user && pnut.user.id !== data.user.id),
       can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))),
