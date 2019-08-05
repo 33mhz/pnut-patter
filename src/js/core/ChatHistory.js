@@ -46,6 +46,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
         var post = this.renderPost(data[i]);
         allPosts.append(post);
         last = {
+          user_id: data[i].user.id,
           username: '@' + data[i].user.username,
           text: util.htmlEncode(data[i].content.text),
           mentions: data[i].content.entities.mentions || []
@@ -221,7 +222,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     {
       this.root.find('.messageList').append(posts);
       if (! util.has_focus) {
-        var isMention = this.checkMention(last.user.id, last.mentions);
+        var isMention = this.checkMention(last.user_id, last.mentions);
         if (options.settings.everyTitle ||
             (isMention && options.settings.mentionTitle))
         {
@@ -235,14 +236,14 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
         {
           if ('Notification' in window)
           {
-            var notification = new window.Notification(last.username, {body: last.text, icon: '/images/patter-top-mobile.png'});
+            var notification = new window.Notification(last.username, {body: last.text, icon: '/images/logo.png'});
           }
           if (window.fluid)
           {
             window.fluid.showGrowlNotification({
               title: last.username,
               description: last.text,
-              icon: '/images/patter-top-mobile.png',
+              icon: '/images/logo.png',
               sticky: false
             });
           }
