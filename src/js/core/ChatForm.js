@@ -16,6 +16,12 @@ function ($, util, pnut, attachModal, chatTemplate) {
     this.channelName = pnut.note.findPatterName(channel);
     this.postCallback = postCallback;
 
+    // ctrl+enter submit textarea
+    root.find('#textBox').keydown(function(event) {
+      if (event.ctrlKey && event.keyCode === 13) {
+        $('#chatSend').trigger('click');
+      }
+    });
     root.find('#chat-form').submit($.proxy(clickSend, this));
     root.find('#chatSend').click($.proxy(clickSend, this));
     if (channel.type === 'io.pnut.core.chat' &&
