@@ -399,9 +399,9 @@ function ($, pnut, util, options, editRoomModal,
         return [];
       }
     }).then(function (response) {
-      if (response.data.length) {
-        return allUsers.fetchNewUsers(response.data).then(function () {
-          processUpdate(response.data);
+      if (response.length) {
+        return allUsers.fetchNewUsers(response).then(function () {
+          processUpdate(response);
         });
       }
     });
