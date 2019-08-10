@@ -131,7 +131,11 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     var that = this;
     deleter.click(function (event) {
       event.preventDefault();
-      that.deleteCallback(data.id);
+
+      var yes = window.confirm('Are you sure you want to delete this message?');
+      if (yes) {
+        that.deleteCallback(data.id);
+      }
       return false;
     });
 
