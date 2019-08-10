@@ -399,9 +399,11 @@ function ($, pnut, util, options, editRoomModal,
         return [];
       }
     }).then(function (response) {
-      return allUsers.fetchNewUsers(response.data).then(function () {
-        processUpdate(response.data);
-      });
+      if (response.data.length) {
+        return allUsers.fetchNewUsers(response.data).then(function () {
+          processUpdate(response.data);
+        });
+      }
     });
   }
 
