@@ -1,5 +1,7 @@
 <li class="message msg<%- id %>" data-message-id="<%- id %>">
-  <span class="userTag"><a title="Avatar link for @<%- name %>" href="https://beta.pnut.io/@<%- name %>" target="_blank"><span class="userPic"<% if (avatarUrl) { %> style="background-image: url(<%- avatarUrl %>?w=80)"<% } %>></span></a>&nbsp;<span class="username"><a class="author" href=""><%- name %></a></span></span>&nbsp;<span class="stickyColor stickyPin"<% if (!is_sticky) { %> style="display:none"<% } %> title="Pinned"><i class="fa fa-thumb-tack" aria-hidden="true"></i></span>
+  <% if (!is_serial) { %>
+  <span class="userTag"><a title="Avatar link for @<%- name %>" href="https://beta.pnut.io/@<%- name %>" target="_blank"><span class="userPic"<% if (avatarUrl) { %> style="background-image: url(<%- avatarUrl %>?w=80)"<% } %>></span></a>&nbsp;<span class="username"><a class="author" href=""><%- name %></a></span></span>&nbsp;
+  <% } %><span class="stickyColor stickyPin"<% if (!is_sticky) { %> style="display:none"<% } %> title="Pinned"><i class="fa fa-thumb-tack" aria-hidden="true"></i></span>
   <% if (broadcast) { %><a class="broadcastLink" title="This message was Broadcasted to the Global stream of posts and linked back to this channel." href="<%- broadcast.url %>" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a><% } %>
   <span class="postMetaTop">
     <div class="dropdown" style="display: block;">

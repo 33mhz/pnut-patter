@@ -35,6 +35,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     var allPosts = $('<ul/>');
     var last = null;
     var i = 0;
+    var messages_in_series = 0;
     for (i = data.length - 1; i > -1; i -= 1)
     {
       if (stickyMessages)
@@ -43,6 +44,13 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       }
       else if (this.validPost(data[i]))
       {
+        // show avatar if new user or over 5 messages since last change
+        data[i].is_serial = last !== null && messages_in_series < 5 && last.user_id === data[i].user.id;
+        if (data[i].is_serial) {
+          messages_in_series = messages_in_series +1;
+        } else {
+          messages_in_series = 0;
+        }
         var post = this.renderPost(data[i]);
         allPosts.append(post);
         last = {
@@ -103,7 +111,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       can_mute: (pnut.user && pnut.user.id !== data.user.id),
       can_sticky: (pnut.user && (this.channel.type === 'io.pnut.core.pm' || ((this.channel.owner && pnut.user.id === this.channel.owner.id) || this.channel.acl.full.user_ids.indexOf(pnut.user.id) !== -1))),
       broadcast: broadcast,
-      crosspost: crosspost
+      crosspost: crosspost,
+      is_serial: data.is_serial
     };
     var post = $(postTemplate(params));
 
