@@ -45,7 +45,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
       else if (this.validPost(data[i]))
       {
         // show avatar if new user or over 5 messages since last change
-        data[i].is_serial = last !== null && messages_in_series < 5 && last.user_id === data[i].user.id;
+        var created_at = new Date(data[i].created_at);
+        data[i].is_serial = last !== null && last.user_id === data[i].user.id && messages_in_series < 5 && (created_at - last.created_at) / 1000 < 86400;
         if (data[i].is_serial) {
           messages_in_series = messages_in_series +1;
         } else {
@@ -57,7 +58,8 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
           user_id: data[i].user.id,
           username: '@' + data[i].user.username,
           text: util.htmlEncode(data[i].content.text),
-          mentions: data[i].content.entities.mentions || []
+          mentions: (data[i].content.entities.mentions || []),
+          created_at: created_at
         };
         this.shownPosts[data[i].id] = 1;
       }
@@ -211,17 +213,14 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
 
   ChatHistory.prototype.checkMention = function (sender_id, mentions)
   {
-    var result = false;
-    if (pnut.user !== null && pnut.user.id !== sender_id)
-    {
-      var i = 0;
-      for (i = mentions.length - 1; i > -1; i -= 1) {
+    if (pnut.user !== null && pnut.user.id !== sender_id) {
+      for (var i = mentions.length - 1; i > -1; i -= 1) {
         if (mentions[i].id === pnut.user.id) {
-          result = true;
+          return true;
         }
       }
     }
-    return result;
+    return false;
   };
 
   ChatHistory.prototype.addPostsToFeed = function (posts, addBefore, last)
@@ -234,7 +233,7 @@ function ($, _, util, options, pnut, postString, emojiTemplate) {
     else
     {
       this.root.find('.messageList').append(posts);
-      if (! util.has_focus) {
+      if (!util.has_focus && (pnut.user === null || pnut.user.id !== last.user_id)) {
         var isMention = this.checkMention(last.user_id, last.mentions);
         if (options.settings.everyTitle ||
             (isMention && options.settings.mentionTitle))
