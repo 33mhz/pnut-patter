@@ -73,7 +73,7 @@ define(['util'], function (util) {
 
   note.findBlogPost = function (message)
   {
-    return note.findAnnotation('net.jazzychad.adnblog.post',
+    return note.findAnnotation('nl.chimpnut.blog.post',
                                message.raw);
   };
 
