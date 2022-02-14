@@ -126,9 +126,9 @@
     <footer>
       <div id="chatInput">
         <form id="chat-form">
-          <input type="text" id="chatBox" placeholder="Enter text here." maxlength="2000" autofocus="true">
+          <input type="text" id="chatBox" placeholder="Enter text here." maxlength="2000" autofocus="true" autocomplete="off">
         </form>
-        <textarea id="textBox" placeholder="Enter text here." maxlength="2000" autofocus="true" style="display: none"></textarea>
+        <textarea id="textBox" placeholder="Enter text here." maxlength="2000" autofocus="true" autocomplete="off" style="display: none"></textarea>
         <a id="chatSend"><i class="fa fa-comment white-icon" title="Chat"></i></a>
         <a id="chatBroadcast"><i class="fa fa-globe white-icon" title="Broadcast to Global"></i></a>
         <a id="chatEmbed"><i class="fa fa-file white-icon" title="Attach File"></i></a>
