@@ -16,7 +16,7 @@
     "grunt-contrib-copy": "~0.4.1",
     "assemble": "~0.3.76",
     "grunt-swig": "0.0.9",
-    "grunt-contrib-connect": "~0.3.0",
-    "grunt-contrib-watch": "~0.4.3"
+    "grunt-contrib-connect": "~3.0.0",
+    "grunt-contrib-watch": "~1.1.0"
   }
 }
