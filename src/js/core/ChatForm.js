@@ -146,7 +146,7 @@ function ($, util, pnut, attachModal, chatTemplate) {
   var broadcastMessage = function (response)
   {
     var postRaw = this.raw.slice(0);
-    var url = 'https://beta.pnut.io/messages/' + this.chat.channelId;
+    var url = 'https://delta.pnut.io/chat/' + this.chat.channelId;
     postRaw.push({
       type: 'io.pnut.core.crosspost',
       value: {

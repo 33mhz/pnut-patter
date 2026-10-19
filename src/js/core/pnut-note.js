@@ -109,7 +109,7 @@ define(['util'], function (util) {
     var ref = note.findAnnotation('net.patter-app.broadcast',
                                message.raw);
     if (ref && !ref.url) {
-      ref.url = 'https://beta.pnut.io/posts/' + ref.id;
+      ref.url = 'https://delta.pnut.io/posts/' + ref.id;
     }
     return ref;
   };

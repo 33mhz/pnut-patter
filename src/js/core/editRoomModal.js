@@ -273,7 +273,7 @@ function ($, util, pnut, roomInfo, UserFields, editTemplate) {
     var fallback = {
       type: 'io.pnut.core.fallback_url',
       value: {
-        url: 'https://beta.pnut.io/messages/' + channel.id
+        url: 'https://delta.pnut.io/chat/' + channel.id
       }
     };
     annotations.push(fallback);
