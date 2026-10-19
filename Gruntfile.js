@@ -1,10 +1,14 @@
 /*global module: true, require: true */
 module.exports = function (grunt) {
   'use strict';
-
+ 
+  var path = require('path');
+  var nunjucks = require('nunjucks');
+ 
   grunt.option('stack', true);
-  
-  var user_conf = {
+ 
+  // Configuration
+  var userConf = {
     patter_client_id: 'sQZSnTo-Cw9EIQyaXm-RnCKijCanJwxL',
     dev: {
       using_server: false
@@ -13,81 +17,106 @@ module.exports = function (grunt) {
       using_server: false
     }
   };
-  try {
-    user_conf = grunt.file.readJSON('config.json');
-  } catch (e) {
-    grunt.log.writeln(e);
-    grunt.log.warn('Couldn\'t find config.json in root. Will use default configuration.');
+ 
+  if (grunt.file.exists('config.json')) {
+    userConf = grunt.util._.merge(
+      {},
+      userConf,
+      grunt.file.readJSON('config.json')
+    );
+  } else {
+    grunt.log.warn('config.json not found; using defaults.');
   }
-
+ 
+  var sourceDir = 'src';
+  var buildDir = 'build';
+  var distDir = 'dist';
+ 
+  // Reusable template configuration
+  function templateConfig(environment) {
+    return {
+      options: {
+        root: sourceDir,
+        site_config: userConf[environment]
+      },
+      src: [
+        'src/*.njk',
+        '!src/base.njk'
+      ],
+      dest: buildDir
+    };
+  }
+ 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+ 
     jshint: {
-      files: ['gruntfile.js', 'src/js/core/*.js'],
+      files: [
+        'gruntfile.js',
+        'src/js/core/*.js'
+      ],
       options: grunt.file.readJSON('.jshintrc')
     },
-    assemble: {
-      options: {
-        ext: '.js',
-        flatten: true,
-        patter_client_id: user_conf.patter_client_id
-      },
-      patter: {
-        files: {
-          'build/js/core/': ['src/template/config.hbs']
-        }
-      }
+ 
+    nunjucks: {
+      dev: templateConfig('dev'),
+      prod: templateConfig('prod')
     },
-    swig: {
-      dev: {
-        root: 'src',
-        dest: './build/',
-        src: ['src/*.swig'],
-        site_config: user_conf.dev
-      },
-      prod: {
-        root: 'src/',
-        dest: 'build/',
-        src: ['src/*.swig'],
-        site_config: user_conf.prod
-      }
-    },
+ 
     copy: {
       normal: {
         files: [{
           expand: true,
-          flatten: false,
-          cwd: 'build',
-          src: ['*.html', '**/*.css', 'js/**/*.js', '**/*.ico', '**/*.png', '**/*.jpg', '**/*.gif', '**/*.mp3', 'fonts/*'],
-          dest: 'dist/'
+          cwd: buildDir,
+          src: [
+            '*.html',
+            '**/*.css',
+            'js/**/*.js',
+            '**/*.ico',
+            '**/*.png',
+            '**/*.jpg',
+            '**/*.gif',
+            '**/*.mp3',
+            'fonts/*'
+          ],
+          dest: distDir
         }]
       }
     },
+ 
     connect: {
       server: {
         options: {
           port: 9001,
-          base: 'dist'
+          base: distDir,
+          hostname: 'localhost',
+          keepalive: false
         }
       }
     },
-    clean: ['build', 'dist'],
+ 
+    clean: {
+      build: [buildDir],
+      dist: [distDir],
+      all: [buildDir, distDir]
+    },
+ 
     requirejs: {
       compile: {
         options: {
-          appDir: 'src',
+          appDir: sourceDir,
           baseUrl: '.',
-          dir: 'build',
+          dir: buildDir,
           optimize: 'none',
           useSourceUrl: true,
           fileExclusionRegExp: /(^\.)|(~$)/,
           findNestedDependencies: true,
           optimizeAllPluginResources: true,
-
+ 
           text: {
             env: 'node'
           },
-
+ 
           paths: {
             'jquery': 'js/deps/require-jquery',
             'jquery-caret': 'js/deps/jquery.caret.min',
@@ -108,7 +137,7 @@ module.exports = function (grunt) {
             'jquery-pnut': 'js/deps/pnut',
             'jquery-cloud': 'js/deps/jqcloud-1.0.4.min'
           },
-
+ 
           shim: {
             'jquery-caret': ['jquery'],
             'jquery-cookie': ['jquery'],
@@ -121,16 +150,14 @@ module.exports = function (grunt) {
             'jquery-cloud': ['jquery'],
             'bootstrap': ['jquery'],
             'underscore': {
-              'exports': '_'
+              exports: '_'
             },
             'backbone': {
-              'exports': 'Backbone'
+              exports: 'Backbone'
             }
           },
-
+ 
           modules: [
-            //Optimize the application files. jQuery is not
-            //included since it is already in require-jquery.js
             {
               name: 'js/core/room',
               exclude: ['jquery']
@@ -147,48 +174,140 @@ module.exports = function (grunt) {
         }
       }
     },
+ 
     watch: {
-      scripts: {
-        files: ['src/**/*.js'],
-        tasks: ['jshint', 'requirejs', 'assemble', 'copy']
+      options: {
+        spawn: false
       },
+ 
+      scripts: {
+        files: ['src/**/*.js', 'src/template/**/*.njk'],
+        tasks: ['jshint', 'rebuild:dev']
+      },
+ 
       css: {
         files: ['src/**/*.css'],
-        tasks: ['copy']
+        tasks: ['rebuild:dev']
       },
-      swig: {
-        files: ['src/**/*.swig'],
-        tasks: ['swig', 'copy']
+ 
+      templates: {
+        files: ['src/**/*.njk'],
+        tasks: ['nunjucks:dev', 'copy']
       },
+ 
       html: {
         files: ['src/**/*.html'],
-        tasks: ['requirejs', 'assemble', 'copy']
+        tasks: ['rebuild:dev']
+      },
+ 
+      assets: {
+        files: [
+          'src/**/*.ico',
+          'src/**/*.png',
+          'src/**/*.jpg',
+          'src/**/*.gif',
+          'src/**/*.mp3',
+          'src/fonts/**/*'
+        ],
+        tasks: ['rebuild:dev']
       }
     }
   });
+ 
+  // Load plugins
+  [
+    'grunt-contrib-jshint',
+    'grunt-contrib-requirejs',
+    'grunt-contrib-clean',
+    'grunt-contrib-copy',
+    'grunt-contrib-connect',
+    'grunt-contrib-watch',
+  ].forEach(grunt.loadNpmTasks);
+ 
+  // Compile Nunjucks templates
+  grunt.registerMultiTask(
+    'nunjucks',
+    'Compile Nunjucks templates',
+    function () {
+      var options = this.options();
+ 
+      var env = nunjucks.configure(options.root, {
+        autoescape: true,
+        noCache: true,
+        throwOnUndefined: false
+      });
+ 
+      this.filesSrc.forEach(function (src) {
+        var relative = path.relative(options.root, src);
+        var templateName = relative.split(path.sep).join('/');
+        var dest = path.join(
+          this.data.dest,
+          relative.replace(/\.njk$/, '.html')
+        );
+ 
+        try {
+          var html = env.render(templateName, {
+            site_config: options.site_config
+          });
+ 
+          grunt.file.write(dest, html);
+          grunt.log.ok('Rendered ' + src + ' -> ' + dest);
+        } catch (error) {
+          grunt.fail.warn(
+            'Failed to render ' + src + ': ' + error.message
+          );
+        }
+      }, this);
+    }
+  );
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('assemble');
-  grunt.loadNpmTasks('grunt-swig');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.registerTask('configjs', 'Generate client config', function () {
+    var output = nunjucks.render(
+      'src/template/config.njk',
+      { patter_client_id: userConf.patter_client_id }
+    );
 
-  grunt.registerTask('ensure_folders', function () {
-    var folders = ['./dist/js'];
-    folders.forEach(function (folder) {
-      grunt.file.mkdir(folder);
-    });
+    grunt.file.write('build/js/core/config.js', output);
   });
-
-
-  grunt.registerTask('dist', ['clean', 'ensure_folders', 'jshint', 'requirejs', 'assemble', 'swig', 'copy']);
-  grunt.registerTask('dev', ['ensure_folders', 'jshint', 'requirejs', 'assemble', 'swig', 'copy']);
+ 
+  // Full build pipeline
+  grunt.registerTask('build', function (environment) {
+    environment = environment || 'dev';
+ 
+    if (environment !== 'dev' && environment !== 'prod') {
+      grunt.fail.fatal('Unknown environment: ' + environment);
+    }
+ 
+    grunt.task.run([
+      'clean:all',
+      'jshint',
+      'requirejs',
+      'configjs',
+      'nunjucks:' + environment,
+      'copy'
+    ]);
+  });
+ 
+  // Rebuild generated assets without cleaning output
+  grunt.registerTask('rebuild', function (environment) {
+    environment = environment || 'dev';
+ 
+    grunt.task.run([
+      'requirejs',
+      'configjs',
+      'nunjucks:' + environment,
+      'copy'
+    ]);
+  });
+ 
+  grunt.registerTask('dev', ['build:dev']);
+  grunt.registerTask('dist', ['build:prod']);
+ 
   grunt.registerTask('server', [
     'dev',
-    'connect',
+    'connect:server',
     'watch'
   ]);
+ 
+  grunt.registerTask('default', ['dev']);
 };
